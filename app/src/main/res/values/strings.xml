@@ -8,4 +8,7 @@
     <string name="add_to_plan">Add TO Plan</string>
     <string name="details">Details</string>
     <string name="like">click to like or dislike</string>
+    <string name="title_home">HOME</string>
+    <string name="title_dashboard">DASHBOARD</string>
+    <string name="title_notifications">NOTIFICATIONS</string>
 </resources>
