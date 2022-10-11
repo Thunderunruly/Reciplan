@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.daily.DailyFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_daily" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

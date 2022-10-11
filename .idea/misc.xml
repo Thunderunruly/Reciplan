@@ -18,9 +18,11 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_like.xml" value="0.1015" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_like_fill.xml" value="0.1015" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1535" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/text_color.xml" value="0.1325" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/activity_daily.xml" value="0.165" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/activity_main.xml" value="0.1337386018237082" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/activity_user.xml" value="0.1265625" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_daily.xml" value="0.25" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_dashboard.xml" value="0.18432971014492755" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_home.xml" value="0.18432971014492755" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_notifications.xml" value="0.18432971014492755" />
