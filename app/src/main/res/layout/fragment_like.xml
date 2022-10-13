@@ -7,7 +7,7 @@
         android:id="@+id/likeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Saved Recipes"
+        android:text="@string/like_heading"
         android:textStyle="bold"
         android:textSize="30sp"
         android:layout_marginVertical="20dp"
