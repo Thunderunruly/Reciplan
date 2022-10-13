@@ -11,9 +11,9 @@
         tools:layout="@layout/fragment_daily" />
     <fragment
         android:id="@+id/navigation_plan"
-        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.notifications.NotificationsFragment"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
         android:label="@string/title_plan"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_search"
         android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
@@ -21,19 +21,19 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_like"
-        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.like.LikeFragment"
         android:label="@string/title_like"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_like" />
     <fragment
         android:id="@+id/navigation_categories"
-        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.dashboard.DashboardFragment"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
         android:label="@string/title_categories"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/info_favorite"
-        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.like.LikeFragment"
         android:label="@string/title_like"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_like"/>
     <fragment
         android:id="@+id/info_status"
         android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"

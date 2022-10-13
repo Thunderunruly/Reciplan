@@ -10,4 +10,5 @@
     <color name="default_color">#129575</color>
     <color name="navigation_color">#129070</color>
     <color name="background_color">#F5F5F5</color>
+    <color name="gray">#C3C3C3</color>
 </resources>
