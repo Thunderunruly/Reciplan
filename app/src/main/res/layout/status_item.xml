@@ -8,7 +8,7 @@
         android:id="@+id/grid_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:src= "@drawable/calorie_text" />
 
@@ -16,10 +16,10 @@
         android:id="@+id/grid_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginTop="2dp"
         android:textColor="@color/gray"
         android:text="test"
         android:gravity="center_horizontal"
-        android:textSize="25sp" />
+        android:textSize="18dp" />
 
 </LinearLayout>

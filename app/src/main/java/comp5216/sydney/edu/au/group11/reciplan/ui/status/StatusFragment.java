@@ -26,8 +26,10 @@ public class StatusFragment extends Fragment {
     private FragmentStatusBinding binding;
     private GridView gridView;
     private List<Map<String, Object>> list;
-    private int images[] = {R.drawable.btn_like, R.drawable.ic_calorie, R.drawable.ic_home};
-    private String texts[] = {"like", "calorie", "home"};
+    private int images[] = {R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety, R.drawable.ic_insomnia,
+            R.drawable.ic_exhaustion, R.drawable.ic_resting, R.drawable.ic_fitness, R.drawable.ic_working};
+    private String texts[] = {"Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
+            "Working"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
