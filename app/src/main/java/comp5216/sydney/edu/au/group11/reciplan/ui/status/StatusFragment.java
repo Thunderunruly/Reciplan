@@ -1,5 +1,6 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.status;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,10 @@ public class StatusFragment extends Fragment {
             R.drawable.ic_exhaustion, R.drawable.ic_resting, R.drawable.ic_fitness, R.drawable.ic_working};
     private String texts[] = {"Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
             "Working"};
+    private int itemLength = 8;
+    private int clickTemp = -1;
+    private int status = 0;
+    private int[] clickList = new int[itemLength];
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,15 +50,19 @@ public class StatusFragment extends Fragment {
             list.add(map);
         }
 
+        for(int i = 0; i < itemLength; i++) {
+            clickList[i] = 0;
+        }
+
         MyAdapter adapter = new MyAdapter();
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                adapter.setSelection(i);
+                adapter.notifyDataSetChanged();
             }
         });
-
         return root;
     }
 
@@ -89,7 +98,24 @@ public class StatusFragment extends Fragment {
             }
             holder.imageView.setImageResource((Integer) list.get(i).get("image"));
             holder.textView.setText((String) list.get(i).get("text"));
+
+            if(clickTemp == i) {
+                if(clickList[i] == 0 && status == 0) {
+                    view.setBackgroundColor(Color.BLUE);
+                    clickList[i] = 1;
+                    status += 1;
+                } else if(clickList[i] == 1) {
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                    clickList[i] = 0;
+                    status -= 1;
+                }
+            }
+
             return view;
+        }
+
+        public void setSelection(int i) {
+            clickTemp = i;
         }
     }
 
