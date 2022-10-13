@@ -29,4 +29,24 @@
         android:name="comp5216.sydney.edu.au.group11.reciplan.ui.dashboard.DashboardFragment"
         android:label="@string/title_categories"
         tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/info_favorite"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:label="@string/title_like"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/info_status"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:label="@string/title_like"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/info_information"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:label="@string/title_like"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/person_log"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:label="@string/title_like"
+        tools:layout="@layout/fragment_home"/>
 </navigation>

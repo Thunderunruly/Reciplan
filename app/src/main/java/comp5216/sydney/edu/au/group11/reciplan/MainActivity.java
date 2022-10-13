@@ -2,11 +2,7 @@ package comp5216.sydney.edu.au.group11.reciplan;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -21,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         appBarConfiguration = new AppBarConfiguration.Builder(R.id.app_bar_main).build();
         NavigationUI.setupWithNavController(binding.appBarMain.navView, navController);
-        drawerLayout.open();
+        imageButton = (ImageButton) binding.appBarMain.titleNav.imageIcon;
+        imageButton.setOnClickListener(v -> {
+            drawerLayout.open();
+            NavigationUI.setupWithNavController(binding.barView, navController);
+        });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.info_menu, menu);
+        return true;
     }
 }
