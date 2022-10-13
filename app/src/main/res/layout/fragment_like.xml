@@ -16,8 +16,13 @@
         app:layout_constraintEnd_toEndOf="parent"/>
     <GridView
         android:id="@+id/likeGrid"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:numColumns="2"
+        android:layout_margin="10dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:clipChildren="true"
         app:layout_constraintTop_toBottomOf="@+id/likeText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
