@@ -66,7 +66,7 @@
             android:drawableLeft="@drawable/btn_like"
             android:gravity="center_vertical"
             android:drawablePadding="20dp"
-            android:text="我的收藏"
+            android:text="My Favourite"
             android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"/>
 
         <Button
@@ -79,7 +79,8 @@
             android:drawableLeft="@drawable/ic_personal_info"
             android:gravity="center_vertical"
             android:drawablePadding="20dp"
-            android:text="我的状态" />
+            android:text="My Status"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"/>
 
         <Button
             android:id="@+id/btn_information"
@@ -91,7 +92,8 @@
             android:drawableLeft="@drawable/ic_person"
             android:gravity="center_vertical"
             android:drawablePadding="20dp"
-            android:text="我的信息" />
+            android:text="Personal Infor"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"/>
 
         <Button
             android:id="@+id/btn_logout"
@@ -99,11 +101,12 @@
             android:layout_height="50dp"
             android:layout_marginTop="2dp"
             android:background="@color/white"
-            android:paddingLeft="15dp"
+            android:paddingLeft="14dp"
             android:drawableLeft="@drawable/ic_log_out"
             android:gravity="center_vertical"
             android:drawablePadding="20dp"
-            android:text="退出" />
+            android:text="Log out"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"/>
 
 
     </LinearLayout>
