@@ -7,13 +7,14 @@
     android:background="@color/background_color">
     <ImageButton
         android:id="@+id/image_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/img_size"
+        android:layout_height="@dimen/img_size"
         android:layout_margin="10dp"
         android:background="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/todo" />
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
@@ -21,7 +22,7 @@
         android:layout_marginStart="12dp"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:text="Hello Lucy"
+        android:text="@string/hello_name"
         android:textColor="@color/default_color"
         app:layout_constraintStart_toEndOf="@+id/image_icon"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,9 +31,9 @@
         android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="What's your Mood today?"
+        android:text="@string/user_status"
         android:textColor="@color/gray"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:paddingHorizontal="10dp"
         android:background="@drawable/text_border"
         app:layout_constraintTop_toBottomOf="@+id/name"
@@ -47,6 +48,7 @@
         android:backgroundTint="@color/default_color"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/todo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

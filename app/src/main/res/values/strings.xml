@@ -15,4 +15,25 @@
     <string name="title_search">SEARCH</string>
     <string name="title_icon">PersonName</string>
     <string name="group_name">\@CopyRight Group 11 COMP5216 Sem 2 2022</string>
+    <string name="user_status">What\'s your Mood today?</string>
+    <string name="hello_name">Hello Lucy</string>
+    <string name="user_name">Lucy</string>
+    <string name="user_email">123@gmail.com</string>
+    <string name="like_heading">My Saved Recipes</string>
+    <string name="profile_preferences">Profile &amp; Preferences</string>
+    <string name="name">Name:</string>
+    <string name="height">Height:</string>
+    <string name="weight">Weight:</string>
+    <string name="dietary_restrictions">Dietary Restrictions:</string>
+    <string name="preferred_ingredients">Preferred Ingredients:</string>
+    <string name="cooking_level">Cooking Level:</string>
+    <string-array name="dietary">
+        <item>None</item>
+    </string-array>
+    <string-array name="preferred">
+        <item>None</item>
+    </string-array>
+    <string-array name="level">
+        <item>Beginner</item>
+    </string-array>
 </resources>
