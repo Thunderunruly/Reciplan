@@ -1,25 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#129070">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="50dp"
-        android:text=" "
-        android:textSize="36dp"/>
+        android:background="#129070"
+        android:orientation="horizontal">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/avatarImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="50dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/h_back"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="60dp"
+                android:textColor="@color/white"
+                android:text="Lucy"
+                android:textSize="36dp" />
+
+            <TextView
+                android:id="@+id/userId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:textColor="@color/white"
+                android:text="123@gmail.com"
+                android:textSize="16dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_favorite"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/btn_like"
+            android:gravity="center_vertical"
+            android:drawablePadding="20dp"
+            android:text="我的收藏"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"/>
+
+        <Button
+            android:id="@+id/btn_status"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/ic_personal_info"
+            android:gravity="center_vertical"
+            android:drawablePadding="20dp"
+            android:text="我的状态" />
+
+        <Button
+            android:id="@+id/btn_information"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/ic_person"
+            android:gravity="center_vertical"
+            android:drawablePadding="20dp"
+            android:text="我的信息" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:paddingLeft="15dp"
+            android:drawableLeft="@drawable/ic_log_out"
+            android:gravity="center_vertical"
+            android:drawablePadding="20dp"
+            android:text="退出" />
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
