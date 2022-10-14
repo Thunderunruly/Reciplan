@@ -26,14 +26,13 @@ public class StatusFragment extends Fragment {
     private FragmentStatusBinding binding;
     private GridView gridView;
     private List<Map<String, Object>> list;
-    private int images[] = {R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety, R.drawable.ic_insomnia,
+    private int images[] = {R.drawable.ic_status,R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety, R.drawable.ic_insomnia,
             R.drawable.ic_exhaustion, R.drawable.ic_resting, R.drawable.ic_fitness, R.drawable.ic_working};
-    private String texts[] = {"Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
+    private String texts[] = {"STATUS:","Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
             "Working"};
-    private int itemLength = 8;
-    private int clickTemp = -1;
+    private int clickTemp = 0;
     private int status = 0;
-    private int[] clickList = new int[itemLength];
+    private int[] clickList = new int[10];
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class StatusFragment extends Fragment {
             list.add(map);
         }
 
-        for(int i = 0; i < itemLength; i++) {
+        for(int i = 0; i < clickList.length; i++) {
             clickList[i] = 0;
         }
 
@@ -60,6 +59,7 @@ public class StatusFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 adapter.setSelection(i);
                 adapter.notifyDataSetChanged();
+
             }
         });
         return root;
@@ -83,34 +83,37 @@ public class StatusFragment extends Fragment {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
-            if (view == null) {
+            if (convertView == null) {
                 LayoutInflater inflater = getLayoutInflater();
-                view = inflater.inflate(R.layout.status_item,null);
+                convertView = inflater.inflate(R.layout.status_item,null);
                 holder = new ViewHolder();
-                holder.imageView = (ImageView) view.findViewById(R.id.grid_img);
-                holder.textView = (TextView) view.findViewById(R.id.grid_tv);
-                view.setTag(holder);
+                holder.imageView = (ImageView) convertView.findViewById(R.id.grid_img);
+                holder.textView = (TextView) convertView.findViewById(R.id.grid_tv);
+                convertView.setTag(holder);
             } else {
-                holder = (ViewHolder) view.getTag();
+                holder = (ViewHolder) convertView.getTag();
             }
-            holder.imageView.setImageResource((Integer) list.get(i).get("image"));
-            holder.textView.setText((String) list.get(i).get("text"));
+            holder.imageView.setImageResource((Integer) list.get(position).get("image"));
+            holder.textView.setText((String) list.get(position).get("text"));
 
-            if(clickTemp == i) {
-                if(clickList[i] == 0 && status == 0) {
-                    view.setBackgroundColor(Color.BLUE);
-                    clickList[i] = 1;
+            if(clickTemp == position) {
+                if(clickTemp == 0) {
+                    convertView.setBackgroundColor(Color.GRAY);
+                }
+                if(clickList[position] == 0 && status == 0 && clickTemp!= 0) {
+                    convertView.setBackgroundColor(Color.parseColor("#FFBB86FC"));
+                    clickList[position] = 1;
                     status += 1;
-                } else if(clickList[i] == 1) {
-                    view.setBackgroundColor(Color.TRANSPARENT);
-                    clickList[i] = 0;
+                } else if(clickList[position] == 1 && status == 1) {
+                    convertView.setBackgroundColor(Color.TRANSPARENT);
+                    clickList[position] = 0;
                     status -= 1;
                 }
             }
 
-            return view;
+            return convertView;
         }
 
         public void setSelection(int i) {
