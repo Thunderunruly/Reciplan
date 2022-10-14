@@ -1,6 +1,8 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.like;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,8 +20,8 @@ import comp5216.sydney.edu.au.group11.reciplan.R;
 
 public class LikeAdapter extends BaseAdapter {
 
-    private ArrayList<LikeItem> items;
-    private Context context;
+    private final ArrayList<LikeItem> items;
+    private final Context context;
 
     public LikeAdapter(ArrayList<LikeItem> items, Context context) {
         this.items = items;
@@ -55,7 +57,19 @@ public class LikeAdapter extends BaseAdapter {
         imageView.setImageBitmap(bitmap);
         name.setText(nameTxt);
         calorie.setText(calTxt);
-        // TODO delete listener
+        delete.setOnClickListener(v -> deleteItem(position));
         return convertView;
+    }
+
+    private void deleteItem(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog dialog1 = builder.setTitle("Warning: ")
+                .setMessage("Do you want to delete the recipe '" + items.get(position).getRecipeName() + "'.")
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
+                .setPositiveButton("OK", (dialog, which) -> {
+                    // TODO
+                })
+                .create();
+        dialog1.show();
     }
 }
