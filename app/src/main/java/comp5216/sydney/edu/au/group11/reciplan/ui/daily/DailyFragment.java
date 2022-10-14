@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentDailyBinding;
 import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
@@ -30,6 +31,7 @@ public class DailyFragment extends Fragment {
     TextView calorie;
     TextView name;
     TextView summary;
+    private int id;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class DailyFragment extends Fragment {
         // TODO random from recipe with current status
         String path = "https://spoonacular.com/recipeimages/716429-312x231.jpg";
         int calorieValue = 432;
+        id = 12345;
         String nameTxt = "Pasta";
         String summariseTxt = "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs";
 
@@ -68,7 +71,8 @@ public class DailyFragment extends Fragment {
     }
 
     private void goDetailFragment() {
-        // TODO
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.showDetail(DailyFragment.this, id);
     }
 
     private void dailyLikeBtnListener(View v) {

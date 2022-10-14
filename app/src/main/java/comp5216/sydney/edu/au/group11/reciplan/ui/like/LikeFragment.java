@@ -34,11 +34,11 @@ public class LikeFragment extends Fragment {
         binding = FragmentLikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         gridView = binding.likeGrid;
-        likeAdapter = new LikeAdapter(items, getContext(), new LikeAdapter.ItemID() {
-            @Override
-            public void showDetail(int id) {
-                // TODO
-                Toast.makeText(getContext(), "id: " + id, Toast.LENGTH_SHORT).show();
+        likeAdapter = new LikeAdapter(items, getContext(), id -> {
+            // TODO
+            MainActivity mainActivity = (MainActivity) getActivity();
+            if (mainActivity != null) {
+                mainActivity.showDetail(LikeFragment.this, id);
             }
         });
         gridView.setAdapter(likeAdapter);

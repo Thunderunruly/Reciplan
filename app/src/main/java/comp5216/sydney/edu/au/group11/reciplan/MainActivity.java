@@ -50,4 +50,17 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.info_menu, menu);
         return true;
     }
+
+    public void showDetail(Fragment frag, int id) {
+        DetailFragment fragment = new DetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id",id);
+        fragment.setArguments(bundle);
+        FragmentManager manager = frag.getParentFragmentManager();
+        manager.beginTransaction()
+                .replace(R.id.nav_host_fragment_activity_main, fragment)
+                .addToBackStack(null)
+                .setReorderingAllowed(true)
+                .commit();
+    }
 }
