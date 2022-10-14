@@ -1,6 +1,5 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.daily;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -27,6 +27,9 @@
     <string name="dietary_restrictions">Dietary Restrictions:</string>
     <string name="preferred_ingredients">Preferred Ingredients:</string>
     <string name="cooking_level">Cooking Level:</string>
+    <string name="title_detail">DETAIL</string>
+    <string name="title_status">STATUS</string>
+    <string name="title_info">INFORMATION</string>
     <string-array name="dietary">
         <item>None</item>
         <item>Diet</item>

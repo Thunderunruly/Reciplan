@@ -4,7 +4,7 @@
     tools:showIn="navigation_view">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/info_favorite"
+            android:id="@+id/navigation_like"
             android:icon="@drawable/ic_like_fill"
             android:title="My Favorite"/>
         <item

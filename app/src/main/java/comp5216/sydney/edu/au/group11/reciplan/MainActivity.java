@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.appBarMain.toolbar);
         DrawerLayout drawerLayout = binding.drawerLayout;
         appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.info_favorite,R.id.info_status,R.id.info_information,R.id.person_log)
+                R.id.navigation_like,R.id.info_status,R.id.info_information,R.id.person_log)
                 .setOpenableLayout(drawerLayout)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);

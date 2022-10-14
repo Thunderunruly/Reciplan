@@ -33,19 +33,14 @@
         android:label="@string/title_categories"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/info_favorite"
-        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.like.LikeFragment"
-        android:label="@string/title_like"
-        tools:layout="@layout/fragment_like"/>
-    <fragment
         android:id="@+id/info_status"
         android:name="comp5216.sydney.edu.au.group11.reciplan.ui.status.StatusFragment"
-        android:label="@string/title_like"
+        android:label="@string/title_status"
         tools:layout="@layout/fragment_status"/>
     <fragment
         android:id="@+id/info_information"
         android:name="comp5216.sydney.edu.au.group11.reciplan.ui.info.InfoFragment"
-        android:label="@string/title_like"
+        android:label="@string/title_info"
         tools:layout="@layout/fragment_information"/>
     <!-- TODO -->
     <fragment
@@ -53,4 +48,9 @@
         android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
         android:label="@string/title_like"
         tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/recipe_detail"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.detail.DetailFragment"
+        android:label="@string/title_detail"
+        tools:layout="@layout/fragment_detail"/>
 </navigation>
