@@ -26,13 +26,14 @@ public class StatusFragment extends Fragment {
     private FragmentStatusBinding binding;
     private GridView gridView;
     private List<Map<String, Object>> list;
-    private int images[] = {R.drawable.ic_status,R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety, R.drawable.ic_insomnia,
-            R.drawable.ic_exhaustion, R.drawable.ic_resting, R.drawable.ic_fitness, R.drawable.ic_working};
+    private int images[] = {R.drawable.ic_status,R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety,
+            R.drawable.ic_insomnia, R.drawable.ic_exhaustion, R.drawable.ic_resting, R.drawable.ic_fitness,
+            R.drawable.ic_working, R.drawable.ic_ill, R.drawable.ic_lose_weight};
     private String texts[] = {"STATUS:","Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
-            "Working"};
+            "Working", "Sickness", "Lose Weight"};
     private int clickTemp = 0;
     private int status = 0;
-    private int[] clickList = new int[10];
+    private int[] clickList = new int[11];
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
