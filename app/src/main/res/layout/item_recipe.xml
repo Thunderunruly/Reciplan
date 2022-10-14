@@ -49,8 +49,8 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="8dp"
-        android:backgroundTint="@color/gray"
-        android:background="@drawable/ic_baseline_clear_24"
+        android:backgroundTint="@color/close_color"
+        android:background="@drawable/ic_close_circle_fill"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/todo" />

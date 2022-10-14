@@ -2,6 +2,7 @@ package comp5216.sydney.edu.au.group11.reciplan;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,17 +18,21 @@ import androidx.navigation.ui.NavigationUI;
 
 import comp5216.sydney.edu.au.group11.reciplan.databinding.ActivityMainBinding;
 import comp5216.sydney.edu.au.group11.reciplan.ui.detail.DetailFragment;
+import comp5216.sydney.edu.au.group11.reciplan.ui.search.MyDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
+    private MyDialogFragment dialogFragment;
     private ActivityMainBinding binding;
     ImageButton imageButton;
+    ImageButton search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO firebase
+        dialogFragment = new MyDialogFragment();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(R.id.app_bar_main).build();
         NavigationUI.setupWithNavController(binding.appBarMain.navView, navController);
         imageButton = (ImageButton) binding.appBarMain.titleNav.imageIcon;
+        search = (ImageButton) binding.appBarMain.titleNav.recipeSearch;
         imageButton.setOnClickListener(v -> {
             drawerLayout.open();
             NavigationUI.setupWithNavController(binding.barView, navController);
@@ -62,5 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .setReorderingAllowed(true)
                 .commit();
+    }
+    public void doSelect(View view) {
+        dialogFragment.show(getSupportFragmentManager(),"dialog");
     }
 }

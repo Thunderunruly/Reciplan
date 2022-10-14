@@ -5,18 +5,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navigation_like"
-            android:icon="@drawable/ic_like_fill"
+            android:icon="@drawable/like_icon"
             android:title="My Favorite"/>
         <item
             android:id="@+id/info_status"
-            android:icon="@drawable/ic_personal_info"
+            android:icon="@drawable/status_icon"
             android:title="My Status"/>
         <item
             android:id="@+id/info_information"
-            android:icon="@drawable/ic_person"
+            android:icon="@drawable/info_icon"
             android:title="My Information"/>
         <item android:id="@+id/person_log"
-            android:icon="@drawable/ic_log_out"
+            android:icon="@drawable/ic_logout"
             android:title="Log Out"/>
     </group>
 </menu>

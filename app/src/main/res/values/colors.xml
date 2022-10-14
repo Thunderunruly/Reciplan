@@ -11,4 +11,7 @@
     <color name="navigation_color">#129070</color>
     <color name="background_color">#F5F5F5</color>
     <color name="gray">#C3C3C3</color>
+    <color name="close_color">#80D6D6D6</color>
+    <color name="line">#12AED6</color>
+    <color name="line_false">#515151</color>
 </resources>

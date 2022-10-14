@@ -34,6 +34,8 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="let_s_find">Let\'s Find</string>
+    <string name="what_can_be_cooked">What can be cooked</string>
     <string-array name="dietary">
         <item>None</item>
         <item>Diet</item>
@@ -46,4 +48,5 @@
         <item>Beginner</item>
         <item>Master</item>
     </string-array>
+    <string name="apikey">90818e250c8345f78b4342c4cc5c7748</string>
 </resources>
