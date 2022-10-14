@@ -36,7 +36,6 @@ public class InfoFragment extends Fragment {
         binding = FragmentInformationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         edit = binding.editBtn;
-        name = binding.basicInfo.userName;
         editName = binding.editName;
         editHeight = binding.editHeight;
         editWeight = binding.editWeight;

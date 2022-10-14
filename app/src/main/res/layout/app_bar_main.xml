@@ -38,7 +38,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginTop="68dp"
         app:defaultNavHost="true"
         app:layout_constraintTop_toBottomOf="@+id/title_bar"
         app:layout_constraintBottom_toTopOf="@id/nav_view"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/app_title"
     android:layout_height="?attr/actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:minHeight="?attr/actionBarSize"
@@ -10,7 +11,8 @@
         android:layout_width="@dimen/img_size"
         android:layout_height="@dimen/img_size"
         android:layout_margin="10dp"
-        android:background="@color/black"
+        android:background="@drawable/ic_circle"
+        android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

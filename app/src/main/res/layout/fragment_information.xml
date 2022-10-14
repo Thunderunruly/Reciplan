@@ -5,7 +5,9 @@
     android:layout_height="match_parent">
     <include
         android:id="@+id/basicInfo"
-        layout="@layout/nav_user" />
+        layout="@layout/info_display"
+        android:layout_width="match_parent"
+        android:layout_height="176dp"/>
     <TextView
         android:id="@+id/infoText"
         android:layout_width="wrap_content"
@@ -154,7 +156,6 @@
         android:textColor="@color/default_color"
         android:paddingHorizontal="20dp"
         android:layout_margin="@dimen/basic_margin"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/basicInfo"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

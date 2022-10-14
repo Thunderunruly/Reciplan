@@ -16,13 +16,19 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.1325" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.1325" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_calorie.xml" value="0.1535" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_circle.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_cricle_black.xml" value="0.108" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1535" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1535" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_hot_fill.xml" value="0.1325" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_image_border.xml" value="0.108" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_image_foreground.xml" value="0.108" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_image_foreground_1.xml" value="0.108" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1015" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_like.xml" value="0.1015" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_like_fill.xml" value="0.1015" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1535" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_recipe_foreground.xml" value="0.108" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/status_text.xml" value="0.1325" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/text_border.xml" value="0.1325" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/text_color.xml" value="0.1325" />
@@ -42,7 +48,8 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_notifications.xml" value="0.18432971014492755" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_status.xml" value="0.11032177183451734" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragument_like.xml" value="0.13323201621073963" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_recipe.xml" value="0.165" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/info_display.xml" value="0.11032177183451734" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_recipe.xml" value="1.0" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/my_edit_text.xml" value="0.13405797101449277" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/nav_user.xml" value="0.13323201621073963" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/status_item.xml" value="0.165" />
