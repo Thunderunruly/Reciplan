@@ -13,11 +13,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
 
@@ -28,11 +26,14 @@ public class LikeAdapter extends BaseAdapter {
 
     private final ArrayList<LikeItem> items;
     private final Context context;
+    private ItemID itemID;
 
-    public LikeAdapter(ArrayList<LikeItem> items, Context context) {
+    public LikeAdapter(ArrayList<LikeItem> items, Context context, ItemID itemID) {
         this.items = items;
         this.context = context;
+        this.itemID = itemID;
     }
+
     @Override
     public int getCount() {
         return items.size();
@@ -76,18 +77,23 @@ public class LikeAdapter extends BaseAdapter {
 
     private void goDetailFragment(int position) {
         int id = items.get(position).getId();
-        // TODO
+        itemID.showDetail(id);
+    }
+
+    public interface ItemID {
+        void showDetail(int id);
     }
 
     private void deleteItem(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        AlertDialog dialog1 = builder.setTitle("Warning: ")
+        AlertDialog alertDialog = builder.setTitle("Warning: ")
                 .setMessage("Do you want to delete the recipe '" + items.get(position).getRecipeName() + "'.")
-                .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
-                .setPositiveButton("OK", (dialog, which) -> {
+                .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    int id = items.get(position).getId();
                     // TODO delete from firebase
                 })
                 .create();
-        dialog1.show();
+        alertDialog.show();
     }
 }

@@ -6,12 +6,15 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import comp5216.sydney.edu.au.group11.reciplan.databinding.ActivityMainBinding;
+import comp5216.sydney.edu.au.group11.reciplan.ui.detail.DetailFragment;
 
 public class MainActivity extends AppCompatActivity {
 

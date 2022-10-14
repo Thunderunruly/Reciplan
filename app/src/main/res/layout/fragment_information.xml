@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/infoName"
         app:layout_constraintTop_toTopOf="@+id/infoName"
-        app:layout_constraintBottom_toBottomOf="@+id/infoName"/>
+        app:layout_constraintBottom_toBottomOf="@+id/infoName" />
     <EditText
         android:id="@+id/editHeight"
         android:layout_width="0dp"
@@ -69,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/editName"
         app:layout_constraintTop_toTopOf="@+id/infoHeight"
-        app:layout_constraintBottom_toBottomOf="@+id/infoHeight"/>
+        app:layout_constraintBottom_toBottomOf="@+id/infoHeight" />
     <EditText
         android:id="@+id/editWeight"
         android:layout_width="0dp"
@@ -80,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/editName"
         app:layout_constraintTop_toTopOf="@+id/infoWeight"
-        app:layout_constraintBottom_toBottomOf="@+id/infoWeight"/>
+        app:layout_constraintBottom_toBottomOf="@+id/infoWeight" />
     <TextView
         android:id="@+id/infoDietary"
         android:layout_width="wrap_content"
@@ -142,12 +142,13 @@
         app:layout_constraintTop_toTopOf="@+id/infoLevel"
         app:layout_constraintBottom_toBottomOf="@+id/infoLevel"/>
     <Button
+        android:id="@+id/editBtn"
         android:layout_width="wrap_content"
         android:minWidth="100dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_choose"
         android:backgroundTint="@color/white"
-        android:text="Edit"
+        android:text="@string/edit"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/default_color"

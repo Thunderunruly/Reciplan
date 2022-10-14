@@ -1,16 +1,19 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.like;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
+import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentLikeBinding;
 
 public class LikeFragment extends Fragment {
@@ -24,14 +27,20 @@ public class LikeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         items = new ArrayList<>();
-        // TODO add from firebase
+        // TODO add list from firebase
         items.add(new LikeItem(716429,"Pasta","https://spoonacular.com/recipeimages/716429-312x231.jpg",345));
-        items.add(new LikeItem(716429,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeimages/716429-312x231.jpg",774));
+        items.add(new LikeItem(416009,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeimages/716429-312x231.jpg",774));
 
         binding = FragmentLikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         gridView = binding.likeGrid;
-        likeAdapter = new LikeAdapter(items, getContext());
+        likeAdapter = new LikeAdapter(items, getContext(), new LikeAdapter.ItemID() {
+            @Override
+            public void showDetail(int id) {
+                // TODO
+                Toast.makeText(getContext(), "id: " + id, Toast.LENGTH_SHORT).show();
+            }
+        });
         gridView.setAdapter(likeAdapter);
         checkChanges(items);
         return root;
