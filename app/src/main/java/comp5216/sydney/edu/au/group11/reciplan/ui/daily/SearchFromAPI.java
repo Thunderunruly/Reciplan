@@ -1,16 +1,7 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.daily;
 
-import android.util.Log;
-
-import androidx.fragment.app.FragmentActivity;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import comp5216.sydney.edu.au.group11.reciplan.R;
-import comp5216.sydney.edu.au.group11.reciplan.net.ApiBuilder;
-import comp5216.sydney.edu.au.group11.reciplan.net.ApiClient;
-import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class SearchFromAPI {
     public static Map<String, String> statusBuilder(String status) {
@@ -73,12 +64,17 @@ public class SearchFromAPI {
             case "Sickness":
                 // 生病
                 map.put("minCalories","0");
+                map.put("","");
                 map.put("number","1");
                 break;
             case "Lose Weight":
                 // 减肥
-                map.put("minCalories","0");
+                map.put("maxCalories","250");
+                map.put("maxProtein","50");
                 map.put("number","1");
+                break;
+            default:
+                map.put("minCalories","0");
                 break;
         }
         return map;

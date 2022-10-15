@@ -3,6 +3,7 @@ package comp5216.sydney.edu.au.group11.reciplan;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -24,11 +25,15 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     ImageButton imageButton;
     ImageButton search;
+    TextView statusTxt;
+    TextView nameTxt;
+    private String status = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO firebase
+        status = "Working";
         dialogFragment = new SearchDialogFragment();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -43,12 +48,47 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.appBarMain.navView, navController);
         imageButton = binding.appBarMain.titleNav.imageIcon;
         search = binding.appBarMain.titleNav.recipeSearch;
+        statusTxt = binding.appBarMain.titleNav.status;
+        nameTxt = binding.appBarMain.titleNav.name;
+        setStatus();
+        listener(drawerLayout, navController);
+        search.setOnClickListener(v -> doSelect());
+    }
+
+    private void listener(DrawerLayout drawerLayout, NavController navController) {
+        nameTxt.setOnClickListener(v -> {
+            drawerLayout.open();
+            NavigationUI.setupWithNavController(binding.barView, navController);
+        });
+        statusTxt.setOnClickListener(v -> {
+            drawerLayout.open();
+            NavigationUI.setupWithNavController(binding.barView, navController);
+        });
         imageButton.setOnClickListener(v -> {
             drawerLayout.open();
             NavigationUI.setupWithNavController(binding.barView, navController);
         });
-        search.setOnClickListener(v -> doSelect());
     }
+
+    public void setStatus() {
+        if(status != null) {
+            statusTxt.setText(status);
+            statusTxt.setTextColor(this.getColor(R.color.default_color));
+            statusTxt.setHovered(true);
+        }
+        else {
+            statusTxt.setText(R.string.user_status);
+            statusTxt.setTextColor(this.getColor(R.color.gray));
+            statusTxt.setHovered(false);
+        }
+    }
+
+    public void updateStatus() {}
+
+    public String getStatus() {
+        return status;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.info_menu, menu);

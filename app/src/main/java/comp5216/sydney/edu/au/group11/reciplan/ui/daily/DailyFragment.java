@@ -8,7 +8,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,9 +50,9 @@ public class DailyFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        // TODO random from recipe with current status
-        status = "Working";
+        MainActivity mainActivity = (MainActivity) getActivity();
+        assert mainActivity != null;
+        status = mainActivity.getStatus();
         TimeThread timeThread = new TimeThread();
         timeThread.start();
         id = 1001;
@@ -75,8 +74,19 @@ public class DailyFragment extends Fragment {
         likeBtn.setOnClickListener(this::dailyLikeBtnListener);
         detailBtn.setOnClickListener(this::goDetailFragment);
         time = (TextView) binding.tvTime;
-        dailySearch();
+        if(isNextDay()) {
+            dailySearch();
+        }
+        else {
+            // TODO  get from firebase
+        }
         return root;
+    }
+
+    private boolean isNextDay() {
+        String currentTime = (String) time.getText();
+        // TODO
+        return true;
     }
 
     private void setValue() {
@@ -153,6 +163,7 @@ public class DailyFragment extends Fragment {
             @Override
             public void onResponse(String data) {
                 summariseTxt = data;
+                updateToDatabase();
                 setValue();
             }
 
@@ -161,6 +172,9 @@ public class DailyFragment extends Fragment {
 
             }
         });
+    }
+
+    private void updateToDatabase() {
     }
 
     private void checkLike() {
