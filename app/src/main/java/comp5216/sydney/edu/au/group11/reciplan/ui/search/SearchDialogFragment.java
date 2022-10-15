@@ -102,10 +102,12 @@ public class SearchDialogFragment extends DialogFragment {
                 toMeat();
                 break;
             case 3:
-                startActivity(new Intent(getActivity(),SearchActivity.class)
-                        .putExtra("key", textView.getText().toString()));
+                // TODO
+//                startActivity(new Intent(getActivity(),SearchActivity.class)
+//                        .putExtra("key", textView.getText().toString()));
                 break;
             case 4:
+                // TODO
                 break;
         }
     }
@@ -121,7 +123,11 @@ public class SearchDialogFragment extends DialogFragment {
             case 2:
                 toMeat();
                 break;
-
+            case 3:
+                // TODO
+                break;
+            case 4:
+                // TODO
         }
     }
 
