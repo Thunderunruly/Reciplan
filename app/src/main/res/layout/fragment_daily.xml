@@ -62,20 +62,19 @@
         android:layout_height="wrap_content"
         android:text="@string/Heading"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/calorieValue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
         android:id="@+id/dailySummary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:text="@string/summary"
         android:scrollbars="vertical"
         android:singleLine="false"
-        android:gravity="end"
-        android:lines="5"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/dailyHeading"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,20 +82,20 @@
 
     <CheckBox
         android:id="@+id/dailyPlanBtn"
+        android:minWidth="120dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:button="@null"
         android:background="@drawable/btn"
-        android:minWidth="120dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:gravity="center_horizontal"
         android:text="@string/add_to_plan"
         android:textColor="@color/default_color"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/detailBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dailySummary" />
+        app:layout_constraintTop_toTopOf="@+id/detailBtn"
+        app:layout_constraintBottom_toBottomOf="@id/detailBtn"/>
 
     <Button
         android:id="@+id/detailBtn"

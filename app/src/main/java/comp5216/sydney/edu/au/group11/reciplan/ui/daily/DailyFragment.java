@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,8 +26,10 @@ import java.util.TimeZone;
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentDailyBinding;
+import comp5216.sydney.edu.au.group11.reciplan.net.ApiBuilder;
+import comp5216.sydney.edu.au.group11.reciplan.net.ApiClient;
+import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
-import comp5216.sydney.edu.au.group11.reciplan.ui.search.SearchFromAPI;
 
 public class DailyFragment extends Fragment {
     private FragmentDailyBinding binding;
@@ -37,10 +41,11 @@ public class DailyFragment extends Fragment {
     TextView calorie;
     TextView name;
     TextView summary;
+    private String status;
     private int id;
     private String nameTxt;
     private String path;
-    private String summariseTxt = " TODO ";
+    private String summariseTxt;
     private String calorieValue;
     private TextView time;
 
@@ -48,20 +53,14 @@ public class DailyFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         // TODO random from recipe with current status
-        String status = "Working";
-//        boolean isOver0Clock = false;
-//        TimeThread timeThread = new TimeThread();
-//        timeThread.start();
-//        if(isOver0Clock) {
-//        }
-        SearchFromAPI searchFromAPI = new SearchFromAPI(getActivity());
-        searchFromAPI.searchDailyRecipe(status, (id, name, url, calorie) -> {
-            this.id = id;
-            this.nameTxt = name;
-            this.path = url;
-            this.calorieValue = calorie;
-        });
-
+        status = "Working";
+        TimeThread timeThread = new TimeThread();
+        timeThread.start();
+        id = 1001;
+        nameTxt = "Pasta";
+        path = "https://spoonacular.com/recipeimages/716429-312x231.jpg";
+        summariseTxt = "recipe summary";
+        calorieValue = "0 kcal";
         binding = FragmentDailyBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         imageView = binding.imageDisplay;
@@ -71,6 +70,16 @@ public class DailyFragment extends Fragment {
         calorie = binding.calorieValue;
         name = binding.dailyHeading;
         summary = binding.dailySummary;
+        setValue();
+        dailyPlanBtn.setOnClickListener(this::dailyPlanBtnListener);
+        likeBtn.setOnClickListener(this::dailyLikeBtnListener);
+        detailBtn.setOnClickListener(this::goDetailFragment);
+        time = (TextView) binding.tvTime;
+        dailySearch();
+        return root;
+    }
+
+    private void setValue() {
         Handler handler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -82,21 +91,21 @@ public class DailyFragment extends Fragment {
         String calTxt = calorieValue;
         calorie.setText(calTxt);
         name.setText(nameTxt);
-        summary.setText(summariseTxt);
-        dailyPlanBtn.setOnClickListener(v -> dailyPlanBtnListener(v));
-        likeBtn.setOnClickListener(v -> dailyLikeBtnListener(v));
-        detailBtn.setOnClickListener(v -> goDetailFragment());
-        time = (TextView) binding.tvTime;
-        return root;
+        summary.setText(Html.fromHtml(summariseTxt, Html.FROM_HTML_MODE_LEGACY));
+        summary.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
-    private void goDetailFragment() {
+    private void goDetailFragment(View v) {
         MainActivity mainActivity = (MainActivity) getActivity();
         Bundle bundle = new Bundle();
         bundle.putInt("id",id);
         bundle.putString("name",nameTxt);
         bundle.putString("image",path);
-        mainActivity.showDetail(DailyFragment.this, bundle);
+        bundle.putString("calories",calorieValue);
+        bundle.putString("summary",summariseTxt);
+        if (mainActivity != null) {
+            mainActivity.showDetail(DailyFragment.this, bundle);
+        }
     }
 
     private void dailyLikeBtnListener(View v) {
@@ -105,9 +114,57 @@ public class DailyFragment extends Fragment {
 
     private void dailyPlanBtnListener(View v) {
         // TODO
-        dailyPlanBtn.setTextColor(getResources().getColor(R.color.white));
+        if(dailyPlanBtn.isChecked()) {
+            dailyPlanBtn.setTextColor(getActivity().getColor(R.color.white));
+        }
+        else {
+            dailyPlanBtn.setTextColor(getActivity().getColor(R.color.default_color));
+        }
     }
 
+    private void dailySearch() {
+        ApiBuilder builder =new ApiBuilder()
+                .Url("/recipes/complexSearch")
+                .Params(SearchFromAPI.statusBuilder(status))
+                .Params("apiKey",getResources().getString(R.string.apikey));
+        ApiClient.getInstance().dailyGet(builder, new CallBack<DailyItem>() {
+            @Override
+            public void onResponse(DailyItem data) {
+                id = data.getId();
+                nameTxt = data.getTitle();
+                path = data.getImage();
+                calorieValue = data.getCalories() + " " + data.getUnit();
+                updateSummary(id);
+                checkLike();
+            }
+
+            @Override
+            public void onFail(String msg) {
+
+            }
+        });
+    }
+
+    private void updateSummary(int id) {
+        ApiBuilder builder =new ApiBuilder()
+                .Url("/recipes/" + id + "/summary")
+                .Params("apiKey",getResources().getString(R.string.apikey));
+        ApiClient.getInstance().summaryGet(builder, new CallBack<String>() {
+            @Override
+            public void onResponse(String data) {
+                summariseTxt = data;
+                setValue();
+            }
+
+            @Override
+            public void onFail(String msg) {
+
+            }
+        });
+    }
+
+    private void checkLike() {
+    }
 
     @Override
     public void onDestroyView() {
@@ -122,6 +179,8 @@ public class DailyFragment extends Fragment {
                 try {
                     Thread.sleep(1000);
                     Message msg = new Message();
+                    String now = (String) time.getText();
+                    // TODO with firebase
                     msg.what = 1;
                     mHandler.sendMessage(msg);
                 }

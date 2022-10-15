@@ -1,13 +1,12 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.daily;
 
-import java.util.List;
-
 public class DailyItem {
     private int id;
     private String title;
     private String image;
     private String imageType;
-    private List<Nutrition> nutritions;
+    private double calories;
+    private String unit;
     private String summary;
 
     public int getId() {
@@ -42,12 +41,20 @@ public class DailyItem {
         this.imageType = imageType;
     }
 
-    public List<Nutrition> getNutritions() {
-        return nutritions;
+    public double getCalories() {
+        return calories;
     }
 
-    public void setNutritions(List<Nutrition> nutritions) {
-        this.nutritions = nutritions;
+    public void setCalories(double calories) {
+        this.calories = calories;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getSummary() {

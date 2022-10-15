@@ -3,7 +3,13 @@ package comp5216.sydney.edu.au.group11.reciplan.net;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -78,7 +84,7 @@ public class ApiClient {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("result:", response.toString());
+                Log.d("result", response.toString());
                 Object o = null;
                 try {
                     if (response.body() == null) {
@@ -87,13 +93,58 @@ public class ApiClient {
                         Log.i("err", err);
                     } else {
                         String string = "{\"data\":"+response.body().string()+"}";
-
                         o = new Gson().fromJson(string, classOf);
                         onCallback.onResponse((T) o);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                     onCallback.onFail("Fail");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    onCallback.onFail("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onCallback.onFail(t.getMessage());
+                Log.d("NET---", t.getMessage());
+            }
+        });
+    }
+
+    public void dailyGet(ApiBuilder builder, final CallBack<DailyItem> onCallback) {
+
+        ApiService service = getService();
+
+        Call<ResponseBody> call = service.get(checkHeaders(builder.headers), builder.url, checkParams(builder.params));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                DailyItem item = new DailyItem();
+                try {
+                    if(response.body() != null) {
+                        String string = response.body().string();
+                        JSONObject object = new JSONObject(string);
+                        JSONArray array = object.getJSONArray("results");
+                        JSONObject result = array.getJSONObject(0);
+                        item.setId(result.getInt("id"));
+                        item.setTitle(result.getString("title"));
+                        item.setImage(result.getString("image"));
+                        item.setImageType(result.getString("imageType"));
+                        JSONObject nutrition = result.getJSONObject("nutrition");
+                        JSONArray arr = nutrition.getJSONArray("nutrients");
+                        for(int i = 0; i < arr.length(); i++) {
+                            JSONObject obj = arr.getJSONObject(i);
+                            String name = obj.getString("name");
+                            if(name.equals("Calories")) {
+                                item.setCalories((double)obj.get("amount"));
+                                item.setUnit(obj.getString("unit"));
+                            }
+                        }
+                        onCallback.onResponse(item);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     onCallback.onFail("Error");
@@ -176,5 +227,29 @@ public class ApiClient {
             }
         }
         return params;
+    }
+
+    public void summaryGet(ApiBuilder builder, final CallBack<String> onCallback) {
+        ApiService service = getService();
+        Call<ResponseBody> call = service.get(checkHeaders(builder.headers), builder.url, checkParams(builder.params));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String string = response.body().string();
+                    JSONObject object = new JSONObject(string);
+                    String summary = object.getString("summary");
+                    onCallback.onResponse(summary);
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onCallback.onFail(t.getMessage());
+                Log.d("NET---", t.getMessage());
+            }
+        });
     }
 }
