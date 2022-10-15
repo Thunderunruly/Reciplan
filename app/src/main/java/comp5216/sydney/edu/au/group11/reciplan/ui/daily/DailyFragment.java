@@ -1,5 +1,6 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.daily;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
@@ -37,6 +41,7 @@ public class DailyFragment extends Fragment {
     private String nameTxt;
     private String path;
     private int calorieValue;
+    private TextView time;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +49,8 @@ public class DailyFragment extends Fragment {
         // TODO random from recipe with current status
         String status = "Happy";
         boolean isOver0Clock = false;
+        TimeThread timeThread = new TimeThread();
+        timeThread.start();
         if(isOver0Clock) {
             SearchFromAPI.searchDailyRecipe(status, (id, name, url, calorie) -> {
                 this.id = id;
@@ -82,6 +89,7 @@ public class DailyFragment extends Fragment {
         dailyPlanBtn.setOnClickListener(v -> dailyPlanBtnListener(v));
         likeBtn.setOnClickListener(v -> dailyLikeBtnListener(v));
         detailBtn.setOnClickListener(v -> goDetailFragment());
+        time = (TextView) binding.tvTime;
         return root;
     }
 
@@ -108,5 +116,62 @@ public class DailyFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public class TimeThread extends Thread {
+        @Override
+        public void run () {
+            do {
+                try {
+                    Thread.sleep(1000);
+                    Message msg = new Message();
+                    msg.what = 1;
+                    mHandler.sendMessage(msg);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } while(true);
+        }
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage (Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    time.setText(getTime());
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    public String getTime() {
+        final Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT+11:00"));
+        String mDay = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
+        String mHour = String.valueOf(c.get(Calendar.HOUR_OF_DAY));
+        String mMinute = String.valueOf(c.get(Calendar.MINUTE));
+        String mSecond = String.valueOf(c.get(Calendar.SECOND));
+        if("1".equals(mDay)) {
+            mDay = "Sunday";
+        } else if ("2".equals(mDay)) {
+            mDay = "Monday";
+        } else if ("3".equals(mDay)) {
+            mDay = "Tuesday";
+        } else if ("4".equals(mDay)) {
+            mDay = "Wednesday";
+        } else if ("5".equals(mDay)) {
+            mDay = "Thursday";
+        } else if ("6".equals(mDay)) {
+            mDay = "Friday";
+        } else if ("7".equals(mDay)) {
+            mDay = "Saturday";
+        }
+        return mDay + " " + mHour + ":" + mMinute + ":" + mSecond;
     }
 }
