@@ -90,7 +90,9 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/search_icon.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/status_icon.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/status_text.xml" value="0.1325" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/step_false.xml" value="0.1425" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/step_icon.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/step_true.xml" value="0.1425" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/tableware_text_25.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/text_border.xml" value="0.1325" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/text_color.xml" value="0.1325" />
@@ -125,7 +127,7 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/search_nav.xml" value="0.14777878513145964" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/select_search.xml" value="0.14777878513145964" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/status_item.xml" value="0.1" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/step_bar.xml" value="0.45" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/step_bar.xml" value="0.25" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/step_text.xml" value="0.165" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/title_nav.xml" value="0.165" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />

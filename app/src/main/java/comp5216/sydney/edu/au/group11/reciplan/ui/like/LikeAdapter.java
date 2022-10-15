@@ -27,12 +27,12 @@ public class LikeAdapter extends BaseAdapter {
 
     private final ArrayList<LikeItem> items;
     private final Context context;
-    private ItemID itemID;
+    private Item item;
 
-    public LikeAdapter(ArrayList<LikeItem> items, Context context, ItemID itemID) {
+    public LikeAdapter(ArrayList<LikeItem> items, Context context, Item item) {
         this.items = items;
         this.context = context;
-        this.itemID = itemID;
+        this.item = item;
     }
 
     @Override
@@ -78,11 +78,13 @@ public class LikeAdapter extends BaseAdapter {
 
     private void goDetailFragment(int position) {
         int id = items.get(position).getId();
-        itemID.showDetail(id);
+        String name = items.get(position).getRecipeName();
+        String url = items.get(position).getImgURL();
+        item.showDetail(id,name,url);
     }
 
-    public interface ItemID {
-        void showDetail(int id);
+    public interface Item {
+        void showDetail(int id, String name, String url);
     }
 
     private void deleteItem(int position) {

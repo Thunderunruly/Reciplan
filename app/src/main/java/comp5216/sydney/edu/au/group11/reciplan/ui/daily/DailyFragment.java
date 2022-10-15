@@ -33,15 +33,17 @@ public class DailyFragment extends Fragment {
     TextView name;
     TextView summary;
     private int id;
+    private String nameTxt;
+    private String path;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         // TODO random from recipe with current status
-        String path = "https://spoonacular.com/recipeimages/716429-312x231.jpg";
+        path = "https://spoonacular.com/recipeimages/716429-312x231.jpg";
         int calorieValue = 0;
         id = 10001;
-        String nameTxt = "Pasta";
+        nameTxt = "Pasta";
         String summariseTxt = "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs";
 
         binding = FragmentDailyBinding.inflate(inflater, container, false);
@@ -73,7 +75,11 @@ public class DailyFragment extends Fragment {
 
     private void goDetailFragment() {
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.showDetail(DailyFragment.this, id);
+        Bundle bundle = new Bundle();
+        bundle.putInt("id",id);
+        bundle.putString("name",nameTxt);
+        bundle.putString("image",path);
+        mainActivity.showDetail(DailyFragment.this, bundle);
     }
 
     private void dailyLikeBtnListener(View v) {

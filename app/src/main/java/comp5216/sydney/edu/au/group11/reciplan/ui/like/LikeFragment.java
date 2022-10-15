@@ -34,11 +34,15 @@ public class LikeFragment extends Fragment {
         binding = FragmentLikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         gridView = binding.likeGrid;
-        likeAdapter = new LikeAdapter(items, getContext(), id -> {
+        likeAdapter = new LikeAdapter(items, getContext(), (id,name,url) -> {
             // TODO
             MainActivity mainActivity = (MainActivity) getActivity();
             if (mainActivity != null) {
-                mainActivity.showDetail(LikeFragment.this, id);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", id);
+                bundle.putString("name",name);
+                bundle.putString("image",url);
+                mainActivity.showDetail(LikeFragment.this, bundle);
             }
         });
         gridView.setAdapter(likeAdapter);

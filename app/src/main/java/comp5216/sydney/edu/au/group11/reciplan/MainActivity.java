@@ -55,10 +55,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void showDetail(Fragment frag, int id) {
+    public void showDetail(Fragment frag, Bundle bundle) {
         DetailFragment fragment = new DetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("id",id);
         fragment.setArguments(bundle);
         FragmentManager manager = frag.getParentFragmentManager();
         manager.beginTransaction()
