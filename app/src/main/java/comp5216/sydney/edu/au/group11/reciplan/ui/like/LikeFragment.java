@@ -35,7 +35,6 @@ public class LikeFragment extends Fragment {
         View root = binding.getRoot();
         gridView = binding.likeGrid;
         likeAdapter = new LikeAdapter(items, getContext(), (id,name,url) -> {
-            // TODO
             MainActivity mainActivity = (MainActivity) getActivity();
             if (mainActivity != null) {
                 Bundle bundle = new Bundle();

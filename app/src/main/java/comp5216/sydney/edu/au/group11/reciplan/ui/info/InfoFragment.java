@@ -1,7 +1,6 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.info;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

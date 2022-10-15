@@ -3,7 +3,6 @@ package comp5216.sydney.edu.au.group11.reciplan.ui.like;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -27,7 +26,7 @@ public class LikeAdapter extends BaseAdapter {
 
     private final ArrayList<LikeItem> items;
     private final Context context;
-    private Item item;
+    private final Item item;
 
     public LikeAdapter(ArrayList<LikeItem> items, Context context, Item item) {
         this.items = items;
@@ -55,11 +54,11 @@ public class LikeAdapter extends BaseAdapter {
         if(convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_recipe, parent, false);
         }
-        ConstraintLayout layout = (ConstraintLayout) convertView.findViewById(R.id.item_show);
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.item_img);
-        TextView name = (TextView) convertView.findViewById(R.id.item_name);
-        TextView calorie = (TextView) convertView.findViewById(R.id.item_calorie);
-        ImageButton delete = (ImageButton) convertView.findViewById(R.id.item_delete);
+        ConstraintLayout layout = convertView.findViewById(R.id.item_show);
+        ImageView imageView = convertView.findViewById(R.id.item_img);
+        TextView name = convertView.findViewById(R.id.item_name);
+        TextView calorie = convertView.findViewById(R.id.item_calorie);
+        ImageButton delete = convertView.findViewById(R.id.item_delete);
         Handler handler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
