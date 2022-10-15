@@ -2,15 +2,12 @@ package comp5216.sydney.edu.au.group11.reciplan;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,12 +15,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import comp5216.sydney.edu.au.group11.reciplan.databinding.ActivityMainBinding;
 import comp5216.sydney.edu.au.group11.reciplan.ui.detail.DetailFragment;
-import comp5216.sydney.edu.au.group11.reciplan.ui.search.MyDialogFragment;
+import comp5216.sydney.edu.au.group11.reciplan.ui.search.SearchDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private MyDialogFragment dialogFragment;
+    private SearchDialogFragment dialogFragment;
     private ActivityMainBinding binding;
     ImageButton imageButton;
     ImageButton search;
@@ -32,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO firebase
-        dialogFragment = new MyDialogFragment();
+        dialogFragment = new SearchDialogFragment();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -44,12 +41,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         appBarConfiguration = new AppBarConfiguration.Builder(R.id.app_bar_main).build();
         NavigationUI.setupWithNavController(binding.appBarMain.navView, navController);
-        imageButton = (ImageButton) binding.appBarMain.titleNav.imageIcon;
-        search = (ImageButton) binding.appBarMain.titleNav.recipeSearch;
+        imageButton = binding.appBarMain.titleNav.imageIcon;
+        search = binding.appBarMain.titleNav.recipeSearch;
         imageButton.setOnClickListener(v -> {
             drawerLayout.open();
             NavigationUI.setupWithNavController(binding.barView, navController);
         });
+        search.setOnClickListener(v -> doSelect());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .commit();
     }
-    public void doSelect(View view) {
+    public void doSelect() {
         dialogFragment.show(getSupportFragmentManager(),"dialog");
     }
 }

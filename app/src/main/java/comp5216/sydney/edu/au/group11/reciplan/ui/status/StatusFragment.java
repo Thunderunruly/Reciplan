@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -90,13 +89,16 @@ public class StatusFragment extends Fragment {
                 LayoutInflater inflater = getLayoutInflater();
                 convertView = inflater.inflate(R.layout.status_item,null);
                 holder = new ViewHolder();
-                holder.imageView = (ImageView) convertView.findViewById(R.id.grid_img);
                 holder.textView = (TextView) convertView.findViewById(R.id.grid_tv);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.imageView.setImageResource((Integer) list.get(position).get("image"));
+            holder.textView.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    getContext().getDrawable((Integer) list.get(position).get("image")),
+                    null,
+                    null);
             holder.textView.setText((String) list.get(position).get("text"));
 
             if(clickTemp == position) {
@@ -123,7 +125,6 @@ public class StatusFragment extends Fragment {
     }
 
     class ViewHolder {
-        ImageView imageView;
         TextView textView;
     }
 }

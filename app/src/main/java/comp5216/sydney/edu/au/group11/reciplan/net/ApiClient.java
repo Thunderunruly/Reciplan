@@ -20,12 +20,14 @@ import retrofit2.Retrofit;
 public class ApiClient {
     private static ApiClient instance;
 
+    // TODO
+
     /***
      *
      * 构建 retrofit请求
      * */
     private final static Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(ApiService.HOST) //这里是你的根Url，最后要用/结尾
+            .baseUrl(ApiService.HOST)
             .build();
 
 
@@ -80,7 +82,7 @@ public class ApiClient {
                 try {
                     if (response.body() == null) {
                         String err = response.errorBody().string();
-                        onCallback.onFail("失败");
+                        onCallback.onFail("Fail");
                         Log.i("err", err);
                     } else {
                         String string = "{\"data\":"+response.body().string()+"}";
@@ -90,10 +92,10 @@ public class ApiClient {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    onCallback.onFail("失败");
+                    onCallback.onFail("Fail");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    onCallback.onFail("异常");
+                    onCallback.onFail("Error");
                 }
             }
 
@@ -128,7 +130,7 @@ public class ApiClient {
                         onCallback.onResponse((T) o);
 
                     } else {
-                        onCallback.onFail("请检查网络重试");
+                        onCallback.onFail("network connection");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -138,7 +140,7 @@ public class ApiClient {
                 if (cookies.size() > 0) {
                     String s = cookies.get(0);
                     String session = s.substring(0, s.indexOf(";"));
-                    Log.i("存session", session);
+                    Log.i("save session", session);
                 }
 
             }
@@ -155,7 +157,6 @@ public class ApiClient {
         if (headers == null) {
             headers = new HashMap<>();
         }
-        //retrofit的headers的值不能为null，此处做下校验，防止出错
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             if (entry.getValue() == null) {
                 headers.put(entry.getKey(), "");
@@ -168,7 +169,6 @@ public class ApiClient {
         if (params == null) {
             params = new HashMap<>();
         }
-        //retrofit的params的值不能为null，此处做下校验，防止出错
         for (Map.Entry<String, String> entry : params.entrySet()) {
             if (entry.getValue() == null) {
                 params.put(entry.getKey(), "");

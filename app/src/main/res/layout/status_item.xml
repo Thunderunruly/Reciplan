@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView android:id="@+id/grid_tv"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/grid_img"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center_horizontal"
-        android:src= "@drawable/calorie_text" />
-
-    <TextView
-        android:id="@+id/grid_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/gray"
-        android:text="test"
-        android:gravity="center_horizontal"
-        android:textSize="18dp" />
-
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:textColor="@color/gray"
+    android:text="@string/todo"
+    android:gravity="center_horizontal"
+    android:textSize="18sp"
+    app:drawableTopCompat="@drawable/calorie_text"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

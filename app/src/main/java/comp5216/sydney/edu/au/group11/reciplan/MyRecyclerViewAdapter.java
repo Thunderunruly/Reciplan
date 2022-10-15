@@ -9,11 +9,11 @@ import java.util.List;
 
 import comp5216.sydney.edu.au.group11.reciplan.recyclerviewadapter.XRVAdapter;
 import comp5216.sydney.edu.au.group11.reciplan.recyclerviewadapter.XRVHolder;
-import comp5216.sydney.edu.au.group11.reciplan.ui.search.MyDialogFragment;
+import comp5216.sydney.edu.au.group11.reciplan.ui.search.SearchDialogFragment;
 
 public class MyRecyclerViewAdapter extends XRVAdapter<String> {
-    MyDialogFragment myDialogFragment;
-    public MyRecyclerViewAdapter(Context context, List<String> list,MyDialogFragment myDialogFragment, int... layoutIds) {
+    SearchDialogFragment myDialogFragment;
+    public MyRecyclerViewAdapter(Context context, List<String> list, SearchDialogFragment myDialogFragment, int... layoutIds) {
         super(context, list, layoutIds);
         this.myDialogFragment = myDialogFragment;
     }

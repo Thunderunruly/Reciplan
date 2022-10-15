@@ -15,12 +15,15 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/calorie_text.xml" value="0.1535" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/calorie_text_10.xml" value="0.1365" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/cascades.xml" value="0.131" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/cascades_icon.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/daily_icon.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/food_false.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/food_true.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/grid_item_border.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_anxiety.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_arrow_left.xml" value="0.131" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_arrow_left_bold.xml" value="0.131" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_arrow_right_bold.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.1325" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.1325" />
@@ -30,6 +33,8 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_cate.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_cate_fill.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_circle.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_close.xml" value="0.131" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_close_circle_fill.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_cricle_black.xml" value="0.108" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1535" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/ic_exhaustion.xml" value="0.131" />
@@ -104,7 +109,7 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_information.xml" value="0.165" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_like.xml" value="0.11032177183451734" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_notifications.xml" value="0.18432971014492755" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_search_dialog.xml" value="0.25" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_search_dialog.xml" value="0.19492293744333636" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_status.xml" value="0.11032177183451734" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragument_like.xml" value="0.13323201621073963" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/info_display.xml" value="0.11032177183451734" />
@@ -116,9 +121,9 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/nav_user.xml" value="0.25" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/search_nav.xml" value="0.14777878513145964" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/select_search.xml" value="0.14777878513145964" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/status_item.xml" value="0.165" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/status_item.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/step_bar.xml" value="0.125" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/step_text.xml" value="0.14777878513145964" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/step_text.xml" value="0.165" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/title_nav.xml" value="0.25" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/menu/info_menu.xml" value="0.2228788518362178" />

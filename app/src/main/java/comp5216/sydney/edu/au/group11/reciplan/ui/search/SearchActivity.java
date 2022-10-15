@@ -1,6 +1,7 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.search;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;

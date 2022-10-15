@@ -22,6 +22,11 @@
         android:label="@string/title_search"
         tools:layout="@layout/fragment_home" />
     <fragment
+        android:id="@+id/search_dialog"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.search.SearchDialogFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search_dialog"/>
+    <fragment
         android:id="@+id/navigation_like"
         android:name="comp5216.sydney.edu.au.group11.reciplan.ui.like.LikeFragment"
         android:label="@string/title_like"

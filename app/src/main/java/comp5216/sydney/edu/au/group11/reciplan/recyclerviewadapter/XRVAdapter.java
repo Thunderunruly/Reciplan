@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.application.myapplication.R;
-
 import java.util.List;
+
+import comp5216.sydney.edu.au.group11.reciplan.R;
 
 /**
  * @author yuyh.
