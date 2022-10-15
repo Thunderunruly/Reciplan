@@ -15,6 +15,8 @@
         android:text="@string/todo"
         android:textColor="@drawable/item_color"
         android:background="@drawable/item_check"
+        android:backgroundTint="@color/white"
+        android:foreground="@drawable/item_check"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>

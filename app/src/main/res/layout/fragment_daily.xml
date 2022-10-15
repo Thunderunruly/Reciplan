@@ -41,13 +41,14 @@
         android:text="@string/default_Calorie"
         app:drawableStartCompat="@drawable/calorie_text"/>
 
-    <ImageButton
+    <CheckBox
         android:id="@+id/dailyLikeBtn"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="25dp"
-        android:background="@drawable/ic_like"
+        android:button="@null"
+        android:background="@drawable/like_heart_icon"
         android:contentDescription="@string/like_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageDisplay"
@@ -77,20 +78,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
+    <CheckBox
         android:id="@+id/dailyPlanBtn"
         android:layout_width="wrap_content"
-        android:minWidth="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:button="@null"
         android:background="@drawable/btn"
+        android:minWidth="120dp"
+        android:padding="10dp"
+        android:gravity="center_horizontal"
         android:text="@string/add_to_plan"
         android:textColor="@color/default_color"
         android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"
         app:layout_constraintEnd_toStartOf="@+id/detailBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dailySummary" />
+
     <Button
         android:id="@+id/detailBtn"
         android:layout_width="wrap_content"

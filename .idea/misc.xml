@@ -83,6 +83,7 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/info_icon.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/item_check.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/item_color.xml" value="0.131" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/like_heart_icon.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/like_icon.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/plan_icon.xml" value="0.131" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/drawable/search_icon.xml" value="0.131" />
@@ -125,7 +126,7 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/status_item.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/step_bar.xml" value="0.125" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/step_text.xml" value="0.165" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/title_nav.xml" value="0.25" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/title_nav.xml" value="0.165" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/menu/info_menu.xml" value="0.2228788518362178" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/menu/title_menu.xml" value="0.18072916666666666" />

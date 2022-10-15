@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,9 +25,9 @@ import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 public class DailyFragment extends Fragment {
     private FragmentDailyBinding binding;
 
-    Button dailyPlanBtn;
+    CheckBox dailyPlanBtn;
     Button detailBtn;
-    ImageButton likeBtn;
+    CheckBox likeBtn;
     ImageView imageView;
     TextView calorie;
     TextView name;
@@ -77,12 +78,10 @@ public class DailyFragment extends Fragment {
 
     private void dailyLikeBtnListener(View v) {
         // TODO
-        likeBtn.setBackgroundResource(R.drawable.ic_like_fill);
     }
 
     private void dailyPlanBtnListener(View v) {
         // TODO
-        dailyPlanBtn.setBackgroundResource(R.drawable.btn_choose);
         dailyPlanBtn.setTextColor(getResources().getColor(R.color.white));
     }
 
