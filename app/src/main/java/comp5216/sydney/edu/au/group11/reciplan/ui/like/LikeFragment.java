@@ -28,7 +28,7 @@ public class LikeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         items = new ArrayList<>();
         // TODO add list from firebase
-        items.add(new LikeItem(716429,"Pasta","https://spoonacular.com/recipeimages/716429-312x231.jpg",345));
+        items.add(new LikeItem(716429,"Garlicky Kale","https://spoonacular.com/recipeImages/644387-312x231.jpg",345));
         items.add(new LikeItem(416009,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeimages/716429-312x231.jpg",774));
 
         binding = FragmentLikeBinding.inflate(inflater, container, false);

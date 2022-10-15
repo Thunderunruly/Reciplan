@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -72,7 +73,7 @@ public abstract class XRVAdapter<T> extends RecyclerView.Adapter<XRVHolder> impl
     }
 
     @Override
-    public void onBindViewHolder(XRVHolder holder, int position) {
+    public void onBindViewHolder(@NonNull XRVHolder holder, int position) {
         if (getItemViewType(position) == TYPE_HEADER)
             return;
         if (getItemViewType(position) == TYPE_FOOTER)

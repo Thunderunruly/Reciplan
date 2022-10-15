@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
-import comp5216.sydney.edu.au.group11.reciplan.SearchRecyclerViewAdapter;
 import comp5216.sydney.edu.au.group11.reciplan.entity.DataEntity;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiBuilder;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiClient;

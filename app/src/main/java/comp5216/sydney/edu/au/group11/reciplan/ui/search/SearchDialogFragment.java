@@ -1,6 +1,5 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.search;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +28,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import comp5216.sydney.edu.au.group11.reciplan.MyRecyclerViewAdapter;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentSearchDialogBinding;
 
@@ -44,17 +43,13 @@ public class SearchDialogFragment extends DialogFragment {
             , "goose liver", "pork", "chop", "streaky"
             , "mutton", "sausage", "fishball", "pilchard", "cod"
             , "pomfret", "beef", "veal", "chicken"};
-    private MyRecyclerViewAdapter recyclerViewAdapter;
+    private DialogRecycleViewAdapter adapter;
 
     private int step = 1;
     private final List<String> stringList = new ArrayList<>();
     private TextView textView;
-    private TextView step2;
-    private TextView step3;
-    private TextView step4;
-    private View line1;
-    private View line2;
-    private View line3;
+    private CheckBox step1, step2, step3, step4;
+    private View line1, line2, line3;
 
     @Nullable
     @Override
@@ -68,14 +63,14 @@ public class SearchDialogFragment extends DialogFragment {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new
                 StaggeredGridLayoutManager(4
                 , StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        // staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         dialogRecyclerview
                 .setLayoutManager(staggeredGridLayoutManager);
         List<String> stringList = new ArrayList<>(Arrays.asList(vegetableStrings));
-        recyclerViewAdapter = new MyRecyclerViewAdapter(getActivity(),
+        adapter = new DialogRecycleViewAdapter(getActivity(),
                 stringList, this, R.layout.item_text);
-        dialogRecyclerview.setAdapter(recyclerViewAdapter);
+        dialogRecyclerview.setAdapter(adapter);
         textView = binding.text;
+        step1 = binding.stepBar.step1;
         step2 = binding.stepBar.step2;
         step3 = binding.stepBar.step3;
         step4 = binding.stepBar.step4;
@@ -160,43 +155,34 @@ public class SearchDialogFragment extends DialogFragment {
         win.setAttributes(params);
     }
 
-
-    @SuppressLint("UseCompatLoadingForDrawables")
     public void toVegetable() {
-        setTextColor(Arrays.asList(step3, step4), R.color.line_false);
-        for (TextView view : Arrays.asList(step2, step3, step4)) {
-            view.setBackground(requireContext().getDrawable(R.drawable.food_false));
-        }
-        setBackgroundColor(Arrays.asList(line1, line2, line3), R.color.line_false);
-        recyclerViewAdapter.clear();
-        recyclerViewAdapter.addAll(Arrays.asList(vegetableStrings));
+        setLineColor(Arrays.asList(line1,line2,line3),R.color.line_false);
+        setTextColor(Collections.singletonList(step1), R.color.line);
+        setTextColor(Arrays.asList(step2,step3,step4), R.color.line_false);
+        adapter.clear();
+        adapter.addAll(Arrays.asList(vegetableStrings));
     }
 
-    private <T extends View> void setBackgroundColor(List<T> views, int p) {
-        for (T view : views) {
+    public void toMeat() {
+        setLineColor(Collections.singletonList(line1),R.color.line);
+        setLineColor(Arrays.asList(line2,line3),R.color.line_false);
+        setTextColor(Arrays.asList(step1,step2), R.color.line);
+        setTextColor(Arrays.asList(step3,step4), R.color.line_false);
+        adapter.clear();
+        adapter.addAll(Arrays.asList(meatStrings));
+    }
+    private void setTextColor(List<CheckBox> checkBoxes, int p) {
+        for (CheckBox view : checkBoxes) {
+            view.setTextColor(requireContext().getColor(p));
+            view.setDrawingCacheBackgroundColor(requireContext().getColor(p));
+            view.setChecked(p == R.color.line);
+        }
+    }
+
+    private void setLineColor(List<View> views, int p) {
+        for(View view: views) {
             view.setBackgroundColor(requireContext().getColor(p));
         }
-    }
-
-
-    private void setTextColor(List<TextView> textViews, int p) {
-        for (TextView view : textViews) {
-            view.setTextColor(requireContext().getColor(p));
-        }
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    public void toMeat() {
-        setTextColor(Collections.singletonList(step2), R.color.line);
-        setTextColor(Arrays.asList(step3, step4), R.color.line_false);
-        step2.setBackground(requireContext().getDrawable(R.drawable.food_true));
-        for (TextView view : Arrays.asList(step3, step4)) {
-            view.setBackground(requireContext().getDrawable(R.drawable.food_false));
-        }
-        setBackgroundColor(Collections.singletonList(line1), R.color.line);
-        setBackgroundColor(Arrays.asList(line2, line3), R.color.line_false);
-        recyclerViewAdapter.clear();
-        recyclerViewAdapter.addAll(Arrays.asList(meatStrings));
     }
 
     public void addCheck(String s) {

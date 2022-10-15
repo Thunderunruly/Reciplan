@@ -39,8 +39,8 @@ public class DailyFragment extends Fragment {
 
         // TODO random from recipe with current status
         String path = "https://spoonacular.com/recipeimages/716429-312x231.jpg";
-        int calorieValue = 432;
-        id = 12345;
+        int calorieValue = 0;
+        id = 10001;
         String nameTxt = "Pasta";
         String summariseTxt = "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs";
 
