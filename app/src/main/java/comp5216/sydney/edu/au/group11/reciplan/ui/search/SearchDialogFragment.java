@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,8 +104,9 @@ public class SearchDialogFragment extends DialogFragment {
                 break;
             case 3:
                 // TODO
-//                startActivity(new Intent(getActivity(),SearchActivity.class)
-//                        .putExtra("key", textView.getText().toString()));
+                Log.d("Value",textView.getText().toString());
+                startActivity(new Intent(getActivity(),SearchActivity.class)
+                        .putExtra("key", textView.getText().toString()));
                 break;
             case 4:
                 // TODO

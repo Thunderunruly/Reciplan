@@ -1,7 +1,6 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.search;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,14 +18,13 @@ import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private RecyclerView searchRecycler;
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        searchRecycler = findViewById(R.id.search_recyclerview);
+        RecyclerView searchRecycler = findViewById(R.id.search_recyclerview);
         searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(this, new ArrayList<>(), R.layout.item_food);
         searchRecycler.setLayoutManager(new LinearLayoutManager(this));
         searchRecycler.setAdapter(searchRecyclerViewAdapter);
@@ -35,19 +33,15 @@ public class SearchActivity extends AppCompatActivity {
 
     private void doSearch() {
         ApiBuilder builder=new ApiBuilder()
-                .Url("/recipes/findByIngredients")//这里填根Url后的部分
-                .Params("ingredients",getIntent().getStringExtra("key"))//请求参数 键,值
-                .Params("number",10+"")//参数可以有多个
-                .Params("apiKey",getResources().getString(R.string.apikey));//参数可以有多个
+                .Url("/recipes/findByIngredients")
+                .Params("ingredients",getIntent().getStringExtra("key"))
+                .Params("number",10+"")
+                .Params("apiKey",getResources().getString(R.string.apikey));
         ApiClient.getInstance().doGet(builder,new CallBack<DataEntity>(){
-            //BeanClass为解析接口数据得到的实体类
             @Override
             public void onResponse(DataEntity data) {
-                if (data.getData().size()>0){ //获取接口数据成功
-                    //请求体处理
+                if (data.getData().size()>0){
                     searchRecyclerViewAdapter.addAll(data.getData());
-                }else {
-                    //请求失败处理 Activity.this为当前活动.this
                 }
             }
 

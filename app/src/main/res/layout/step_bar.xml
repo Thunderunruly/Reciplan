@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_circle"
+        app:layout_constraintStart_toStartOf="@id/step1"
+        app:layout_constraintTop_toTopOf="@id/step1"/>
     <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/line1"
         android:id="@+id/step1"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -13,36 +22,57 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/line"
-        android:background="@drawable/ic_circle"
-        android:backgroundTint="@color/white"
-        android:foreground="@drawable/ic_ring"
-        android:foregroundTint="@color/line"/>
+        android:background="@drawable/ic_ring"
+        android:backgroundTint="@color/line" />
     <View
+        app:layout_constraintStart_toEndOf="@+id/step1"
+        app:layout_constraintEnd_toStartOf="@id/step2"
+        app:layout_constraintTop_toTopOf="@id/step1"
+        app:layout_constraintBottom_toBottomOf="@id/step1"
         android:id="@+id/line1"
         android:layout_width="0dp"
         android:layout_height="3dp"
-        android:layout_weight="1"
         android:background="@color/line_false"/>
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_circle"
+        app:layout_constraintStart_toStartOf="@id/step2"
+        app:layout_constraintTop_toTopOf="@id/step2"/>
     <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/line1"
+        app:layout_constraintEnd_toStartOf="@id/line2"
         android:id="@+id/step2"
         android:text="@string/_2"
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@color/line_false"
         android:textSize="18sp"
-        android:background="@drawable/ic_circle"
-        android:backgroundTint="@color/white"
-        android:foreground="@drawable/ic_ring"
-        android:foregroundTint="@color/line_false"
+        android:background="@drawable/ic_ring"
+        android:backgroundTint="@color/line_false"
         android:layout_width="40dp"
         android:layout_height="40dp"/>
     <View
+        app:layout_constraintTop_toTopOf="@id/step1"
+        app:layout_constraintBottom_toBottomOf="@id/step1"
+        app:layout_constraintStart_toEndOf="@id/step2"
+        app:layout_constraintEnd_toStartOf="@id/step3"
         android:id="@+id/line2"
         android:background="@color/line_false"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="3dp"/>
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_circle"
+        app:layout_constraintStart_toStartOf="@id/step3"
+        app:layout_constraintTop_toTopOf="@id/step3"/>
     <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/line2"
+        app:layout_constraintEnd_toStartOf="@id/line3"
         android:id="@+id/step3"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -51,17 +81,28 @@
         android:textColor="@color/line_false"
         android:textStyle="bold"
         android:gravity="center"
-        android:background="@drawable/ic_circle"
-        android:backgroundTint="@color/white"
-        android:foreground="@drawable/ic_ring"
-        android:foregroundTint="@color/line_false"/>
+        android:background="@drawable/ic_ring"
+        android:backgroundTint="@color/line_false" />
     <View
+        app:layout_constraintStart_toEndOf="@id/step3"
+        app:layout_constraintEnd_toStartOf="@id/step4"
+        app:layout_constraintTop_toTopOf="@id/step1"
+        app:layout_constraintBottom_toBottomOf="@id/step1"
         android:id="@+id/line3"
         android:layout_width="0dp"
         android:layout_height="3dp"
         android:background="@color/line_false"
         android:layout_weight="1"/>
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_circle"
+        app:layout_constraintStart_toStartOf="@id/step4"
+        app:layout_constraintTop_toTopOf="@id/step4"/>
     <TextView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/line3"
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/step4"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -70,8 +111,6 @@
         android:textColor="@color/line_false"
         android:textSize="18sp"
         android:gravity="center"
-        android:background="@drawable/ic_circle"
-        android:backgroundTint="@color/white"
-        android:foreground="@drawable/ic_ring"
-        android:foregroundTint="@color/line_false"/>
-</LinearLayout>
+        android:background="@drawable/ic_ring"
+        android:backgroundTint="@color/line_false" />
+</androidx.constraintlayout.widget.ConstraintLayout>
