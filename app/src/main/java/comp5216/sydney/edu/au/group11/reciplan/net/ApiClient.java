@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import comp5216.sydney.edu.au.group11.reciplan.ui.daily.DailyItem;
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -176,5 +177,4 @@ public class ApiClient {
         }
         return params;
     }
-
 }

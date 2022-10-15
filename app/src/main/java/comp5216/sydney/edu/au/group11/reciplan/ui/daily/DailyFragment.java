@@ -40,30 +40,27 @@ public class DailyFragment extends Fragment {
     private int id;
     private String nameTxt;
     private String path;
-    private int calorieValue;
+    private String summariseTxt = " TODO ";
+    private String calorieValue;
     private TextView time;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         // TODO random from recipe with current status
-        String status = "Happy";
-        boolean isOver0Clock = false;
-        TimeThread timeThread = new TimeThread();
-        timeThread.start();
-        if(isOver0Clock) {
-            SearchFromAPI.searchDailyRecipe(status, (id, name, url, calorie) -> {
-                this.id = id;
-                this.nameTxt = name;
-                this.path = url;
-                this.calorieValue = calorie;
-            });
-        }
-        path = "https://spoonacular.com/recipeimages/716429-312x231.jpg";
-        calorieValue = 0;
-        id = 10001;
-        nameTxt = "Pasta";
-        String summariseTxt = "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs";
+        String status = "Working";
+//        boolean isOver0Clock = false;
+//        TimeThread timeThread = new TimeThread();
+//        timeThread.start();
+//        if(isOver0Clock) {
+//        }
+        SearchFromAPI searchFromAPI = new SearchFromAPI(getActivity());
+        searchFromAPI.searchDailyRecipe(status, (id, name, url, calorie) -> {
+            this.id = id;
+            this.nameTxt = name;
+            this.path = url;
+            this.calorieValue = calorie;
+        });
 
         binding = FragmentDailyBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -82,7 +79,7 @@ public class DailyFragment extends Fragment {
         };
         // TODO check like and plan
         ImageURL.requestImg(handler, path);
-        String calTxt = calorieValue + " Cal";
+        String calTxt = calorieValue;
         calorie.setText(calTxt);
         name.setText(nameTxt);
         summary.setText(summariseTxt);
