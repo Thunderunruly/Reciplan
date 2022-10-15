@@ -86,7 +86,7 @@ public class DailyFragment extends Fragment {
     private boolean isNextDay() {
         String currentTime = (String) time.getText();
         // TODO
-        return true;
+        return false;
     }
 
     private void setValue() {
