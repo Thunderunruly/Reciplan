@@ -92,8 +92,8 @@ public class LikeAdapter extends BaseAdapter {
                 .setMessage("Do you want to delete the recipe '" + items.get(position).getRecipeName() + "'.")
                 .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    int id = items.get(position).getId();
-                    // TODO delete from firebase
+                    LikeFragment likeFragment = new LikeFragment();
+                    likeFragment.deleteItem(items.get(position).getId());
                 })
                 .create();
         alertDialog.show();

@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import java.util.List;
 import java.util.Set;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
@@ -30,7 +29,6 @@ import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 
 public class DetailFragment extends Fragment {
 
-    private FragmentDetailBinding binding;
     TextView name;
     ImageView imageView;
     ImageButton back;
@@ -38,8 +36,7 @@ public class DetailFragment extends Fragment {
     TextView summarise;
     TextView ingredients;
     private String summary;
-    private String ingredientList;
-    
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
@@ -47,7 +44,7 @@ public class DetailFragment extends Fragment {
         String nameTxt = "Recipe Name";
         String url = "https://spoonacular.com/recipeimages/716429-312x231.jpg";
         summary = "Null";
-        ingredientList = "Null";
+        String ingredientList = "Null";
         String calories = "0 kcal";
         if (bundle != null) {
             Set<String> keys = bundle.keySet();
@@ -69,7 +66,7 @@ public class DetailFragment extends Fragment {
                 }
             }
         }
-        binding = FragmentDetailBinding.inflate(inflater, container, false);
+        comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentDetailBinding binding = FragmentDetailBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         imageView = binding.detailRecipe.detailImg;
         name = binding.detailRecipe.detailName;

@@ -1,6 +1,5 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.like;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,7 @@ public class LikeFragment extends Fragment {
                 bundle.putInt("id", id);
                 bundle.putString("name",name);
                 bundle.putString("image",url);
-                mainActivity.showDetail(LikeFragment.this, bundle);
+                mainActivity.showDetail(bundle);
             }
         });
         gridView.setAdapter(likeAdapter);
@@ -58,5 +57,9 @@ public class LikeFragment extends Fragment {
             listSize = items.size();
             likeAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void deleteItem(int id) {
+        Toast.makeText(getActivity(), id + "", Toast.LENGTH_SHORT).show();
     }
 }

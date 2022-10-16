@@ -65,4 +65,20 @@
     <string name="_3">3</string>
     <string name="_4">4</string>
     <string name="empty_list">Empty List</string>
+    <string name="log_in">Log In</string>
+    <string name="my_information">My Information</string>
+    <string name="my_status">My Status</string>
+    <string name="my_favorite">My Favorite</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="email_address">Email Address</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="login">Login</string>
+    <string name="user_name_txt">User Name</string>
+    <string name="register_new_account">Register new account</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="method">Method:</string>
+    <string name="pasta">Pasta</string>
+    <string name="search">Search</string>
 </resources>

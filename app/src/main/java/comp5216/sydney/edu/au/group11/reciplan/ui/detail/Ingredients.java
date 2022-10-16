@@ -1,42 +1,46 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.detail;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class Ingredients {
-    private IngredientList data;
+    private final IngredientList data;
 
-    @Override
-    public String toString() {
-        String str = "";
-        List<Ingredient> ingredients = data.getIngredients();
-        for(Ingredient ingredient:ingredients) {
-            str += ingredient.getName() + ": " + ingredient.getAmount().toString() + "<br><br>";
-        }
-        return str;
-    }
-
-    public IngredientList getIngredients() {
-        return data;
-    }
-
-    public void setIngredients(IngredientList data) {
+    public Ingredients(IngredientList data) {
         this.data = data;
     }
 
-    private class IngredientList {
-        private List<Ingredient> ingredients;
+    @NonNull
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        List<Ingredient> ingredients = data.getIngredients();
+        for(Ingredient ingredient:ingredients) {
+            str.append(ingredient.getName()).append(": ").append(ingredient.getAmount().toString()).append("<br><br>");
+        }
+        return str.toString();
+    }
+
+    private static class IngredientList {
+        private final List<Ingredient> ingredients;
+
+        private IngredientList(List<Ingredient> ingredients) {
+            this.ingredients = ingredients;
+        }
 
         public List<Ingredient> getIngredients() {
             return ingredients;
         }
 
-        public void setIngredients(List<Ingredient> ingredients) {
-            this.ingredients = ingredients;
-        }
     }
-    private class Ingredient {
+    private static class Ingredient {
         private String name;
-        private Item amount;
+        private final Item amount;
+
+        private Ingredient(Item amount) {
+            this.amount = amount;
+        }
 
         public String getName() {
             return name;
@@ -50,14 +54,15 @@ public class Ingredients {
             return amount;
         }
 
-        public void setAmount(Item amount) {
-            this.amount = amount;
-        }
     }
 
-    private class Amount {
-        private double value;
+    private static class Amount {
+        private final double value;
         private String unit;
+
+        private Amount(double value) {
+            this.value = value;
+        }
 
         public String getUnit() {
             return unit;
@@ -71,36 +76,21 @@ public class Ingredients {
             this.unit = unit;
         }
 
-        public void setValue(double value) {
-            this.value = value;
-        }
     }
 
-    private class Item {
-        private Amount metric;
-        private Amount us;
+    private static class Item {
+        private final Amount us;
 
+        private Item(Amount us) {
+            this.us = us;
+        }
+
+        @NonNull
         @Override
         public String toString() {
             String str = "";
             str += "<b>" + us.getValue() + "</b> " + us.getUnit();
             return str;
-        }
-
-        public Amount getMetric() {
-            return metric;
-        }
-
-        public Amount getUs() {
-            return us;
-        }
-
-        public void setMetric(Amount metric) {
-            this.metric = metric;
-        }
-
-        public void setUs(Amount us) {
-            this.us = us;
         }
     }
 }

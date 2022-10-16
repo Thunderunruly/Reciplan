@@ -114,7 +114,7 @@ public class DailyFragment extends Fragment {
         bundle.putString("calories",calorieValue);
         bundle.putString("summary",summariseTxt);
         if (mainActivity != null) {
-            mainActivity.showDetail(DailyFragment.this, bundle);
+            mainActivity.showDetail(bundle);
         }
     }
 
@@ -125,10 +125,10 @@ public class DailyFragment extends Fragment {
     private void dailyPlanBtnListener(View v) {
         // TODO
         if(dailyPlanBtn.isChecked()) {
-            dailyPlanBtn.setTextColor(getActivity().getColor(R.color.white));
+            dailyPlanBtn.setTextColor(requireActivity().getColor(R.color.white));
         }
         else {
-            dailyPlanBtn.setTextColor(getActivity().getColor(R.color.default_color));
+            dailyPlanBtn.setTextColor(requireActivity().getColor(R.color.default_color));
         }
     }
 
@@ -206,7 +206,7 @@ public class DailyFragment extends Fragment {
     }
 
     @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage (Message msg) {
             super.handleMessage(msg);

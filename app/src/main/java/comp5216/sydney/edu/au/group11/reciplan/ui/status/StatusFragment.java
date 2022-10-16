@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,45 +22,39 @@ import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentStatusBinding;
 
 public class StatusFragment extends Fragment {
-    private FragmentStatusBinding binding;
-    private GridView gridView;
+    FragmentStatusBinding binding;
     private List<Map<String, Object>> list;
-    private int images[] = {R.drawable.ic_status,R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety,
+    private final int[] images = {R.drawable.ic_status,R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety,
             R.drawable.ic_insomnia, R.drawable.ic_exhaustion, R.drawable.ic_resting, R.drawable.ic_fitness,
             R.drawable.ic_working, R.drawable.ic_ill, R.drawable.ic_lose_weight};
-    private String texts[] = {"STATUS:","Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
+    private final String[] texts = {"STATUS:","Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
             "Working", "Sickness", "Lose Weight"};
     private int clickTemp = 0;
     private int status = 0;
-    private int[] clickList = new int[11];
+    private final int[] clickList = new int[11];
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentStatusBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        gridView = binding.gv;
-        list = new ArrayList<Map<String,Object>>();
+        GridView gridView = binding.gv;
+        list = new ArrayList<>();
         for(int i = 0; i < images.length; i++) {
-            Map<String, Object> map = new HashMap<String,Object>();
+            Map<String, Object> map = new HashMap<>();
             map.put("image", images[i]);
             map.put("text", texts[i]);
             list.add(map);
         }
 
-        for(int i = 0; i < clickList.length; i++) {
-            clickList[i] = 0;
-        }
+        Arrays.fill(clickList, 0);
 
         MyAdapter adapter = new MyAdapter();
         gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                adapter.setSelection(i);
-                adapter.notifyDataSetChanged();
+        gridView.setOnItemClickListener((adapterView, view, i, l) -> {
+            adapter.setSelection(i);
+            adapter.notifyDataSetChanged();
 
-            }
         });
         return root;
     }
@@ -84,10 +78,10 @@ public class StatusFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
+            ViewHolder holder;
             if (convertView == null) {
                 LayoutInflater inflater = getLayoutInflater();
-                convertView = inflater.inflate(R.layout.status_item,null);
+                convertView = inflater.inflate(R.layout.status_item, binding.getRoot());
                 holder = new ViewHolder();
                 holder.textView = (TextView) convertView.findViewById(R.id.grid_tv);
                 convertView.setTag(holder);
@@ -124,7 +118,7 @@ public class StatusFragment extends Fragment {
         }
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         TextView textView;
     }
 }

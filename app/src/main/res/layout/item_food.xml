@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:layout_margin="10dp"
-    android:background="#f0f0f0"
+    android:background="?attr/colorPrimaryVariant"
     android:padding="10dp"
     android:layout_height="130dp">
     <ImageView

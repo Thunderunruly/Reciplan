@@ -6,17 +6,17 @@
         <item
             android:id="@+id/navigation_like"
             android:icon="@drawable/like_icon"
-            android:title="My Favorite"/>
+            android:title="@string/my_favorite"/>
         <item
             android:id="@+id/info_status"
             android:icon="@drawable/status_icon"
-            android:title="My Status"/>
+            android:title="@string/my_status"/>
         <item
             android:id="@+id/info_information"
             android:icon="@drawable/info_icon"
-            android:title="My Information"/>
+            android:title="@string/my_information"/>
         <item android:id="@+id/person_log"
-            android:icon="@drawable/ic_logout"
-            android:title="Log Out"/>
+            android:icon="@drawable/ic_login"
+            android:title="@string/log_in"/>
     </group>
 </menu>
