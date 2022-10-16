@@ -2,4 +2,10 @@
     <string name="app_name">My Application</string>
     <string name="api_key">5cea41cea3684bb08f1115fc1ed81d9c</string>
     <string name="button">Button</string>
+
+
+    <string-array name="tags">
+        <item>Muscle</item>
+        <item>Lose Weight</item>
+    </string-array>
 </resources>
