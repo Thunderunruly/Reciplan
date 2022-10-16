@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinner;
     String minProtein = "20";
     String maxCalories = "500";
+    Button refreshButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(spinnerSelectedListener);
         manager = new RequestManager(this);
+        refreshButton = findViewById(R.id.refresh);
+        refreshButton.setOnClickListener(refreshButtonListener);
 //        manager.getRandomRecipes(randomRecipeResponseListener);
 //        dialog.show();
     }
@@ -87,4 +91,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+
+    private final View.OnClickListener refreshButtonListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View view) {
+            manager.getRandomRecipes(randomRecipeResponseListener, minProtein, maxCalories);
+        }
+    };
+
+
 }
