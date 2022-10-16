@@ -1,4 +1,4 @@
-package comp5216.sydney.edu.au.group11.reciplan;
+package comp5216.sydney.edu.au.myapplication;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("comp5216.sydney.edu.au.group11.reciplan", appContext.getPackageName());
+        assertEquals("comp5216.sydney.edu.au.myapplication", appContext.getPackageName());
     }
 }

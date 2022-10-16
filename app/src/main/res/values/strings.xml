@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Reciplan</string>
+    <string name="app_name">My Application</string>
+    <string name="api_key">5cea41cea3684bb08f1115fc1ed81d9c</string>
+    <string name="button">Button</string>
 </resources>

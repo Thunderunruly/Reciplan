@@ -1,4 +1,4 @@
-package comp5216.sydney.edu.au.group11.reciplan;
+package comp5216.sydney.edu.au.myapplication;
 
 import org.junit.Test;
 
