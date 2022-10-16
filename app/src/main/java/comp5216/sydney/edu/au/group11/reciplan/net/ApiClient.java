@@ -106,7 +106,7 @@ public class ApiClient {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 onCallback.onFail(t.getMessage());
                 Log.d("NET---", t.getMessage());
             }
@@ -152,7 +152,7 @@ public class ApiClient {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 onCallback.onFail(t.getMessage());
                 Log.d("NET---", t.getMessage());
             }
@@ -173,7 +173,7 @@ public class ApiClient {
         Call<ResponseBody> call = service.get(checkHeaders(builder.headers), builder.url, checkParams(builder.params));
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
 
                 Object o = null;
                 try {

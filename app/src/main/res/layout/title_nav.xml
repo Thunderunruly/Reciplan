@@ -24,7 +24,7 @@
         android:layout_marginStart="12dp"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:text="@string/hello_name"
+        android:text="@string/todo"
         android:textColor="@color/default_color"
         app:layout_constraintStart_toEndOf="@+id/image_icon"
         app:layout_constraintTop_toTopOf="parent"

@@ -108,7 +108,7 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/activity_user.xml" value="0.25" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/app_bar_main.xml" value="0.165" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/back_nav.xml" value="0.14777878513145964" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/detail_recipe.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/detail_recipe.xml" value="0.335" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_daily.xml" value="0.165" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_dashboard.xml" value="0.18432971014492755" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_detail.xml" value="0.245136186770428" />
@@ -120,10 +120,10 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_search_dialog.xml" value="0.19492293744333636" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragment_status.xml" value="0.11032177183451734" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/fragument_like.xml" value="0.13323201621073963" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/info_display.xml" value="0.11032177183451734" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/info_display.xml" value="0.335" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_color.xml" value="0.14920906370243694" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_food.xml" value="0.14777878513145964" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_recipe.xml" value="1.3670886075949367" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_recipe.xml" value="0.1455122393472348" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_text.xml" value="0.375" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/my_edit_text.xml" value="0.13405797101449277" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/nav_user.xml" value="0.25" />
