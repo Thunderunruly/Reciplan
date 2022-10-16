@@ -25,9 +25,9 @@ public class RequestManager {
     }
 
 
-    public void getRandomRecipes(RandomRecipeResponseListener listener){
+    public void getRandomRecipes(RandomRecipeResponseListener listener,String minProtein,String maxCalories ){
         CallRandomRecipes callRandomRecipes = retrofit.create(CallRandomRecipes.class);
-        Call<RandomRecipeApiResponse> call = callRandomRecipes.callRandomRecipe(context.getString(R.string.api_key),"7","20");
+        Call<RandomRecipeApiResponse> call = callRandomRecipes.callRandomRecipe(context.getString(R.string.api_key),"7",minProtein,maxCalories);
         call.enqueue(new Callback<RandomRecipeApiResponse>() {
             @Override
             public void onResponse(Call<RandomRecipeApiResponse> call, Response<RandomRecipeApiResponse> response) {
@@ -49,8 +49,8 @@ public class RequestManager {
         Call<RandomRecipeApiResponse> callRandomRecipe(
                 @Query("apiKey") String apiKey,
                 @Query("number") String number,
-                @Query("minProtein") String minProtein
-
+                @Query("minProtein") String minProtein,
+                @Query("maxCalories") String maxCalories
         );
     }
 }
