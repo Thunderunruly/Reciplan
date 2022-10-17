@@ -49,9 +49,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_random"
-        android:layout_width="match_parent"
+        android:layout_width="329dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp" />
+
+
 
 
 

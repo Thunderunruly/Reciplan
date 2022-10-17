@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private final AdapterView.OnItemSelectedListener spinnerSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            if(adapterView.getSelectedItem().toString().equals("Muscle")){
+            if(adapterView.getSelectedItem().toString().equals("Muscle Build")){
                 minProtein = "50";
                 maxCalories = "1000";
                 manager.getRandomRecipes(randomRecipeResponseListener, minProtein, maxCalories);
