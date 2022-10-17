@@ -18,6 +18,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
@@ -95,7 +97,7 @@ public class LikeAdapter extends BaseAdapter {
                 .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
                     LikeFragment likeFragment = new LikeFragment();
-                    likeFragment.deleteItem(items.get(position).getId());
+                    likeFragment.deleteItem(items.get(position).getDoc());
                 })
                 .create();
         alertDialog.show();

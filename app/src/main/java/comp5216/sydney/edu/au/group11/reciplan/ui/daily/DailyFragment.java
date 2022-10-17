@@ -1,6 +1,5 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.daily;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,18 +14,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import java.util.Calendar;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.Map;
-import java.util.TimeZone;
 
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentDailyBinding;
-import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiBuilder;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiClient;
 import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
@@ -34,7 +34,7 @@ import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 
 public class DailyFragment extends Fragment {
     private FragmentDailyBinding binding;
-    private FireDoc doc;
+    private FirebaseFirestore database;
 
     CheckBox dailyPlanBtn;
     Button detailBtn;
@@ -54,7 +54,7 @@ public class DailyFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         MainActivity mainActivity = (MainActivity) getActivity();
         assert mainActivity != null;
-        doc = new FireDoc(getContext());
+        database = FirebaseFirestore.getInstance();
         binding = FragmentDailyBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         imageView = binding.imageDisplay;
@@ -64,27 +64,25 @@ public class DailyFragment extends Fragment {
         calorie = binding.calorieValue;
         name = binding.dailyHeading;
         summary = binding.dailySummary;
-        doc.update(new CallBack<Object>() {
-            @Override
-            public void onResponse(Object data) {
-                doc.checkDaily(new CallBack<Map<String, Object>>() {
-                    @Override
-                    public void onResponse(Map<String, Object> data) {
-                        //
-                    }
-
-                    @Override
-                    public void onFail(String msg) {
-                        dailySearch();
-                    }
-                });
-            }
-
-            @Override
-            public void onFail(String msg) {
-                dailySearch();
-            }
-        });
+        if(MainActivity.auth.getCurrentUser() != null){
+            database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            Map<String,Object> daily = (Map<String, Object>) task.getResult().get("daily");
+                            if(daily != null){}
+                            else {
+                                dailySearch();
+                            }
+                        }
+                        else{
+                            Toast.makeText(mainActivity, "Fail to connect to database", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        else {
+            dailySearch();
+        }
         dailyPlanBtn.setOnClickListener(this::dailyPlanBtnListener);
         likeBtn.setOnClickListener(this::dailyLikeBtnListener);
         detailBtn.setOnClickListener(this::goDetailFragment);
@@ -121,7 +119,6 @@ public class DailyFragment extends Fragment {
     }
 
     private void dailyLikeBtnListener(View v) {
-        // TODO
     }
 
     private void dailyPlanBtnListener(View v) {
@@ -181,10 +178,24 @@ public class DailyFragment extends Fragment {
     }
 
     private void updateToDatabase() {
+        // TODO
     }
 
     private void checkLike() {
-        doc.checkLike(id);
+        if(MainActivity.auth.getCurrentUser() != null) {
+            database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+                    .collection("likes")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document:task.getResult()){
+                                if(id ==(int) document.get("id")) {
+                                    likeBtn.setSelected(true);
+                                }
+                            }
+                        }
+                    });
+        }
     }
 
     @Override

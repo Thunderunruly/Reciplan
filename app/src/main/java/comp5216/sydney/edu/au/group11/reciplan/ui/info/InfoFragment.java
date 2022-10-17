@@ -18,23 +18,20 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentInformationBinding;
-import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
-import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class InfoFragment extends Fragment {
 
-    private FireDoc doc;
+    private FirebaseFirestore database;
     private boolean editMode;
     Button edit;
     ImageView imageView;
@@ -46,14 +43,13 @@ public class InfoFragment extends Fragment {
     Spinner dietary;
     Spinner prefer;
     Spinner level;
-    String docId;
     NavHostController controller;
     Map<String, Object> keys = new HashMap<>();
     FragmentInformationBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        doc = new FireDoc(getContext());
+        database = FirebaseFirestore.getInstance();
         controller = (NavHostController) Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         binding = FragmentInformationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -76,11 +72,11 @@ public class InfoFragment extends Fragment {
     }
 
     private void getInfo() {
-        if(doc.checkLogin()) {
-            doc.update(new CallBack() {
-                @Override
-                public void onResponse(Object data) {
-                    keys = doc.getKeys();
+        if(MainActivity.auth.getCurrentUser() != null) {
+            database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    keys = (Map<String, Object>) task.getResult();
                     Set<String> nameTxt = keys.keySet();
                     if(nameTxt.contains("username")) {
                         name.setText(Objects.requireNonNull(keys.get("username")).toString());
@@ -119,13 +115,7 @@ public class InfoFragment extends Fragment {
                             }
                         }
                     }
-                }
-
-                @Override
-                public void onFail(String msg) {
-                    Toast.makeText(getActivity(), "Please Check Network Connection", Toast.LENGTH_SHORT).show();
-                }
-            });
+                });
         }
         else {
             Toast.makeText(getActivity(), "Please Log in", Toast.LENGTH_SHORT).show();
@@ -166,14 +156,14 @@ public class InfoFragment extends Fragment {
     }
 
     private void updateInfo() {
-        doc.setKey("username",editName.getText().toString());
-        doc.setKey("height",editHeight.getText().toString());
-        doc.setKey("weight",editWeight.getText().toString());
+        keys.put("username",editName.getText().toString());
+        keys.put("height",editHeight.getText().toString());
+        keys.put("weight",editWeight.getText().toString());
         dietary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String txt = requireActivity().getResources().getStringArray(R.array.dietary)[position];
-                doc.setKey("dietary",txt);
+                keys.put("dietary",txt);
             }
 
             @Override
@@ -185,7 +175,7 @@ public class InfoFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String txt = requireActivity().getResources().getStringArray(R.array.preferred)[position];
-                doc.setKey("preferred",txt);
+                keys.put("preferred",txt);
             }
 
             @Override
@@ -197,7 +187,7 @@ public class InfoFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String txt = requireActivity().getResources().getStringArray(R.array.level)[position];
-                doc.setKey("level",txt);
+                keys.put("level",txt);
             }
 
             @Override
@@ -206,16 +196,15 @@ public class InfoFragment extends Fragment {
             }
         });
         name.setText(Objects.requireNonNull(keys.get("username")).toString());
-       doc.updateToFireBase(new CallBack() {
-           @Override
-           public void onResponse(Object data) {
-               Toast.makeText(getContext(), "Changes saved.", Toast.LENGTH_SHORT).show();
-           }
-
-           @Override
-           public void onFail(String msg) {
-               Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-           }
-       });
+        database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+            .set(keys)
+            .addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    Toast.makeText(getContext(), "Changes saved", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getContext(), "Fail to connect to database", Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 }

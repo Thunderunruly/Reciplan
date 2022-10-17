@@ -9,24 +9,25 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Set;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Map;
+
+import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
-import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
-import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class StatusAdapter extends BaseAdapter {
-    private FireDoc fireDoc;
+    private final FirebaseFirestore database;
     private final int[] images = {R.drawable.ic_status,R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety,
             R.drawable.ic_insomnia, R.drawable.ic_exhaustion, R.drawable.ic_resting, R.drawable.ic_fitness,
             R.drawable.ic_working, R.drawable.ic_ill, R.drawable.ic_lose_weight};
     private final String[] texts = {"STATUS:","Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
             "Working", "Sickness", "Lose Weight"};
     private final Context context;
+    private Map<String, Object> keys;
     public StatusAdapter(Context context) {
         this.context = context;
-        fireDoc = new FireDoc(context);
+        database = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -57,19 +58,19 @@ public class StatusAdapter extends BaseAdapter {
                 null,
                 null);
         final String[] currentStatus = {null};
-        fireDoc.update(new CallBack() {
-            @Override
-            public void onResponse(Object data) {
-                currentStatus[0] = fireDoc.getStatus();
-            }
-
-            @Override
-            public void onFail(String msg) {
-                if(!msg.equals("login")) {
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        if(MainActivity.auth.getCurrentUser() != null) {
+            database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            keys = (Map<String, Object>) task.getResult();
+                            currentStatus[0] = task.getResult().getString("status");
+                        }
+                        else{
+                            Toast.makeText(context, "Fail to connect", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
         if(position == 0) {
             textView.setBackgroundColor(Color.GRAY);
         }
@@ -80,9 +81,18 @@ public class StatusAdapter extends BaseAdapter {
             textView.setBackgroundColor(Color.TRANSPARENT);
         }
         textView.setOnClickListener(v -> {
-            if(position != 0) {
-                fireDoc.setKey("status",texts[position]);
-                fireDoc.setMapById();
+            if(position != 0 && MainActivity.auth.getCurrentUser() != null) {
+                keys.put("status",texts[position]);
+                database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+                        .set(keys)
+                        .addOnCompleteListener(task -> {
+                            if(task.isSuccessful()){
+                                Toast.makeText(context, "Status change saved.", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(context, "Fail to update status", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
             notifyDataSetChanged();
         });

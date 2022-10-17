@@ -21,10 +21,6 @@
         android:name="comp5216.sydney.edu.au.group11.reciplan.ui.like.LikeFragment"
         tools:layout="@layout/fragment_like" />
     <fragment
-        android:id="@+id/navigation_categories"
-        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.categories.CategoriesFragment"
-        tools:layout="@layout/fragment_categories"/>
-    <fragment
         android:id="@+id/info_status"
         android:name="comp5216.sydney.edu.au.group11.reciplan.ui.status.StatusFragment"
         tools:layout="@layout/fragment_status"/>

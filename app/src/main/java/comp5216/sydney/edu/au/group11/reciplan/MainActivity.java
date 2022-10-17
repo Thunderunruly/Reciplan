@@ -1,17 +1,14 @@
 package comp5216.sydney.edu.au.group11.reciplan;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -21,21 +18,19 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import comp5216.sydney.edu.au.group11.reciplan.databinding.ActivityMainBinding;
-import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 import comp5216.sydney.edu.au.group11.reciplan.ui.search.SearchDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private SearchDialogFragment dialogFragment;
-    private FirebaseFirestore database;
-    private FirebaseAuth auth;
+    public FirebaseFirestore database;
+    public static FirebaseAuth auth;
     ImageButton imageButton;
     ImageButton search;
     TextView statusTxt;
@@ -49,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         dialogFragment = new SearchDialogFragment();
-        auth = FirebaseAuth.getInstance();
         AuthThread thread = new AuthThread();
         database = FirebaseFirestore.getInstance();
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -76,39 +71,25 @@ public class MainActivity extends AppCompatActivity {
     public class AuthThread extends Thread {
         @Override
         public void run () {
-            do {
-                try {
-                    Thread.sleep(1000);
-                    Message msg = new Message();
-                    if(auth.getCurrentUser() != null) {
-                        msg.what = 1;
-                    }
-                    else {
-                        msg.what = 2;
-                    }
-                    handler.sendMessage(msg);
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } while(true);
+            Message msg = new Message();
+            msg.what = 0;
+            while(auth.getCurrentUser() != null) {
+                msg.what = 1;
+                handler.sendMessage(msg);
+            }
+            handler.sendMessage(msg);
         }
     }
     private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage (Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    changeLabel(0);
-                    getInformation();
-                    break;
-                case 2:
-                    changeLabel(1);
-                    setDefault();
-                    break;
-                default:
-                    break;
+            if (msg.what == 1) {
+                changeLabel(0);
+                getInformation();
+            } else {
+                changeLabel(1);
+                setDefault();
             }
         }
     };
@@ -123,7 +104,10 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         keys = task.getResult().getData();
-                        String name = "Hello, " + keys.get("username");
+                        String name = null;
+                        if (keys != null) {
+                            name = "Hello, " + keys.get("username");
+                        }
                         nameTxt.setText(name);
                         if(keys.get("status") == null) {
                             status = null;
@@ -132,13 +116,6 @@ public class MainActivity extends AppCompatActivity {
                             status = (String) keys.get("status");
                         }
                         setStatus();
-                        Handler handler = new Handler(Looper.getMainLooper()) {
-                            @Override
-                            public void handleMessage(@NonNull Message msg) {
-                                imageButton.setImageBitmap((Bitmap) msg.obj);
-                            }
-                        };
-                        ImageURL.requestImg(handler,keys.get("image").toString());
                     }
                     else {
                         Toast.makeText(MainActivity.this,
@@ -149,12 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeLabel(int mode) {
-        if(mode == 0) {
-            login = true;
-        }
-        else {
-            login = false;
-        }
+        login = mode == 0;
         supportInvalidateOptionsMenu();
     }
 

@@ -16,14 +16,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
 
-import com.google.firebase.auth.FirebaseAuth;
-
+import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentLoginBinding;
 
 public class LoginFragment extends Fragment {
 
-    private FirebaseAuth auth;
     EditText email;
     EditText password;
     Button login;
@@ -31,9 +29,8 @@ public class LoginFragment extends Fragment {
     NavHostController controller;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        auth =FirebaseAuth.getInstance();
         controller  = (NavHostController) Navigation.findNavController(requireActivity(),R.id.nav_host_fragment_activity_main);
-        if (auth.getCurrentUser() != null) {
+        if (MainActivity.auth.getCurrentUser() != null) {
             askLogout();
         }
         else {
@@ -57,7 +54,7 @@ public class LoginFragment extends Fragment {
                 .setMessage("Do you want to log out? ")
                 .setIcon(AppCompatResources.getDrawable(requireContext(),R.mipmap.ic_launcher_round))
                 .setPositiveButton("YES", (dialog1, which) -> {
-                    auth.signOut();
+                    MainActivity.auth.signOut();
                     Toast.makeText(getContext(), "See you next Time.", Toast.LENGTH_SHORT).show();
                     controller.popBackStack();
                 })
@@ -73,7 +70,7 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getContext(), "Please enter your Email or password", Toast.LENGTH_SHORT).show();
         }
         else {
-            auth.signInWithEmailAndPassword(emailTxt,passwordTxt)
+            MainActivity.auth.signInWithEmailAndPassword(emailTxt,passwordTxt)
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()) {
                             Toast.makeText(getActivity(), "Enjoy your Life!", Toast.LENGTH_SHORT).show();

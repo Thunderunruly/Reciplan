@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,19 +15,19 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
 
-import java.util.Arrays;
-import java.util.List;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 import java.util.Map;
 
+import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentRegisterBinding;
-import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
-import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class RegisterFragment extends Fragment {
 
     private static final String REGEX = "^(?![\\d]+$)(?![A-Za-z]+$)(?![_*@!#%?$]+$)[\\dA-Za-z_*@!#%?$]{6,16}$";
-    FireDoc doc;
+    FirebaseFirestore database;
     ProgressDialog dialog;
     private NavHostController controller;
     TextView login;
@@ -40,7 +39,7 @@ public class RegisterFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        doc = new FireDoc(getContext());
+        database = FirebaseFirestore.getInstance();
         dialog = new ProgressDialog(getContext());
         FragmentRegisterBinding binding = FragmentRegisterBinding.inflate(inflater, container, false);
         controller = (NavHostController) Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
@@ -80,19 +79,16 @@ public class RegisterFragment extends Fragment {
         }
         else {
             dialog.show(getActivity(),"Progress","Register...");
-            doc.register(emailAddress, passwordTxt, new CallBack<Object>() {
-                @Override
-                public void onResponse(Object data) {
-                    dialog.show(getActivity(),"Progress:","Log In...");
-                    login(emailAddress,passwordTxt,username);
-                }
-
-                @Override
-                public void onFail(String msg) {
-                    dialog.cancel();
-                    Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                }
-            });
+            MainActivity.auth.createUserWithEmailAndPassword(emailAddress,passwordTxt)
+                            .addOnCompleteListener(task -> {
+                                if(task.isSuccessful()){
+                                    login(emailAddress,passwordTxt,username);
+                                }
+                                else{
+                                    dialog.dismiss();
+                                    Toast.makeText(getContext(), "Fail to register. the Email address might be used.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
         }
     }
 
@@ -101,36 +97,37 @@ public class RegisterFragment extends Fragment {
     }
 
     private void login(String emailAddress, String passwordTxt, String username) {
-        doc.signIn(emailAddress, passwordTxt, username, new CallBack<Object>() {
-            @Override
-            public void onResponse(Object data) {
-                update(doc.getKeys());
-            }
-
-            @Override
-            public void onFail(String msg) {
-                dialog.cancel();
-                Toast.makeText(getContext(), "msg", Toast.LENGTH_SHORT).show();
-                controller.popBackStack();
-            }
-        });
+        dialog.show(getActivity(),"Progress:","Log In...");
+        Map<String,Object> keys = new HashMap<>();
+        MainActivity.auth.signInWithEmailAndPassword(emailAddress,passwordTxt)
+                        .addOnCompleteListener(task -> {
+                            if(task.isSuccessful()){
+                                keys.put("username",username);
+                                keys.put("email",emailAddress);
+                                keys.put("image","https://spoonacular.com/recipeimages/716429-312x231.jpg");
+                                update(keys);
+                            }
+                            else{
+                                dialog.dismiss();
+                                Toast.makeText(getContext(), "Fail to Login", Toast.LENGTH_SHORT).show();
+                                controller.popBackStack();
+                            }
+                        });
     }
 
     private void update(Map<String, Object> user) {
-        doc.addToDatabase(user, new CallBack<Object>() {
-
-            @Override
-            public void onResponse(Object data) {
-                dialog.cancel();
-                controller.navigate(R.id.navigation_home);
-            }
-
-            @Override
-            public void onFail(String msg) {
-                dialog.cancel();
-                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+        database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+                        .set(user)
+                        .addOnCompleteListener(task -> {
+                            if(task.isSuccessful()){
+                                dialog.dismiss();
+                                controller.navigate(R.id.navigation_home);
+                            }
+                            else{
+                                dialog.dismiss();
+                                Toast.makeText(getContext(), "Fail to set database", Toast.LENGTH_SHORT).show();
+                            }
+                        });
     }
 
     private void loginNow(View v) {

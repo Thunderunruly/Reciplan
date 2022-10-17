@@ -2,12 +2,14 @@ package comp5216.sydney.edu.au.group11.reciplan.ui.like;
 
 public class LikeItem {
 
+    private final String doc;
     private final int id;
     private final String imgURL;
     private final String recipeName;
     private final double calorieVal;
 
-    public LikeItem(int id, String recipeName, String imgURL, double calorieVal) {
+    public LikeItem(String doc, int id, String recipeName, String imgURL, double calorieVal) {
+        this.doc = doc;
         this.id = id;
         this.recipeName = recipeName;
         this.imgURL = imgURL;
@@ -28,5 +30,9 @@ public class LikeItem {
 
     public int getId() {
         return id;
+    }
+
+    public String getDoc() {
+        return doc;
     }
 }
