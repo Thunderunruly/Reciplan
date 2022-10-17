@@ -23,7 +23,6 @@
             android:id="@+id/detailName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/todo"
             android:textStyle="bold"
             android:layout_marginVertical="10dp"
             android:layout_marginStart="10dp"
@@ -37,7 +36,6 @@
             android:id="@+id/detailCal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/todo"
             android:layout_marginVertical="10dp"
             android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/detailName"
@@ -47,7 +45,6 @@
             android:id="@+id/detailSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/todo"
             android:layout_margin="20dp"
             app:layout_constraintStart_toStartOf="@id/detailName"
             app:layout_constraintTop_toBottomOf="@id/detailCal"/>
@@ -67,7 +64,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/ingredientTitle"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/todo"
             android:layout_margin="20dp"/>
         <TextView
             android:id="@+id/methodTitle"
@@ -84,10 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="@string/todo"
             app:layout_constraintTop_toBottomOf="@id/methodTitle"
             app:layout_constraintStart_toStartOf="parent"/>
-        <!-- TODO -->
         <CheckBox
             android:id="@+id/detailLikeBtn"
             android:layout_width="48dp"

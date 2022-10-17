@@ -11,20 +11,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavHostController;
+import androidx.navigation.Navigation;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import java.util.Map;
 
+import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentRegisterBinding;
+import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
+import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class RegisterFragment extends Fragment {
-
-    private FragmentRegisterBinding binding;
-    DatabaseReference databaseReference;
+    FireDoc doc;
+    private NavHostController controller;
     TextView login;
     EditText name;
     EditText email;
@@ -34,9 +33,9 @@ public class RegisterFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        databaseReference = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://reciplan-211b0-default-rtdb.firebaseio.com/");
-        binding = FragmentRegisterBinding.inflate(inflater, container, false);
+        doc = new FireDoc(getContext());
+        FragmentRegisterBinding binding = FragmentRegisterBinding.inflate(inflater, container, false);
+        controller = (NavHostController) Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         View root = binding.getRoot();
         login = binding.LoginNowBtn;
         name = binding.userName;
@@ -55,42 +54,62 @@ public class RegisterFragment extends Fragment {
         final String passwordTxt = password.getText().toString();
         final String confirmPassword = confirm.getText().toString();
         if(username.isEmpty() || emailAddress.isEmpty() || passwordTxt.isEmpty()) {
-            Toast.makeText(getActivity(), "Please fill all fields",
+            Toast.makeText(getActivity(), "Please fill all fields.",
                     Toast.LENGTH_SHORT).show();
         }
+        else if(passwordTxt.length() < 6) {
+            Toast.makeText(getActivity(), "Password required at least 6 characters.", Toast.LENGTH_SHORT).show();
+        }
         else if(!passwordTxt.equals(confirmPassword)){
-            Toast.makeText(getActivity(), "Password are not matching",
+            Toast.makeText(getActivity(), "Password are not matching.",
                     Toast.LENGTH_SHORT).show();
         }
         else {
-            databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            doc.register(emailAddress, passwordTxt, new CallBack<Object>() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.hasChild(emailAddress)){
-                        Toast.makeText(getActivity(),
-                                        "Email is already registered",Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                    else {
-                        databaseReference.child("users").child(emailAddress).child("Username").setValue(username);
-                        databaseReference.child("users").child(emailAddress).child("Password").setValue(passwordTxt);
-                        Toast.makeText(getActivity(),"User registered successfully", Toast.LENGTH_SHORT).show();
-                        loginNow(view);
-                    }
-
+                public void onResponse(Object data) {
+                    login(emailAddress,passwordTxt,username);
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
+                public void onFail(String msg) {
+                    Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                 }
             });
-
         }
     }
 
+    private void login(String emailAddress, String passwordTxt, String username) {
+        doc.signIn(emailAddress, passwordTxt, username, new CallBack<Object>() {
+            @Override
+            public void onResponse(Object data) {
+                update(doc.getKeys());
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Toast.makeText(getContext(), "msg", Toast.LENGTH_SHORT).show();
+                controller.popBackStack();
+            }
+        });
+    }
+
+    private void update(Map<String, Object> user) {
+        doc.updateToFirebase(user, new CallBack<Object>() {
+
+            @Override
+            public void onResponse(Object data) {
+                controller.navigate(R.id.navigation_home);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void loginNow(View v) {
-        FragmentManager manager = getParentFragmentManager();
-        manager.popBackStack();
+        controller.popBackStack();
     }
 }

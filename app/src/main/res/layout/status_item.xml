@@ -3,8 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    android:textColor="@color/gray"
-    android:text="@string/todo"
     android:gravity="center_horizontal"
     android:textSize="18sp"
     app:drawableTopCompat="@drawable/calorie_text"

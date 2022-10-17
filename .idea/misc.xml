@@ -89,7 +89,7 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/info_display.xml" value="0.1496365968362548" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_food.xml" value="0.1496365968362548" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_recipe.xml" value="0.165" />
-        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_text.xml" value="0.1496365968362548" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/item_text.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/nav_user.xml" value="0.1496365968362548" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/status_item.xml" value="0.1496365968362548" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/layout/step_bar.xml" value="0.335" />
@@ -97,6 +97,7 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22573749465583584" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/menu/info_menu.xml" value="0.22573749465583584" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1835" />
+        <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1835" />
       </map>
     </option>
   </component>

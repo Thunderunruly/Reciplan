@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:id="@+id/app_title"
     android:elevation="2dp"
+    android:background="?attr/colorPrimaryVariant"
     android:layout_height="?attr/actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:minHeight="?attr/actionBarSize"
-    android:background="?attr/colorPrimaryVariant">
+    android:minHeight="?attr/actionBarSize">
     <ImageButton
         android:id="@+id/image_icon"
         android:layout_width="@dimen/img_size"
@@ -25,7 +25,6 @@
         android:layout_marginStart="12dp"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:text="@string/todo"
         android:textColor="@color/default_color"
         app:layout_constraintStart_toEndOf="@+id/image_icon"
         app:layout_constraintTop_toTopOf="parent"

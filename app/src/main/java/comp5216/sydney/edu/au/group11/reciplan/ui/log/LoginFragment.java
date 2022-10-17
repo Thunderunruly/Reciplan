@@ -1,9 +1,7 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.log;
 
-import static android.content.ContentValues.TAG;
-
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +11,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentLoginBinding;
 
 public class LoginFragment extends Fragment {
 
-    private FragmentLoginBinding binding;
-    DatabaseReference databaseReference;
+    private FirebaseAuth auth;
     EditText email;
     EditText password;
     Button login;
@@ -37,18 +31,39 @@ public class LoginFragment extends Fragment {
     NavHostController controller;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        controller  = (NavHostController) Navigation.findNavController(getActivity(),R.id.nav_host_fragment_activity_main);
-        databaseReference = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl("https://reciplan-211b0-default-rtdb.firebaseio.com/");
-        binding = FragmentLoginBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        email = binding.email;
-        password = binding.password;
-        login = binding.login;
-        register = binding.register;
-        login.setOnClickListener(this::loginListener);
-        register.setOnClickListener(v -> controller.navigate(R.id.person_register));
-        return root;
+        auth =FirebaseAuth.getInstance();
+        controller  = (NavHostController) Navigation.findNavController(requireActivity(),R.id.nav_host_fragment_activity_main);
+        if (auth.getCurrentUser() != null) {
+            askLogout();
+        }
+        else {
+            comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentLoginBinding binding = FragmentLoginBinding.inflate(inflater, container, false);
+            View root = binding.getRoot();
+            email = binding.email;
+            password = binding.password;
+            login = binding.login;
+            register = binding.register;
+            login.setOnClickListener(this::loginListener);
+            register.setOnClickListener(v -> controller.navigate(R.id.person_register));
+            return root;
+        }
+        return null;
+    }
+
+    private void askLogout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog dialog = builder
+                .setTitle("Log out")
+                .setMessage("Do you want to log out? ")
+                .setIcon(AppCompatResources.getDrawable(requireContext(),R.mipmap.ic_launcher_round))
+                .setPositiveButton("YES", (dialog1, which) -> {
+                    auth.signOut();
+                    Toast.makeText(getContext(), "See you next Time.", Toast.LENGTH_SHORT).show();
+                    controller.popBackStack();
+                })
+                .setNegativeButton("No", (dialog12, which) -> controller.popBackStack())
+                .create();
+        dialog.show();
     }
 
     private void loginListener(View v) {
@@ -58,31 +73,16 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getContext(), "Please enter your Email or password", Toast.LENGTH_SHORT).show();
         }
         else {
-            databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.hasChild(emailTxt)){
-
-                        final  String getPassword = snapshot.child(emailTxt).child("Password").getValue(String.class);
-
-                        if(getPassword.equals(passwordTxt)){
-                            Toast.makeText(getContext(),"Successfully Logged in",Toast.LENGTH_SHORT).show();
+            auth.signInWithEmailAndPassword(emailTxt,passwordTxt)
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()) {
+                            Toast.makeText(getActivity(), "Enjoy your Life!", Toast.LENGTH_SHORT).show();
                             controller.navigate(R.id.navigation_home);
                         }
                         else {
-                            Toast.makeText(getContext(),"Wrong Password",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Fail to login, please check your account and password.", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    else {
-                        Toast.makeText(getContext(),"Wrong Email",Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.w(TAG, "Failed to read value.", error.toException());
-                }
-            });
+                    });
         }
     }
 }

@@ -54,7 +54,6 @@
         android:id="@+id/editName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/todo"
         android:enabled="false"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="@dimen/basic_margin"
@@ -62,14 +61,12 @@
         app:layout_constraintStart_toEndOf="@+id/infoName"
         app:layout_constraintTop_toTopOf="@+id/infoName"
         app:layout_constraintBottom_toBottomOf="@+id/infoName"
-        android:hint="@string/name"
         android:importantForAutofill="no"
         android:inputType="textPersonName" />
     <EditText
         android:id="@+id/editHeight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/todo"
         android:enabled="false"
         android:layout_marginEnd="@dimen/basic_margin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +79,6 @@
         android:id="@+id/editWeight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/todo"
         android:enabled="false"
         android:layout_marginEnd="@dimen/basic_margin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,31 +102,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
+        android:gravity="end"
         android:entries="@array/dietary"
         android:layout_marginEnd="@dimen/basic_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/infoDietary"
-        app:layout_constraintBottom_toBottomOf="@+id/infoDietary"/>
+        app:layout_constraintTop_toBottomOf="@+id/infoDietary"/>
     <TextView
         android:id="@+id/infoPrefer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/preferred_ingredients"
         android:textSize="20sp"
-        android:layout_marginTop="@dimen/basic_margin"
         android:layout_marginStart="@dimen/basic_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infoDietary"/>
+        app:layout_constraintTop_toBottomOf="@+id/spinnerDietary"/>
     <Spinner
         android:id="@+id/spinnerPrefer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
+        android:gravity="end"
         android:entries="@array/preferred"
         android:layout_marginEnd="@dimen/basic_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/infoPrefer"
-        app:layout_constraintBottom_toBottomOf="@+id/infoPrefer"/>
+        app:layout_constraintTop_toBottomOf="@+id/infoPrefer"/>
     <TextView
         android:id="@+id/infoLevel"
         android:layout_width="wrap_content"
@@ -140,17 +135,17 @@
         android:layout_marginTop="@dimen/basic_margin"
         android:layout_marginStart="@dimen/basic_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infoPrefer"/>
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPrefer"/>
     <Spinner
         android:id="@+id/spinnerLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
+        android:gravity="end"
         android:entries="@array/level"
         android:layout_marginEnd="@dimen/basic_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/infoLevel"
-        app:layout_constraintBottom_toBottomOf="@+id/infoLevel"/>
+        app:layout_constraintTop_toBottomOf="@+id/infoLevel"/>
     <Button
         android:id="@+id/editBtn"
         android:layout_width="wrap_content"
@@ -161,7 +156,7 @@
         android:text="@string/edit"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorSecondaryVariant"
+        android:textColor="?attr/colorOnPrimary"
         android:paddingHorizontal="20dp"
         android:layout_margin="@dimen/basic_margin"
         app:layout_constraintEnd_toEndOf="parent"

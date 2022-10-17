@@ -37,7 +37,7 @@
     <string name="let_s_find">Let\'s Find</string>
     <string name="what_can_be_cooked">What can be cooked</string>
     <string-array name="dietary">
-        <item>None</item>
+        <item>Not Selected</item>
         <item>Vegetarian</item>
         <item>Lacto-Vegetarian</item>
         <item>Ovo-Vegetarian</item>
@@ -45,10 +45,11 @@
         <item>Pescetarian</item>
     </string-array>
     <string-array name="preferred">
-        <item>None</item>
+        <item>Not Selected</item>
         <item>Egg</item>
     </string-array>
     <string-array name="level">
+        <item>Not Selected</item>
         <item>Beginner</item>
         <item>Master</item>
     </string-array>

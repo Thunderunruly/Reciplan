@@ -9,7 +9,7 @@
         android:id="@+id/tv"
         android:layout_width="70dp"
         android:layout_height="3dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         android:background="?attr/colorSecondaryVariant"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toTopOf="parent"

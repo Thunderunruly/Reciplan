@@ -19,6 +19,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavHostController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -44,6 +47,7 @@ public class SearchDialogFragment extends DialogFragment {
             , "mutton", "sausage", "fishball", "pilchard", "cod"
             , "pomfret", "beef", "veal", "chicken"};
     private DialogRecycleViewAdapter adapter;
+    NavHostController controller;
 
     private int step = 1;
     private final List<String> stringList = new ArrayList<>();
@@ -58,6 +62,7 @@ public class SearchDialogFragment extends DialogFragment {
         getDialog().getWindow().getAttributes().windowAnimations = R.style.AnimBottom;
 
         FragmentSearchDialogBinding binding = FragmentSearchDialogBinding.inflate(inflater, container, false);
+        controller = (NavHostController) Navigation.findNavController(getActivity(),R.id.nav_host_fragment_activity_main);
         View root = binding.getRoot();
         RecyclerView dialogRecyclerview = binding.recyclerview;
         StaggeredGridLayoutManager staggeredGridLayoutManager = new
@@ -99,9 +104,10 @@ public class SearchDialogFragment extends DialogFragment {
                 break;
             case 3:
                 // TODO
-                Log.d("Value",textView.getText().toString());
-                startActivity(new Intent(getActivity(),SearchActivity.class)
-                        .putExtra("key", textView.getText().toString()));
+                Bundle bundle = new Bundle();
+                bundle.putString("key",textView.getText().toString());
+                this.dismiss();
+                controller.navigate(R.id.navigation_search,bundle);
                 break;
             case 4:
                 // TODO
