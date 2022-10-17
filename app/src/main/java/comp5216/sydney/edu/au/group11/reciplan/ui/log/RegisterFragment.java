@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
@@ -22,6 +24,8 @@ import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
 import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class RegisterFragment extends Fragment {
+
+    private static final List<Character> SPECIAL_CHARS = Arrays.asList('_','*','@','!','#','%','?','$');
     FireDoc doc;
     private NavHostController controller;
     TextView login;
@@ -60,6 +64,12 @@ public class RegisterFragment extends Fragment {
         else if(passwordTxt.length() < 6) {
             Toast.makeText(getActivity(), "Password required at least 6 characters.", Toast.LENGTH_SHORT).show();
         }
+        else if(passwordTxt.length() > 16) {
+            Toast.makeText(getActivity(), "Password required no more than 16 characters.", Toast.LENGTH_SHORT).show();
+        }
+        else if(!checkValidPassword(passwordTxt)) {
+            Toast.makeText(getActivity(), "Password need to contains at least 2 type: char, numbers or special(#, @).", Toast.LENGTH_SHORT).show();
+        }
         else if(!passwordTxt.equals(confirmPassword)){
             Toast.makeText(getActivity(), "Password are not matching.",
                     Toast.LENGTH_SHORT).show();
@@ -77,6 +87,23 @@ public class RegisterFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private boolean checkValidPassword(String passwordTxt) {
+        int c = 0;
+        int n = 0;
+        int s = 0;
+        for(char ch:passwordTxt.toCharArray()) {
+            if(Character.isAlphabetic(ch)) {
+                c = 1;
+            }
+            else if(Character.isDigit(ch)) {
+                n = 1;
+            } else if (SPECIAL_CHARS.contains(ch)) {
+                s = 1;
+            }
+        }
+        return (c + n + s) > 1;
     }
 
     private void login(String emailAddress, String passwordTxt, String username) {
