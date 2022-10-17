@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">Reciplan</string>
+    <string name="daily_heading">Recipe of the day</string>
+    <string name="todo">TODO</string>
+    <string name="default_Calorie">##### Cal</string>
+    <string name="Heading">Recipe Name</string>
+    <string name="summary">The introduction of the Recipe</string>
+    <string name="add_to_plan">Add TO Plan</string>
+    <string name="details">Details</string>
+    <string name="like_description">click to like or dislike</string>
+    <string name="title_home">HOME</string>
+    <string name="title_like">LIKE</string>
+    <string name="title_categories">CATEGORIES</string>
+    <string name="title_plan">PLAN</string>
+    <string name="title_search">SEARCH</string>
+    <string name="title_icon">PersonName</string>
+    <string name="group_name">\@CopyRight Group 11 COMP5216 Sem 2 2022</string>
+    <string name="user_status">What\'s your Mood today?</string>
+    <string name="hello_name">Hello,</string>
+    <string name="user_name">Please Login</string>
+    <string name="user_email">email address</string>
+    <string name="like_heading">My Saved Recipes</string>
+    <string name="profile_preferences">Profile &amp; Preferences</string>
+    <string name="name">Name:</string>
+    <string name="height">Height:</string>
+    <string name="weight">Weight:</string>
+    <string name="dietary_restrictions">Dietary Restrictions:</string>
+    <string name="preferred_ingredients">Preferred Ingredients:</string>
+    <string name="cooking_level">Cooking Level:</string>
+    <string name="title_detail">DETAIL</string>
+    <string name="title_status">STATUS</string>
+    <string name="title_info">INFORMATION</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="let_s_find">Let\'s Find</string>
+    <string name="what_can_be_cooked">What can be cooked</string>
+    <string-array name="dietary">
+        <item>None</item>
+        <item>Vegetarian</item>
+        <item>Lacto-Vegetarian</item>
+        <item>Ovo-Vegetarian</item>
+        <item>Vegan</item>
+        <item>Pescetarian</item>
+    </string-array>
+    <string-array name="preferred">
+        <item>None</item>
+        <item>Egg</item>
+    </string-array>
+    <string-array name="level">
+        <item>Beginner</item>
+        <item>Master</item>
+    </string-array>
+    <!--47b09f6a071f4865a43ac6a3f9329b4a-->
+    <!--90818e250c8345f78b4342c4cc5c7748-->
+    <string name="apikey">47b09f6a071f4865a43ac6a3f9329b4a</string>
+    <string name="selected_ingredients">Selected Ingredients:</string>
+    <string name="step_4_text">Step 4\nText</string>
+    <string name="step_3_text">Step 3\nText</string>
+    <string name="step_2_text">Step 2\nMeat</string>
+    <string name="step_1_text">Step 1\nVegetable</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="empty_list">Empty List</string>
+    <string name="log_in">Log In</string>
+    <string name="my_information">My Information</string>
+    <string name="my_status">My Status</string>
+    <string name="my_favorite">My Favorite</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="email_address">Email Address</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="login">Login</string>
+    <string name="user_name_txt">User Name</string>
+    <string name="register_new_account">Register new account</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="method">Method:</string>
+    <string name="pasta">Pasta</string>
+    <string name="search">Search</string>
+</resources>
