@@ -1,11 +1,13 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.log;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +27,9 @@ import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class RegisterFragment extends Fragment {
 
-    private static final List<Character> SPECIAL_CHARS = Arrays.asList('_','*','@','!','#','%','?','$');
+    private static final String REGEX = "^(?![\\d]+$)(?![A-Za-z]+$)(?![_*@!#%?$]+$)[\\dA-Za-z_*@!#%?$]{6,16}$";
     FireDoc doc;
+    ProgressDialog dialog;
     private NavHostController controller;
     TextView login;
     EditText name;
@@ -38,6 +41,7 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         doc = new FireDoc(getContext());
+        dialog = new ProgressDialog(getContext());
         FragmentRegisterBinding binding = FragmentRegisterBinding.inflate(inflater, container, false);
         controller = (NavHostController) Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         View root = binding.getRoot();
@@ -67,7 +71,7 @@ public class RegisterFragment extends Fragment {
         else if(passwordTxt.length() > 16) {
             Toast.makeText(getActivity(), "Password required no more than 16 characters.", Toast.LENGTH_SHORT).show();
         }
-        else if(!checkValidPassword(passwordTxt)) {
+        else if(!isMatched(passwordTxt,REGEX)) {
             Toast.makeText(getActivity(), "Password need to contains at least 2 type: char, numbers or special(#, @).", Toast.LENGTH_SHORT).show();
         }
         else if(!passwordTxt.equals(confirmPassword)){
@@ -75,35 +79,25 @@ public class RegisterFragment extends Fragment {
                     Toast.LENGTH_SHORT).show();
         }
         else {
+            dialog.show(getActivity(),"Progress","Register...");
             doc.register(emailAddress, passwordTxt, new CallBack<Object>() {
                 @Override
                 public void onResponse(Object data) {
+                    dialog.show(getActivity(),"Progress:","Log In...");
                     login(emailAddress,passwordTxt,username);
                 }
 
                 @Override
                 public void onFail(String msg) {
+                    dialog.cancel();
                     Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
-    private boolean checkValidPassword(String passwordTxt) {
-        int c = 0;
-        int n = 0;
-        int s = 0;
-        for(char ch:passwordTxt.toCharArray()) {
-            if(Character.isAlphabetic(ch)) {
-                c = 1;
-            }
-            else if(Character.isDigit(ch)) {
-                n = 1;
-            } else if (SPECIAL_CHARS.contains(ch)) {
-                s = 1;
-            }
-        }
-        return (c + n + s) > 1;
+    public boolean isMatched(String value, String regex) {
+        return value == null ? false :  value.matches(regex);
     }
 
     private void login(String emailAddress, String passwordTxt, String username) {
@@ -115,6 +109,7 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void onFail(String msg) {
+                dialog.cancel();
                 Toast.makeText(getContext(), "msg", Toast.LENGTH_SHORT).show();
                 controller.popBackStack();
             }
@@ -126,11 +121,13 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void onResponse(Object data) {
+                dialog.cancel();
                 controller.navigate(R.id.navigation_home);
             }
 
             @Override
             public void onFail(String msg) {
+                dialog.cancel();
                 Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
