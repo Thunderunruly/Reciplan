@@ -65,7 +65,9 @@ public class StatusAdapter extends BaseAdapter {
 
             @Override
             public void onFail(String msg) {
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                if(!msg.equals("login")) {
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                }
             }
         });
         if(position == 0) {

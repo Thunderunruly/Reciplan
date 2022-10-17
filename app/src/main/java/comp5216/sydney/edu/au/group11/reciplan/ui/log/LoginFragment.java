@@ -77,7 +77,7 @@ public class LoginFragment extends Fragment {
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()) {
                             Toast.makeText(getActivity(), "Enjoy your Life!", Toast.LENGTH_SHORT).show();
-                            controller.navigate(R.id.navigation_home);
+                            controller.popBackStack();
                         }
                         else {
                             Toast.makeText(getActivity(), "Fail to login, please check your account and password.", Toast.LENGTH_SHORT).show();

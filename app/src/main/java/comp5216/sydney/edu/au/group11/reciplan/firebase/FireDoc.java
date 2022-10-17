@@ -1,21 +1,25 @@
 package comp5216.sydney.edu.au.group11.reciplan.firebase;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
+import comp5216.sydney.edu.au.group11.reciplan.ui.like.LikeItem;
 
 public class FireDoc {
     private final FirebaseFirestore database;
     private final FirebaseAuth auth;
-    private Context context;
+    private final Context context;
     private Map<String, Object> keys;
     private String dailyId;
     private Map<String, Object> daily;
@@ -28,20 +32,17 @@ public class FireDoc {
     }
 
     public boolean checkLogin() {
-        if(auth.getCurrentUser() != null) {
-            return true;
-        }
-        return false;
+        return auth.getCurrentUser() != null;
     }
 
 
 
-    public void addToDatabase(Map<String, Object> keys, CallBack callBack) {
-        database.collection("reciplan").document(auth.getCurrentUser().getUid())
+    public<T> void addToDatabase(Map<String, Object> keys, CallBack<T> callBack) {
+        database.collection("reciplan").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
                 .set(keys)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
-                        callBack.onResponse((task));
+                        callBack.onResponse((T) task);
                     }
                     else {
                         callBack.onFail("Fail to set username");
@@ -50,7 +51,7 @@ public class FireDoc {
     }
 
     public void setMapById() {
-        database.collection("reciplan").document(auth.getCurrentUser().getUid())
+        database.collection("reciplan").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
                 .set(keys)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
@@ -63,7 +64,7 @@ public class FireDoc {
 
     public void update(CallBack callBack) {
         if(checkLogin()) {
-            database.collection("reciplan").document(auth.getCurrentUser().getUid())
+            database.collection("reciplan").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
                     .get()
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()) {
@@ -79,13 +80,21 @@ public class FireDoc {
             callBack.onFail("login");
         }
     }
-    public void updateWithOutCheck(CallBack callBack) {
-        database.collection("reciplan").document(auth.getCurrentUser().getUid())
+    public void updateLikes(CallBack<ArrayList<LikeItem>> callBack) {
+        database.collection("reciplan").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
+                .collection("likes")
                 .get()
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
-                        keys = task.getResult().getData();
-                        callBack.onResponse(task);
+                        ArrayList<LikeItem> items = new ArrayList<>();
+                        for(QueryDocumentSnapshot document: task.getResult()) {
+                            Log.d("name",document.get("title").toString());
+                            items.add(new LikeItem(Integer.parseInt(document.get("id") + ""),
+                                    Objects.requireNonNull(document.get("title")).toString(),
+                                    Objects.requireNonNull(document.get("image")).toString(),
+                                    Double.parseDouble(document.get("calories") + "")));
+                        }
+                        callBack.onResponse(items);
                     }
                     else {
                         callBack.onFail("Fail to connect to database");

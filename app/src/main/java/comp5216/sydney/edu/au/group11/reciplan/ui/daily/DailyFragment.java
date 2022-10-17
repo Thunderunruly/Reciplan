@@ -140,6 +140,7 @@ public class DailyFragment extends Fragment {
         }
         ApiBuilder builder =new ApiBuilder()
                 .Url("/recipes/complexSearch")
+                .Params("sort","random")
                 .Params(SearchFromAPI.statusBuilder(status))
                 .Params("apiKey",getResources().getString(R.string.apikey));
         ApiClient.getInstance().dailyGet(builder, new CallBack<DailyItem>() {

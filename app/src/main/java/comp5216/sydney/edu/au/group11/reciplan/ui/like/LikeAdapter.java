@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class LikeAdapter extends BaseAdapter {
                 imageView.setImageBitmap((Bitmap) msg.obj);
             }
         };
+        Log.d("image",items.get(position).getImgURL());
         ImageURL.requestImg(handler, items.get(position).getImgURL());
         String nameTxt = items.get(position).getRecipeName();
         String calTxt = items.get(position).getCalorieVal() + " Cal";

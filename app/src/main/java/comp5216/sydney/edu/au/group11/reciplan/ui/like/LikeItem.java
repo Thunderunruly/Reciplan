@@ -5,9 +5,9 @@ public class LikeItem {
     private final int id;
     private final String imgURL;
     private final String recipeName;
-    private final int calorieVal;
+    private final double calorieVal;
 
-    public LikeItem(int id, String recipeName, String imgURL, int calorieVal) {
+    public LikeItem(int id, String recipeName, String imgURL, double calorieVal) {
         this.id = id;
         this.recipeName = recipeName;
         this.imgURL = imgURL;
@@ -22,7 +22,7 @@ public class LikeItem {
         return imgURL;
     }
 
-    public int getCalorieVal() {
+    public double getCalorieVal() {
         return calorieVal;
     }
 

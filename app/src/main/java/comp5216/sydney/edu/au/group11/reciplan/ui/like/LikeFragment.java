@@ -1,6 +1,10 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.like;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +13,22 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavHostController;
+import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
+import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentLikeBinding;
+import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
+import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class LikeFragment extends Fragment {
 
     private FragmentLikeBinding binding;
+    private NavHostController controller;
+    private FireDoc doc;
     private GridView gridView;
     private ArrayList<LikeItem> items;
     private LikeAdapter likeAdapter;
@@ -26,13 +37,15 @@ public class LikeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         items = new ArrayList<>();
-        // TODO add list from firebase
-        items.add(new LikeItem(716429,"Garlicky Kale","https://spoonacular.com/recipeImages/644387-312x231.jpg",345));
-        items.add(new LikeItem(416009,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeimages/716429-312x231.jpg",774));
-
+        doc = new FireDoc(getContext());
+        controller = (NavHostController) Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         binding = FragmentLikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         gridView = binding.likeGrid;
+        if (!doc.checkLogin()) {
+            controller.navigate(R.id.person_log);
+            return null;
+        }
         likeAdapter = new LikeAdapter(items, getContext(), (id,name,url) -> {
             MainActivity mainActivity = (MainActivity) getActivity();
             if (mainActivity != null) {
@@ -44,7 +57,20 @@ public class LikeFragment extends Fragment {
             }
         });
         gridView.setAdapter(likeAdapter);
-        checkChanges(items);
+        doc.updateLikes(new CallBack<ArrayList<LikeItem>>() {
+            @Override
+            public void onResponse(ArrayList<LikeItem> data) {
+                for(LikeItem item:data) {
+                    items.add(item);
+                }
+                likeAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        });
         return root;
     }
 
