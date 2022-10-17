@@ -7,28 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Set;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
+import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
+import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class StatusAdapter extends BaseAdapter {
+    private FireDoc fireDoc;
     private final int[] images = {R.drawable.ic_status,R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety,
             R.drawable.ic_insomnia, R.drawable.ic_exhaustion, R.drawable.ic_resting, R.drawable.ic_fitness,
             R.drawable.ic_working, R.drawable.ic_ill, R.drawable.ic_lose_weight};
     private final String[] texts = {"STATUS:","Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
             "Working", "Sickness", "Lose Weight"};
-    private final HashMap<String,Boolean> map;
     private final Context context;
-    private int clickPosition = 0;
-    private int status = 0;
     public StatusAdapter(Context context) {
         this.context = context;
-        map = new HashMap<>();
-        for (String text : texts) {
-            map.put(text, false);
-        }
+        fireDoc = new FireDoc(context);
     }
 
     @Override
@@ -46,9 +44,6 @@ public class StatusAdapter extends BaseAdapter {
         return position;
     }
 
-    public HashMap<String, Boolean> getMap() {
-        return map;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -56,28 +51,37 @@ public class StatusAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.status_item, parent, false);
         }
         TextView textView = convertView.findViewById(R.id.grid_tv);
-        Set<String> set = map.keySet();
         textView.setText(texts[position]);
         textView.setCompoundDrawablesWithIntrinsicBounds(null,
                 context.getDrawable(images[position]),
                 null,
                 null);
-        if(clickPosition == position) {
-            if(clickPosition == 0) {
-                textView.setBackgroundColor(Color.GRAY);
+        final String[] currentStatus = {null};
+        fireDoc.update(new CallBack() {
+            @Override
+            public void onResponse(Object data) {
+                currentStatus[0] = fireDoc.getStatus();
             }
-            if(!map.get(texts[position]) && status == 0 && clickPosition != 0) {
-                textView.setBackgroundColor(Color.parseColor("#FFBB86FC"));
-                map.replace(texts[position],true);
-                status += 1;
-            } else if (map.get(texts[position]) && status == 1) {
-                textView.setBackgroundColor(Color.TRANSPARENT);
-                map.replace(texts[position],false);
-                status -= 1;
+
+            @Override
+            public void onFail(String msg) {
+                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             }
+        });
+        if(position == 0) {
+            textView.setBackgroundColor(Color.GRAY);
+        }
+        else if(texts[position].equals(currentStatus[0]) && position != 0) {
+            textView.setBackgroundColor(Color.parseColor("#FFBB86FC"));
+        }
+        else {
+            textView.setBackgroundColor(Color.TRANSPARENT);
         }
         textView.setOnClickListener(v -> {
-            clickPosition = position;
+            if(position != 0) {
+                fireDoc.setKey("status",texts[position]);
+                fireDoc.setMapById();
+            }
             notifyDataSetChanged();
         });
         return convertView;

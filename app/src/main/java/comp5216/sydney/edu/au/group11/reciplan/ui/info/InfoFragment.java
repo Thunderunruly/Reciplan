@@ -29,11 +29,12 @@ import java.util.Set;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentInformationBinding;
+import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
+import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class InfoFragment extends Fragment {
 
-    private FirebaseAuth auth;
-    private FirebaseFirestore database;
+    private FireDoc doc;
     private boolean editMode;
     Button edit;
     ImageView imageView;
@@ -46,18 +47,15 @@ public class InfoFragment extends Fragment {
     Spinner prefer;
     Spinner level;
     String docId;
+    NavHostController controller;
     Map<String, Object> keys = new HashMap<>();
+    FragmentInformationBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        auth = FirebaseAuth.getInstance();
-        database = FirebaseFirestore.getInstance();
-        NavHostController controller = (NavHostController) Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-        if(auth.getCurrentUser() == null) {
-            Toast.makeText(getActivity(), "Please Log in", Toast.LENGTH_SHORT).show();
-            controller.navigate(R.id.person_log);
-        }
-        comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentInformationBinding binding = FragmentInformationBinding.inflate(inflater, container, false);
+        doc = new FireDoc(getContext());
+        controller = (NavHostController) Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+        binding = FragmentInformationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         name = binding.basicInfo.userName;
         email = binding.basicInfo.userId;
@@ -78,59 +76,61 @@ public class InfoFragment extends Fragment {
     }
 
     private void getInfo() {
-        database.collection("reciplan")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
-                        for(QueryDocumentSnapshot document:task.getResult()) {
-                            if(Objects.requireNonNull(auth.getCurrentUser()).getUid().equals(document.get("uid"))) {
-                                keys = document.getData();
-                                docId = document.getId();
-                                Set<String> nameTxt = keys.keySet();
-                                if(nameTxt.contains("username")) {
-                                    name.setText(Objects.requireNonNull(keys.get("username")).toString());
-                                    editName.setText(Objects.requireNonNull(keys.get("username")).toString());
-                                }
-                                if(nameTxt.contains("email")) {
-                                    email.setText(Objects.requireNonNull(keys.get("email")).toString());
-                                }
-                                if(nameTxt.contains("height")) {
-                                    editHeight.setText(Objects.requireNonNull(keys.get("height")).toString());
-                                }
-                                if(nameTxt.contains("weight")) {
-                                    editWeight.setText(Objects.requireNonNull(keys.get("weight")).toString());
-                                }
-                                String[] a = requireActivity().getResources().getStringArray(R.array.dietary);
-                                if(nameTxt.contains("dietary")) {
-                                    for(int i = 0; i < a.length; i++){
-                                        if(a[i].equals(Objects.requireNonNull(keys.get("dietary")).toString())){
-                                            dietary.setSelection(i);
-                                        }
-                                    }
-                                }
-                                String[] b = requireActivity().getResources().getStringArray(R.array.preferred);
-                                if(nameTxt.contains("preferred")) {
-                                    for(int i = 0; i < b.length; i++){
-                                        if(b[i].equals(Objects.requireNonNull(keys.get("preferred")).toString())){
-                                            prefer.setSelection(i);
-                                        }
-                                    }
-                                }
-                                String[] c = requireActivity().getResources().getStringArray(R.array.level);
-                                if(nameTxt.contains("level")) {
-                                    for(int i = 0; i < c.length; i++){
-                                        if(c[i].equals(Objects.requireNonNull(keys.get("level")).toString())){
-                                            level.setSelection(i);
-                                        }
-                                    }
-                                }
+        if(doc.checkLogin()) {
+            doc.update(new CallBack() {
+                @Override
+                public void onResponse(Object data) {
+                    keys = doc.getKeys();
+                    Set<String> nameTxt = keys.keySet();
+                    if(nameTxt.contains("username")) {
+                        name.setText(Objects.requireNonNull(keys.get("username")).toString());
+                        editName.setText(Objects.requireNonNull(keys.get("username")).toString());
+                    }
+                    if(nameTxt.contains("email")) {
+                        email.setText(Objects.requireNonNull(keys.get("email")).toString());
+                    }
+                    if(nameTxt.contains("height")) {
+                        editHeight.setText(Objects.requireNonNull(keys.get("height")).toString());
+                    }
+                    if(nameTxt.contains("weight")) {
+                        editWeight.setText(Objects.requireNonNull(keys.get("weight")).toString());
+                    }
+                    String[] a = requireActivity().getResources().getStringArray(R.array.dietary);
+                    if(nameTxt.contains("dietary")) {
+                        for(int i = 0; i < a.length; i++){
+                            if(a[i].equals(Objects.requireNonNull(keys.get("dietary")).toString())){
+                                dietary.setSelection(i);
                             }
                         }
                     }
-                    else {
-                        Toast.makeText(getActivity(), "Please Check Network Connection", Toast.LENGTH_SHORT).show();
+                    String[] b = requireActivity().getResources().getStringArray(R.array.preferred);
+                    if(nameTxt.contains("preferred")) {
+                        for(int i = 0; i < b.length; i++){
+                            if(b[i].equals(Objects.requireNonNull(keys.get("preferred")).toString())){
+                                prefer.setSelection(i);
+                            }
+                        }
                     }
-                });
+                    String[] c = requireActivity().getResources().getStringArray(R.array.level);
+                    if(nameTxt.contains("level")) {
+                        for(int i = 0; i < c.length; i++){
+                            if(c[i].equals(Objects.requireNonNull(keys.get("level")).toString())){
+                                level.setSelection(i);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFail(String msg) {
+                    Toast.makeText(getActivity(), "Please Check Network Connection", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            Toast.makeText(getActivity(), "Please Log in", Toast.LENGTH_SHORT).show();
+            controller.navigate(R.id.person_log);
+        }
     }
 
     private void switchMode() {
@@ -166,14 +166,14 @@ public class InfoFragment extends Fragment {
     }
 
     private void updateInfo() {
-        keys.put("username",editName.getText().toString());
-        keys.put("height",editHeight.getText().toString());
-        keys.put("weight",editWeight.getText().toString());
+        doc.setKey("username",editName.getText().toString());
+        doc.setKey("height",editHeight.getText().toString());
+        doc.setKey("weight",editWeight.getText().toString());
         dietary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String txt = requireActivity().getResources().getStringArray(R.array.dietary)[position];
-                keys.put("dietary",txt);
+                doc.setKey("dietary",txt);
             }
 
             @Override
@@ -185,7 +185,7 @@ public class InfoFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String txt = requireActivity().getResources().getStringArray(R.array.preferred)[position];
-                keys.put("preferred",txt);
+                doc.setKey("preferred",txt);
             }
 
             @Override
@@ -197,7 +197,7 @@ public class InfoFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String txt = requireActivity().getResources().getStringArray(R.array.level)[position];
-                keys.put("level",txt);
+                doc.setKey("level",txt);
             }
 
             @Override
@@ -206,16 +206,16 @@ public class InfoFragment extends Fragment {
             }
         });
         name.setText(Objects.requireNonNull(keys.get("username")).toString());
-        if(docId != null) {
-            database.collection("reciplan").document(docId)
-                    .set(keys).addOnCompleteListener(task -> {
-                        if(task.isSuccessful()) {
-                            Toast.makeText(getActivity(), "Change saved.", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(getActivity(), "Fail to update Information", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
+       doc.updateToFireBase(new CallBack() {
+           @Override
+           public void onResponse(Object data) {
+               Toast.makeText(getContext(), "Changes saved.", Toast.LENGTH_SHORT).show();
+           }
+
+           @Override
+           public void onFail(String msg) {
+               Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+           }
+       });
     }
 }

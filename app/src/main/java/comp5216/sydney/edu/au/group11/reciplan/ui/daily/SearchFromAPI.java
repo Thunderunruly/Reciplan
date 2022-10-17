@@ -73,6 +73,9 @@ public class SearchFromAPI {
                 map.put("maxProtein","50");
                 map.put("number","1");
                 break;
+            case "null":
+                map.put("minCalories","0");
+                break;
             default:
                 map.put("minCalories","0");
                 break;

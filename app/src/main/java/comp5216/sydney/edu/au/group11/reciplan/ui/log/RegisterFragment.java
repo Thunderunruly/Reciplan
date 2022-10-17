@@ -95,7 +95,7 @@ public class RegisterFragment extends Fragment {
     }
 
     private void update(Map<String, Object> user) {
-        doc.updateToFirebase(user, new CallBack<Object>() {
+        doc.addToDatabase(user, new CallBack<Object>() {
 
             @Override
             public void onResponse(Object data) {

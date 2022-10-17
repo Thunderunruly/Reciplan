@@ -1,14 +1,17 @@
 package comp5216.sydney.edu.au.group11.reciplan;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -24,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import comp5216.sydney.edu.au.group11.reciplan.databinding.ActivityMainBinding;
+import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 import comp5216.sydney.edu.au.group11.reciplan.ui.search.SearchDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -90,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             } while(true);
         }
     }
-    private Handler handler = new Handler(Looper.getMainLooper()) {
+    private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage (Message msg) {
             super.handleMessage(msg);
@@ -114,24 +118,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getInformation() {
-        database.collection("reciplan")
+        database.collection("reciplan").document(auth.getCurrentUser().getUid())
                 .get()
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
-                        for(QueryDocumentSnapshot document:task.getResult()) {
-                            if(auth.getCurrentUser().getUid().equals(document.get("uid"))) {
-                                keys = document.getData();
-                                String name = "Hello, " + keys.get("username");
-                                nameTxt.setText(name);
-                                if(document.get("status") == null) {
-                                    status = null;
-                                }
-                                else {
-                                    status = (String) keys.get("status");
-                                }
-                                setStatus();
-                            }
+                        keys = task.getResult().getData();
+                        String name = "Hello, " + keys.get("username");
+                        nameTxt.setText(name);
+                        if(keys.get("status") == null) {
+                            status = null;
                         }
+                        else {
+                            status = (String) keys.get("status");
+                        }
+                        setStatus();
+                        Handler handler = new Handler(Looper.getMainLooper()) {
+                            @Override
+                            public void handleMessage(@NonNull Message msg) {
+                                imageButton.setImageBitmap((Bitmap) msg.obj);
+                            }
+                        };
+                        ImageURL.requestImg(handler,keys.get("image").toString());
                     }
                     else {
                         Toast.makeText(MainActivity.this,

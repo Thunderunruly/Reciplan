@@ -20,11 +20,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
+import java.util.Map;
 import java.util.TimeZone;
 
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentDailyBinding;
+import comp5216.sydney.edu.au.group11.reciplan.firebase.FireDoc;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiBuilder;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiClient;
 import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
@@ -32,6 +34,7 @@ import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 
 public class DailyFragment extends Fragment {
     private FragmentDailyBinding binding;
+    private FireDoc doc;
 
     CheckBox dailyPlanBtn;
     Button detailBtn;
@@ -46,20 +49,12 @@ public class DailyFragment extends Fragment {
     private String path;
     private String summariseTxt;
     private String calorieValue;
-    private TextView time;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MainActivity mainActivity = (MainActivity) getActivity();
         assert mainActivity != null;
-        status = mainActivity.getStatus();
-        TimeThread timeThread = new TimeThread();
-        timeThread.start();
-        id = 1001;
-        nameTxt = "Pasta";
-        path = "https://spoonacular.com/recipeimages/716429-312x231.jpg";
-        summariseTxt = "recipe summary";
-        calorieValue = "0 kcal";
+        doc = new FireDoc(getContext());
         binding = FragmentDailyBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         imageView = binding.imageDisplay;
@@ -69,24 +64,31 @@ public class DailyFragment extends Fragment {
         calorie = binding.calorieValue;
         name = binding.dailyHeading;
         summary = binding.dailySummary;
-        setValue();
+        doc.update(new CallBack<Object>() {
+            @Override
+            public void onResponse(Object data) {
+                doc.checkDaily(new CallBack<Map<String, Object>>() {
+                    @Override
+                    public void onResponse(Map<String, Object> data) {
+                        //
+                    }
+
+                    @Override
+                    public void onFail(String msg) {
+                        dailySearch();
+                    }
+                });
+            }
+
+            @Override
+            public void onFail(String msg) {
+                dailySearch();
+            }
+        });
         dailyPlanBtn.setOnClickListener(this::dailyPlanBtnListener);
         likeBtn.setOnClickListener(this::dailyLikeBtnListener);
         detailBtn.setOnClickListener(this::goDetailFragment);
-        time = (TextView) binding.tvTime;
-        if(isNextDay()) {
-            dailySearch();
-        }
-        else {
-            // TODO  get from firebase
-        }
         return root;
-    }
-
-    private boolean isNextDay() {
-        String currentTime = (String) time.getText();
-        // TODO
-        return false;
     }
 
     private void setValue() {
@@ -133,6 +135,9 @@ public class DailyFragment extends Fragment {
     }
 
     private void dailySearch() {
+        if(status == null) {
+            status = "null";
+        }
         ApiBuilder builder =new ApiBuilder()
                 .Url("/recipes/complexSearch")
                 .Params(SearchFromAPI.statusBuilder(status))
@@ -178,70 +183,12 @@ public class DailyFragment extends Fragment {
     }
 
     private void checkLike() {
+        doc.checkLike(id);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    public class TimeThread extends Thread {
-        @Override
-        public void run () {
-            do {
-                try {
-                    Thread.sleep(1000);
-                    Message msg = new Message();
-                    String now = (String) time.getText();
-                    // TODO with firebase
-                    msg.what = 1;
-                    mHandler.sendMessage(msg);
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } while(true);
-        }
-    }
-
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage (Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    time.setText(getTime());
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    public String getTime() {
-        final Calendar c = Calendar.getInstance();
-        c.setTimeZone(TimeZone.getTimeZone("GMT+11:00"));
-        String mDay = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
-        String mHour = String.valueOf(c.get(Calendar.HOUR_OF_DAY));
-        String mMinute = String.valueOf(c.get(Calendar.MINUTE));
-        String mSecond = String.valueOf(c.get(Calendar.SECOND));
-        if("1".equals(mDay)) {
-            mDay = "Sunday";
-        } else if ("2".equals(mDay)) {
-            mDay = "Monday";
-        } else if ("3".equals(mDay)) {
-            mDay = "Tuesday";
-        } else if ("4".equals(mDay)) {
-            mDay = "Wednesday";
-        } else if ("5".equals(mDay)) {
-            mDay = "Thursday";
-        } else if ("6".equals(mDay)) {
-            mDay = "Friday";
-        } else if ("7".equals(mDay)) {
-            mDay = "Saturday";
-        }
-        return mDay + " " + mHour + ":" + mMinute + ":" + mSecond;
     }
 }

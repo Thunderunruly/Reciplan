@@ -16,8 +16,9 @@ public class FireDoc {
     private final FirebaseFirestore database;
     private final FirebaseAuth auth;
     private Context context;
-    private String id;
     private Map<String, Object> keys;
+    private String dailyId;
+    private Map<String, Object> daily;
 
     public FireDoc(Context context){
         this.context = context;
@@ -33,9 +34,11 @@ public class FireDoc {
         return false;
     }
 
-    public void updateToFirebase(Map<String, Object> keys, CallBack callBack) {
-        database.collection("reciplan")
-                .add(keys)
+
+
+    public void addToDatabase(Map<String, Object> keys, CallBack callBack) {
+        database.collection("reciplan").document(auth.getCurrentUser().getUid())
+                .set(keys)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         callBack.onResponse((task));
@@ -47,7 +50,7 @@ public class FireDoc {
     }
 
     public void setMapById() {
-        database.collection("reciplan").document(id)
+        database.collection("reciplan").document(auth.getCurrentUser().getUid())
                 .set(keys)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
@@ -58,20 +61,34 @@ public class FireDoc {
                 });
     }
 
-    public void update() {
-        database.collection("reciplan")
+    public void update(CallBack callBack) {
+        if(checkLogin()) {
+            database.collection("reciplan").document(auth.getCurrentUser().getUid())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()) {
+                            keys = task.getResult().getData();
+                            callBack.onResponse(task);
+                        }
+                        else {
+                            callBack.onFail("Fail to connect to database");
+                        }
+                    });
+        }
+        else {
+            callBack.onFail("login");
+        }
+    }
+    public void updateWithOutCheck(CallBack callBack) {
+        database.collection("reciplan").document(auth.getCurrentUser().getUid())
                 .get()
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
-                        for(QueryDocumentSnapshot document:task.getResult()) {
-                            if (auth.getCurrentUser().getUid().equals(document.get("uid"))) {
-                                keys = document.getData();
-                                id = document.getId();
-                            }
-                        }
+                        keys = task.getResult().getData();
+                        callBack.onResponse(task);
                     }
                     else {
-                        Toast.makeText(context, "Fail to connect to database", Toast.LENGTH_SHORT).show();
+                        callBack.onFail("Fail to connect to database");
                     }
                 });
     }
@@ -93,7 +110,7 @@ public class FireDoc {
                 .addOnCompleteListener(task -> {
                     keys.put("username",username);
                     keys.put("email",emailAddress);
-                    keys.put("uid",auth.getCurrentUser().getUid());
+                    keys.put("image","https://spoonacular.com/recipeimages/716429-312x231.jpg");
                     if(task.isSuccessful()) {
                         callBack.onResponse(task);
                     }
@@ -103,15 +120,116 @@ public class FireDoc {
                 });
     }
 
+    public String getStatus() {
+        for(String name: keys.keySet()) {
+            if(name.equals("status")) {
+                return (String) keys.get(name);
+            }
+        }
+        return null;
+    }
+
     public void setKey(String name,Object obj) {
         keys.put(name, obj);
     }
 
-    public String getId() {
-        return id;
-    }
-
     public Map<String, Object> getKeys() {
         return keys;
+    }
+
+    public void checkDaily(CallBack callBack) {
+        database.collection("reciplan").document(auth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        if(task.getResult().getString("dailyId") == null) {
+                            addDaily(new CallBack<String>() {
+                                @Override
+                                public void onResponse(String data) {
+                                    getDaily(data, new CallBack<Map<String, Object>>() {
+                                        @Override
+                                        public void onResponse(Map<String, Object> data) {
+                                            // final
+                                            callBack.onResponse(data);
+                                        }
+
+                                        @Override
+                                        public void onFail(String msg) {
+                                            callBack.onFail(msg);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFail(String msg) {
+                                    callBack.onFail(msg);
+                                }
+                            });
+                        }
+                        else {
+                            getDaily(task.getResult().getString("dailyId"), new CallBack<Map<String, Object>>() {
+                                @Override
+                                public void onResponse(Map<String, Object> data) {
+                                    callBack.onResponse(data);
+                                }
+
+                                @Override
+                                public void onFail(String msg) {
+                                    callBack.onFail(msg);
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        callBack.onFail("Fail to connect database");
+                    }
+                });
+    }
+
+    private void getDaily(String dailyId, CallBack<Map<String, Object>> callBack) {
+        database.collection("reciplan").document(auth.getCurrentUser().getUid())
+                .collection("daily").document(dailyId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        daily = (Map<String, Object>) task.getResult();
+                        callBack.onResponse((Map<String, Object>) task.getResult());
+                    }
+                    else {
+                        callBack.onFail("Fail to get daily item from database");
+                    }
+                });
+    }
+
+    private void addDaily(CallBack<String> callBack) {
+        database.collection("reciplan").document(auth.getCurrentUser().getUid())
+                .collection("daily")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        for(QueryDocumentSnapshot document:task.getResult()) {
+                            callBack.onResponse(document.getId());
+                        }
+                    }
+                    else {
+                        callBack.onFail("Fail to backup daily");
+                    }
+                });
+    }
+
+    public void checkLike(int id) {
+    }
+
+    public void updateToFireBase(CallBack callBack) {
+        database.collection("reciplan").document(auth.getCurrentUser().getUid())
+                .set(keys)
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        callBack.onResponse(task);
+                    }
+                    else {
+                        callBack.onFail("Fail to backup");
+                    }
+                });
     }
 }
