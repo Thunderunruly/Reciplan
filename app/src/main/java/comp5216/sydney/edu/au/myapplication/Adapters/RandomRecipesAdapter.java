@@ -38,6 +38,7 @@ public class RandomRecipesAdapter extends RecyclerView.Adapter<RandomRecipeViewH
         holder.textViewTitle.setText(list.get(position).title);
         holder.textViewTitle.setSelected(true);
         holder.textViewLike.setText(list.get(position).aggregateLikes+"likes");
+//        holder.textViewServings.setText(Double.toString(list.get(position).pricePerServing));
         holder.textViewServings.setText(list.get(position).servings+"Servings");
         holder.textViewTime.setText(list.get(position).readyInMinutes+"Mins");
         Picasso.get().load(list.get(position).image).into(holder.imageViewFood);

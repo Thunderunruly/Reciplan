@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinner;
     String minProtein = "20";
     String maxCalories = "500";
-    Button refreshButton;
+    ImageButton refreshButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
