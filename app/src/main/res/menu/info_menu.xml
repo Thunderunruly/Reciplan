@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_like"
+            android:icon="@drawable/like_icon"
+            android:title="My Favorite"/>
+        <item
+            android:id="@+id/info_status"
+            android:icon="@drawable/status_icon"
+            android:title="My Status"/>
+        <item
+            android:id="@+id/info_information"
+            android:icon="@drawable/info_icon"
+            android:title="My Information"/>
+        <item android:id="@+id/person_log"
+            android:icon="@drawable/ic_logout"
+            android:title="Log Out"/>
+    </group>
+</menu>

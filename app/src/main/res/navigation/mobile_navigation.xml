@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.daily.DailyFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_daily" />
+    <!-- TODO -->
+    <fragment
+        android:id="@+id/navigation_plan"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:label="@string/title_plan"
+        tools:layout="@layout/fragment_home" />
+    <!-- TODO -->
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/search_dialog"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.search.SearchDialogFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search_dialog"/>
+    <fragment
+        android:id="@+id/navigation_like"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.like.LikeFragment"
+        android:label="@string/title_like"
+        tools:layout="@layout/fragment_like" />
+    <!-- TODO -->
+    <fragment
+        android:id="@+id/navigation_categories"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:label="@string/title_categories"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/info_status"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.status.StatusFragment"
+        android:label="@string/title_status"
+        tools:layout="@layout/fragment_status"/>
+    <fragment
+        android:id="@+id/info_information"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.info.InfoFragment"
+        android:label="@string/title_info"
+        tools:layout="@layout/fragment_information"/>
+    <!-- TODO -->
+    <fragment
+        android:id="@+id/person_log"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.home.HomeFragment"
+        android:label="@string/title_like"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/recipe_detail"
+        android:name="comp5216.sydney.edu.au.group11.reciplan.ui.detail.DetailFragment"
+        android:label="@string/title_detail"
+        tools:layout="@layout/fragment_detail"/>
+</navigation>

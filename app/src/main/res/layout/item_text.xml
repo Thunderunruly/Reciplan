@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:minWidth="40dp"
+        android:id="@+id/item_text"
+        android:gravity="center"
+        android:textSize="19sp"
+        android:button="@null"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:layout_margin="2dp"
+        android:text="@string/todo"
+        android:textColor="@drawable/item_color"
+        android:background="@drawable/item_check"
+        android:backgroundTint="@color/white"
+        android:foreground="@drawable/item_check"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
