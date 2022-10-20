@@ -40,46 +40,50 @@ public class LikeFragment extends Fragment {
             controller.navigate(R.id.person_log);
             return null;
         }
-        likeAdapter = new LikeAdapter(items, getContext(), (id,name,url) -> {
-            MainActivity mainActivity = (MainActivity) getActivity();
-            if (mainActivity != null) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", id);
-                bundle.putString("name",name);
-                bundle.putString("image",url);
-                mainActivity.showDetail(bundle);
-            }
-        });
-        gridView.setAdapter(likeAdapter);
-        database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
-            .collection("likes")
-            .get()
-            .addOnCompleteListener(task -> {
-                if(task.isSuccessful()){
-                    items = new ArrayList<>();
-                    for(QueryDocumentSnapshot document: task.getResult()){
-                        items.add(new LikeItem(document.getId(),
-                                Integer.parseInt(document.get("id") + ""),
-                                Objects.requireNonNull(document.get("title")).toString(),
-                                Objects.requireNonNull(document.get("image")).toString(),
-                                Double.parseDouble(document.get("calories") + "")));
-                    }
-                    likeAdapter.notifyDataSetChanged();
-                }
-                else{
-                    Toast.makeText(getContext(), "Fail to connect to database", Toast.LENGTH_SHORT).show();
-                }
-            });
+        if(MainActivity.auth.getCurrentUser() != null) {
+            database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+                    .collection("likes")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            items = new ArrayList<>();
+                            for(QueryDocumentSnapshot document: task.getResult()){
+                                items.add(new LikeItem(Integer.parseInt(document.get("id") + ""),
+                                        Objects.requireNonNull(document.get("title")).toString(),
+                                        Objects.requireNonNull(document.get("image")).toString(),
+                                        Double.parseDouble(document.get("calories") + ""),
+                                        document.get("unit").toString()));
+                            }
+                            likeAdapter = new LikeAdapter(items, getContext(),this, (id,name,url) -> {
+                                MainActivity mainActivity = (MainActivity) getActivity();
+                                if (mainActivity != null) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("case","likes");
+                                    bundle.putBoolean("likes",true);
+                                    bundle.putInt("id", id);
+                                    bundle.putString("name",name);
+                                    bundle.putString("image",url);
+                                    mainActivity.showDetail(bundle);
+                                }
+                            });
+                            gridView.setAdapter(likeAdapter);
+                        }
+                        else{
+                            Toast.makeText(getContext(), "Fail to connect to database", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
         return root;
     }
 
-    public void deleteItem(String doc) {
+    public void deleteItem(int id) {
         database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
                 .collection("likes")
-                .document(doc)
+                .document(id+"")
                 .delete()
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
+                        likeAdapter.notifyDataSetChanged();
                         Toast.makeText(getContext(), "Recipe Removed", Toast.LENGTH_SHORT).show();
                     }
                     else {

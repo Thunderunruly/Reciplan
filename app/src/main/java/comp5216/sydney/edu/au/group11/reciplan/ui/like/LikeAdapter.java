@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -29,11 +30,13 @@ public class LikeAdapter extends BaseAdapter {
 
     private final ArrayList<LikeItem> items;
     private final Context context;
+    private final LikeFragment fragment;
     private final Item item;
 
-    public LikeAdapter(ArrayList<LikeItem> items, Context context, Item item) {
+    public LikeAdapter(ArrayList<LikeItem> items, Context context,LikeFragment fragment, Item item) {
         this.items = items;
         this.context = context;
+        this.fragment = fragment;
         this.item = item;
     }
 
@@ -68,10 +71,9 @@ public class LikeAdapter extends BaseAdapter {
                 imageView.setImageBitmap((Bitmap) msg.obj);
             }
         };
-        Log.d("image",items.get(position).getImgURL());
         ImageURL.requestImg(handler, items.get(position).getImgURL());
         String nameTxt = items.get(position).getRecipeName();
-        String calTxt = items.get(position).getCalorieVal() + " Cal";
+        String calTxt = items.get(position).getCalorieVal() + " " + items.get(position).getUnit();
         name.setText(nameTxt);
         calorie.setText(calTxt);
         delete.setOnClickListener(v -> deleteItem(position));
@@ -96,8 +98,7 @@ public class LikeAdapter extends BaseAdapter {
                 .setMessage("Do you want to delete the recipe '" + items.get(position).getRecipeName() + "'.")
                 .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    LikeFragment likeFragment = new LikeFragment();
-                    likeFragment.deleteItem(items.get(position).getDoc());
+                    fragment.deleteItem(items.get(position).getId());
                 })
                 .create();
         alertDialog.show();

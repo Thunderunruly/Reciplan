@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
@@ -24,7 +25,7 @@ public class StatusAdapter extends BaseAdapter {
     private final String[] texts = {"STATUS:","Happy", "Sad", "Anxiety", "Insomnia", "Exhaustion", "Resting", "Fitness",
             "Working", "Sickness", "Lose Weight"};
     private final Context context;
-    private Map<String, Object> keys;
+    Map<String,Object> keys = new HashMap<>();
     public StatusAdapter(Context context) {
         this.context = context;
         database = FirebaseFirestore.getInstance();
@@ -57,14 +58,12 @@ public class StatusAdapter extends BaseAdapter {
                 context.getDrawable(images[position]),
                 null,
                 null);
-        final String[] currentStatus = {null};
         if(MainActivity.auth.getCurrentUser() != null) {
             database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
                     .get()
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
-                            keys = (Map<String, Object>) task.getResult();
-                            currentStatus[0] = task.getResult().getString("status");
+                            keys = task.getResult().getData();
                         }
                         else{
                             Toast.makeText(context, "Fail to connect", Toast.LENGTH_SHORT).show();
@@ -74,7 +73,7 @@ public class StatusAdapter extends BaseAdapter {
         if(position == 0) {
             textView.setBackgroundColor(Color.GRAY);
         }
-        else if(texts[position].equals(currentStatus[0]) && position != 0) {
+        else if(texts[position].equals(keys.get("status"))) {
             textView.setBackgroundColor(Color.parseColor("#FFBB86FC"));
         }
         else {

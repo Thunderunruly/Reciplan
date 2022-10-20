@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private String status = null;
     NavController navController;
     DrawerLayout drawerLayout;
-    boolean login = false;
+    public AuthThread thread;
     Map<String,Object> keys = new HashMap<>();
 
     @Override
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         dialogFragment = new SearchDialogFragment();
-        AuthThread thread = new AuthThread();
+        thread = new AuthThread();
         database = FirebaseFirestore.getInstance();
         setSupportActionBar(binding.appBarMain.toolbar);
         drawerLayout = binding.drawerLayout;
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.appBarMain.navView, navController);
         NavigationUI.setupWithNavController(binding.barView, navController);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.bar_view);
+        NavigationView navigationView = findViewById(R.id.bar_view);
         log = navigationView.getMenu().findItem(R.id.person_log);
         imageButton = binding.appBarMain.titleNav.imageIcon;
         iconNav = navigationView.getHeaderView(0).findViewById(R.id.avatarImage);
@@ -92,36 +90,44 @@ public class MainActivity extends AppCompatActivity {
     public class AuthThread extends Thread {
         @Override
         public void run () {
-            Message msg = new Message();
             do {
                 try {
-                    Thread.sleep(1000);
-                    msg.what = 0;
+                    Thread.sleep(2000);
+                    Message msg = new Message();
                     if(auth.getCurrentUser() != null) {
-                        msg.what = 1;
+                        if(handler.obtainMessage().what == 1) {
+                            msg.what = 2;
+                        }
+                        else {
+                            msg.what = 1;
+                        }
                     }
-                    if(msgWhat != msg.what) {
-                        handler.sendMessage(msg);
+                    else {
+                        msg.what = 0;
                     }
+                    handler.sendMessage(msg);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            } while(true);
+            } while (true);
         }
     }
+
     private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage (Message msg) {
+            super.handleMessage(msg);
             if(msg.what != msgWhat) {
                 msgWhat = msg.what;
             }
             switch (msgWhat) {
                 case 0:
-                    changeLabel(false);
+                    changeLabel();
                     setDefault();
                     break;
                 case 1:
-                    changeLabel(true);
+                case 2:
+                    changeLabel();
                     getInformation();
                     break;
             }
@@ -132,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
         nameTxt.setText("Please Log In");
         nameTextNav.setText("Please Log In");
         emailAddressNav.setVisibility(View.INVISIBLE);
-        iconNav.setBackground(this.getDrawable(R.mipmap.ic_launcher_round));
-        imageButton.setBackground(this.getDrawable(R.mipmap.ic_launcher_round));
+        iconNav.setBackground(getResources().getDrawable(R.mipmap.ic_launcher_round));
+        imageButton.setBackground(getResources().getDrawable(R.mipmap.ic_launcher_round));
     }
 
     private void getInformation() {
@@ -181,11 +187,8 @@ public class MainActivity extends AppCompatActivity {
         ImageURL.requestImg(handler1,image);
     }
 
-    private void changeLabel(boolean mode) {
-        if(mode != login) {
-            login = mode;
-        }
-        if(login) {
+    private void changeLabel() {
+        if(auth.getCurrentUser() != null) {
             log.setTitle("Log Out");
             log.setIcon(R.drawable.ic_logout);
         }

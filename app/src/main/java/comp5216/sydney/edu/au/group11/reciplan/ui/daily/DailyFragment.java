@@ -21,7 +21,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.type.DateTime;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
@@ -35,7 +37,6 @@ import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 public class DailyFragment extends Fragment {
     private FragmentDailyBinding binding;
     private FirebaseFirestore database;
-
     CheckBox dailyPlanBtn;
     Button detailBtn;
     CheckBox likeBtn;
@@ -43,12 +44,9 @@ public class DailyFragment extends Fragment {
     TextView calorie;
     TextView name;
     TextView summary;
+    Map<String, Object> keys = new HashMap<>();
+    Map<String, Object> daily = new HashMap<>();
     private String status;
-    private int id;
-    private String nameTxt;
-    private String path;
-    private String summariseTxt;
-    private String calorieValue;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -69,8 +67,10 @@ public class DailyFragment extends Fragment {
                     .get()
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
-                            Map<String,Object> daily = (Map<String, Object>) task.getResult().get("daily");
-                            if(daily != null){}
+                            keys = task.getResult().getData();
+                            if(keys.containsKey("daily")) {
+                                getDaily();
+                            }
                             else {
                                 dailySearch();
                             }
@@ -81,12 +81,33 @@ public class DailyFragment extends Fragment {
                     });
         }
         else {
-            dailySearch();
+            noRandom();
         }
         dailyPlanBtn.setOnClickListener(this::dailyPlanBtnListener);
         likeBtn.setOnClickListener(this::dailyLikeBtnListener);
         detailBtn.setOnClickListener(this::goDetailFragment);
         return root;
+    }
+
+    private void noRandom() {
+        database.collection("reciplan").document("daily")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        daily = task.getResult().getData();
+                        if(daily != null) {
+                            setValue();
+                        }
+                        else {
+                            dailySearch();
+                        }
+                    }
+                });
+    }
+
+    private void getDaily() {
+        daily = (Map<String, Object>) keys.get("daily");
+        setValue();
     }
 
     private void setValue() {
@@ -96,29 +117,82 @@ public class DailyFragment extends Fragment {
                 imageView.setImageBitmap((Bitmap) msg.obj);
             }
         };
-        // TODO check like and plan
-        ImageURL.requestImg(handler, path);
-        String calTxt = calorieValue;
+        checkLike(daily.get("id").toString());
+        ImageURL.requestImg(handler, (String) daily.get("image"));
+        String calTxt = daily.get("calories") + " " + daily.get("unit");
         calorie.setText(calTxt);
-        name.setText(nameTxt);
-        summary.setText(Html.fromHtml(summariseTxt, Html.FROM_HTML_MODE_LEGACY));
+        name.setText((String) daily.get("title"));
+        summary.setText(Html.fromHtml((String) daily.get("summary"), Html.FROM_HTML_MODE_LEGACY));
         summary.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     private void goDetailFragment(View v) {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        Bundle bundle = new Bundle();
-        bundle.putInt("id",id);
-        bundle.putString("name",nameTxt);
-        bundle.putString("image",path);
-        bundle.putString("calories",calorieValue);
-        bundle.putString("summary",summariseTxt);
-        if (mainActivity != null) {
-            mainActivity.showDetail(bundle);
+        if(daily != null) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            Bundle bundle = new Bundle();
+            bundle.putString("case","daily");
+            if(likeBtn.isSelected()) {
+                bundle.putBoolean("likes",true);
+            }
+            else {
+                bundle.putBoolean("likes",false);
+            }
+            bundle.putInt("id", (Integer) daily.get("id"));
+            bundle.putString("name", (String) daily.get("title"));
+            bundle.putString("image", (String) daily.get("image"));
+            bundle.putString("calories",daily.get("calories") + " " + daily.get("unit"));
+            bundle.putString("summary", (String) daily.get("summary"));
+            if(mainActivity != null) {
+                mainActivity.showDetail(bundle);
+            }
         }
     }
 
     private void dailyLikeBtnListener(View v) {
+        if(!likeBtn.isSelected()) {
+            if(MainActivity.auth.getCurrentUser() != null) {
+                likeBtn.setSelected(true);
+                addToLike();
+            }
+            else {
+                likeBtn.setSelected(false);
+                Toast.makeText(getContext(), "Please Log In to add.", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            removeLike();
+            likeBtn.setSelected(false);
+        }
+    }
+
+    private void removeLike() {
+        database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+                .collection("likes")
+                .document(daily.get("id")+"")
+                .delete().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getContext(), "Like Removed.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Please check you connection.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void addToLike() {
+        if(MainActivity.auth.getCurrentUser() != null) {
+            database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+                    .collection("likes")
+                    .document(daily.get("id") + "")
+                    .set(daily)
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()) {
+                            Toast.makeText(getContext(), "Recipe saved", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Fail to add, Please check you connection.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     private void dailyPlanBtnListener(View v) {
@@ -143,12 +217,14 @@ public class DailyFragment extends Fragment {
         ApiClient.getInstance().dailyGet(builder, new CallBack<DailyItem>() {
             @Override
             public void onResponse(DailyItem data) {
-                id = data.getId();
-                nameTxt = data.getTitle();
-                path = data.getImage();
-                calorieValue = data.getCalories() + " " + data.getUnit();
-                updateSummary(id);
-                checkLike();
+                System.out.println(DateTime.getDefaultInstance());
+                daily.put("id",data.getId());
+                daily.put("title",data.getTitle());
+                daily.put("image",data.getImage());
+                daily.put("imageType",data.getImageType());
+                daily.put("calories",data.getCalories());
+                daily.put("unit",data.getUnit());
+                updateSummary(data.getId());
             }
 
             @Override
@@ -165,7 +241,7 @@ public class DailyFragment extends Fragment {
         ApiClient.getInstance().summaryGet(builder, new CallBack<String>() {
             @Override
             public void onResponse(String data) {
-                summariseTxt = data;
+                daily.put("summary",data);
                 updateToDatabase();
                 setValue();
             }
@@ -178,19 +254,42 @@ public class DailyFragment extends Fragment {
     }
 
     private void updateToDatabase() {
-        // TODO
+        if(MainActivity.auth.getCurrentUser() != null) {
+            keys.put("daily",daily);
+            database.collection("reciplan")
+                    .document(MainActivity.auth.getCurrentUser().getUid())
+                    .set(keys)
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                        }
+                        else{
+                            Toast.makeText(getContext(), "Fail to connect to database", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        else {
+            database.collection("reciplan").document("daily")
+                    .set(daily)
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()) {}
+                        else {}
+                    });
+        }
     }
 
-    private void checkLike() {
+    private void checkLike(String id) {
         if(MainActivity.auth.getCurrentUser() != null) {
             database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
                     .collection("likes")
                     .get()
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
+                            likeBtn.setSelected(false);
+                            likeBtn.setChecked(false);
                             for(QueryDocumentSnapshot document:task.getResult()){
-                                if(id ==(int) document.get("id")) {
+                                if(document.getId().equals(id)) {
                                     likeBtn.setSelected(true);
+                                    likeBtn.setChecked(true);
                                 }
                             }
                         }

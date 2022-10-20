@@ -76,7 +76,7 @@ public class InfoFragment extends Fragment {
             database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
                 .get()
                 .addOnCompleteListener(task -> {
-                    keys = (Map<String, Object>) task.getResult();
+                    keys = task.getResult().getData();
                     Set<String> nameTxt = keys.keySet();
                     if(nameTxt.contains("username")) {
                         name.setText(Objects.requireNonNull(keys.get("username")).toString());
@@ -91,7 +91,7 @@ public class InfoFragment extends Fragment {
                     if(nameTxt.contains("weight")) {
                         editWeight.setText(Objects.requireNonNull(keys.get("weight")).toString());
                     }
-                    String[] a = requireActivity().getResources().getStringArray(R.array.dietary);
+                    String[] a = requireContext().getResources().getStringArray(R.array.dietary);
                     if(nameTxt.contains("dietary")) {
                         for(int i = 0; i < a.length; i++){
                             if(a[i].equals(Objects.requireNonNull(keys.get("dietary")).toString())){
@@ -99,7 +99,7 @@ public class InfoFragment extends Fragment {
                             }
                         }
                     }
-                    String[] b = requireActivity().getResources().getStringArray(R.array.preferred);
+                    String[] b = requireContext().getResources().getStringArray(R.array.preferred);
                     if(nameTxt.contains("preferred")) {
                         for(int i = 0; i < b.length; i++){
                             if(b[i].equals(Objects.requireNonNull(keys.get("preferred")).toString())){
@@ -107,7 +107,7 @@ public class InfoFragment extends Fragment {
                             }
                         }
                     }
-                    String[] c = requireActivity().getResources().getStringArray(R.array.level);
+                    String[] c = requireContext().getResources().getStringArray(R.array.level);
                     if(nameTxt.contains("level")) {
                         for(int i = 0; i < c.length; i++){
                             if(c[i].equals(Objects.requireNonNull(keys.get("level")).toString())){
@@ -156,13 +156,16 @@ public class InfoFragment extends Fragment {
     }
 
     private void updateInfo() {
+        if(!keys.containsKey("email") && MainActivity.auth.getCurrentUser() != null) {
+            keys.put("email",MainActivity.auth.getCurrentUser().getEmail());
+        }
         keys.put("username",editName.getText().toString());
         keys.put("height",editHeight.getText().toString());
         keys.put("weight",editWeight.getText().toString());
         dietary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String txt = requireActivity().getResources().getStringArray(R.array.dietary)[position];
+                String txt = requireContext().getResources().getStringArray(R.array.dietary)[position];
                 keys.put("dietary",txt);
             }
 
@@ -174,7 +177,7 @@ public class InfoFragment extends Fragment {
         prefer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String txt = requireActivity().getResources().getStringArray(R.array.preferred)[position];
+                String txt = requireContext().getResources().getStringArray(R.array.preferred)[position];
                 keys.put("preferred",txt);
             }
 
@@ -186,7 +189,7 @@ public class InfoFragment extends Fragment {
         level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String txt = requireActivity().getResources().getStringArray(R.array.level)[position];
+                String txt = requireContext().getResources().getStringArray(R.array.level)[position];
                 keys.put("level",txt);
             }
 
@@ -199,7 +202,7 @@ public class InfoFragment extends Fragment {
         database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
             .set(keys)
             .addOnCompleteListener(task -> {
-                if(task.isSuccessful()){
+                if(task.isSuccessful()) {
                     Toast.makeText(getContext(), "Changes saved", Toast.LENGTH_SHORT).show();
                 }
                 else{
