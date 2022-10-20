@@ -1,14 +1,20 @@
 package comp5216.sydney.edu.au.group11.reciplan;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -16,13 +22,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import comp5216.sydney.edu.au.group11.reciplan.databinding.ActivityMainBinding;
+import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 import comp5216.sydney.edu.au.group11.reciplan.ui.search.SearchDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,9 +41,14 @@ public class MainActivity extends AppCompatActivity {
     public FirebaseFirestore database;
     public static FirebaseAuth auth;
     ImageButton imageButton;
+    ImageView iconNav;
+    TextView nameTextNav;
+    TextView emailAddressNav;
     ImageButton search;
     TextView statusTxt;
     TextView nameTxt;
+    MenuItem log;
+    int msgWhat = 0;
     private String status = null;
     NavController navController;
     DrawerLayout drawerLayout;
@@ -59,12 +73,19 @@ public class MainActivity extends AppCompatActivity {
         new AppBarConfiguration.Builder(R.id.app_bar_main).build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.appBarMain.navView, navController);
+        NavigationUI.setupWithNavController(binding.barView, navController);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.bar_view);
+        log = navigationView.getMenu().findItem(R.id.person_log);
         imageButton = binding.appBarMain.titleNav.imageIcon;
+        iconNav = navigationView.getHeaderView(0).findViewById(R.id.avatarImage);
+        nameTextNav = navigationView.getHeaderView(0).findViewById(R.id.userName);
+        emailAddressNav = navigationView.getHeaderView(0).findViewById(R.id.userId);
         search = binding.appBarMain.titleNav.recipeSearch;
         statusTxt = binding.appBarMain.titleNav.status;
         nameTxt = binding.appBarMain.titleNav.name;
         listener(drawerLayout, navController);
         search.setOnClickListener(v -> doSelect());
+        setDefault();
         thread.start();
     }
 
@@ -72,43 +93,67 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run () {
             Message msg = new Message();
-            msg.what = 0;
-            while(auth.getCurrentUser() != null) {
-                msg.what = 1;
-                handler.sendMessage(msg);
-            }
-            handler.sendMessage(msg);
+            do {
+                try {
+                    Thread.sleep(1000);
+                    msg.what = 0;
+                    if(auth.getCurrentUser() != null) {
+                        msg.what = 1;
+                    }
+                    if(msgWhat != msg.what) {
+                        handler.sendMessage(msg);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } while(true);
         }
     }
     private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage (Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 1) {
-                changeLabel(0);
-                getInformation();
-            } else {
-                changeLabel(1);
-                setDefault();
+            if(msg.what != msgWhat) {
+                msgWhat = msg.what;
+            }
+            switch (msgWhat) {
+                case 0:
+                    changeLabel(false);
+                    setDefault();
+                    break;
+                case 1:
+                    changeLabel(true);
+                    getInformation();
+                    break;
             }
         }
     };
 
     private void setDefault() {
         nameTxt.setText("Please Log In");
+        nameTextNav.setText("Please Log In");
+        emailAddressNav.setVisibility(View.INVISIBLE);
+        iconNav.setBackground(this.getDrawable(R.mipmap.ic_launcher_round));
+        imageButton.setBackground(this.getDrawable(R.mipmap.ic_launcher_round));
     }
 
     private void getInformation() {
-        database.collection("reciplan").document(auth.getCurrentUser().getUid())
+        database.collection("reciplan")
+                .document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
                 .get()
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         keys = task.getResult().getData();
                         String name = null;
+                        String email  = null;
                         if (keys != null) {
                             name = "Hello, " + keys.get("username");
+                            email = keys.get("email") + "";
+                            nameTxt.setText(name);
+                            nameTextNav.setText(name);
+                            emailAddressNav.setText(email);
+                            emailAddressNav.setVisibility(View.VISIBLE);
                         }
-                        nameTxt.setText(name);
+                        setIcon(keys.get("image") + "");
                         if(keys.get("status") == null) {
                             status = null;
                         }
@@ -125,15 +170,35 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void changeLabel(int mode) {
-        login = mode == 0;
+    private void setIcon(String image) {
+        Handler handler1 = new Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                imageButton.setImageBitmap((Bitmap) msg.obj);
+                iconNav.setImageBitmap((Bitmap) msg.obj);
+            }
+        };
+        ImageURL.requestImg(handler1,image);
+    }
+
+    private void changeLabel(boolean mode) {
+        if(mode != login) {
+            login = mode;
+        }
+        if(login) {
+            log.setTitle("Log Out");
+            log.setIcon(R.drawable.ic_logout);
+        }
+        else {
+            log.setTitle("Log In");
+            log.setIcon(R.drawable.ic_login);
+        }
         supportInvalidateOptionsMenu();
     }
 
     private void listener(DrawerLayout drawerLayout, NavController navController) {
         nameTxt.setOnClickListener(v -> {
             drawerLayout.open();
-            NavigationUI.setupWithNavController(binding.barView, navController);
         });
         statusTxt.setOnClickListener(v -> {
             drawerLayout.open();
@@ -161,26 +226,6 @@ public class MainActivity extends AppCompatActivity {
     public String getStatus() {
         return status;
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.info_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.clear();
-        getMenuInflater().inflate(R.menu.info_menu,menu);
-        if(login) {
-            menu.findItem(R.id.person_log).setTitle("Log Out").setIcon(R.drawable.ic_logout);
-        }
-        else {
-            menu.findItem(R.id.person_log).setTitle("Log In").setIcon(R.drawable.ic_login);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
 
     public void showDetail(Bundle bundle) {
         navController.navigate(R.id.recipe_detail,bundle);

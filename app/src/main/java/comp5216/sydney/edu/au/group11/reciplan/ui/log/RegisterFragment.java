@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
@@ -26,10 +27,10 @@ import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentRegisterBindi
 
 public class RegisterFragment extends Fragment {
 
-    private static final String REGEX = "^(?![\\d]+$)(?![A-Za-z]+$)(?![_*@!#%?$]+$)[\\dA-Za-z_*@!#%?$]{6,16}$";
     FirebaseFirestore database;
     ProgressDialog dialog;
     private NavHostController controller;
+    private final String url = "https://spoonacular.com/recipeimages/716429-312x231.jpg";
     TextView login;
     EditText name;
     EditText email;
@@ -41,8 +42,12 @@ public class RegisterFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         database = FirebaseFirestore.getInstance();
         dialog = new ProgressDialog(getContext());
-        FragmentRegisterBinding binding = FragmentRegisterBinding.inflate(inflater, container, false);
-        controller = (NavHostController) Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+        dialog.setTitle("Progress");
+        FragmentRegisterBinding binding = FragmentRegisterBinding.inflate(inflater,
+                container,
+                false);
+        controller = (NavHostController) Navigation.findNavController(requireActivity(),
+                R.id.nav_host_fragment_activity_main);
         View root = binding.getRoot();
         login = binding.LoginNowBtn;
         name = binding.userName;
@@ -60,25 +65,25 @@ public class RegisterFragment extends Fragment {
         final String emailAddress = email.getText().toString();
         final String passwordTxt = password.getText().toString();
         final String confirmPassword = confirm.getText().toString();
+        String REGEX = "^(?![\\d]+$)(?![A-Za-z]+$)(?![_*@!#%?$]+$)[\\dA-Za-z_*@!#%?$]{6,16}$";
         if(username.isEmpty() || emailAddress.isEmpty() || passwordTxt.isEmpty()) {
-            Toast.makeText(getActivity(), "Please fill all fields.",
-                    Toast.LENGTH_SHORT).show();
+            popMessage("Please fill all fields.");
         }
         else if(passwordTxt.length() < 6) {
-            Toast.makeText(getActivity(), "Password required at least 6 characters.", Toast.LENGTH_SHORT).show();
+            popMessage("Password required at least 6 characters.");
         }
         else if(passwordTxt.length() > 16) {
-            Toast.makeText(getActivity(), "Password required no more than 16 characters.", Toast.LENGTH_SHORT).show();
+            popMessage("Password required no more than 16 characters.");
         }
-        else if(!isMatched(passwordTxt,REGEX)) {
-            Toast.makeText(getActivity(), "Password need to contains at least 2 type: char, numbers or special(#, @).", Toast.LENGTH_SHORT).show();
+        else if(!isMatched(passwordTxt, REGEX)) {
+            popMessage("Password need to contains at least 2 type:\nchar, numbers or special(#, @).");
         }
         else if(!passwordTxt.equals(confirmPassword)){
-            Toast.makeText(getActivity(), "Password are not matching.",
-                    Toast.LENGTH_SHORT).show();
+            popMessage("Password are not matching.");
         }
         else {
-            dialog.show(getActivity(),"Progress","Register...");
+            dialog.setMessage("Register...");
+            dialog.show();
             MainActivity.auth.createUserWithEmailAndPassword(emailAddress,passwordTxt)
                             .addOnCompleteListener(task -> {
                                 if(task.isSuccessful()){
@@ -86,48 +91,53 @@ public class RegisterFragment extends Fragment {
                                 }
                                 else{
                                     dialog.dismiss();
-                                    Toast.makeText(getContext(), "Fail to register. the Email address might be used.", Toast.LENGTH_SHORT).show();
+                                    popMessage("Fail to register. the Email address might be used.");
                                 }
                             });
         }
     }
 
     public boolean isMatched(String value, String regex) {
-        return value == null ? false :  value.matches(regex);
+        return value != null && value.matches(regex);
     }
 
     private void login(String emailAddress, String passwordTxt, String username) {
-        dialog.show(getActivity(),"Progress:","Log In...");
+        dialog.setMessage("Login...");
         Map<String,Object> keys = new HashMap<>();
         MainActivity.auth.signInWithEmailAndPassword(emailAddress,passwordTxt)
                         .addOnCompleteListener(task -> {
                             if(task.isSuccessful()){
                                 keys.put("username",username);
                                 keys.put("email",emailAddress);
-                                keys.put("image","https://spoonacular.com/recipeimages/716429-312x231.jpg");
+                                keys.put("image",url);
                                 update(keys);
                             }
                             else{
                                 dialog.dismiss();
-                                Toast.makeText(getContext(), "Fail to Login", Toast.LENGTH_SHORT).show();
+                                popMessage("Fail to Login");
                                 controller.popBackStack();
                             }
                         });
     }
 
     private void update(Map<String, Object> user) {
-        database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
-                        .set(user)
-                        .addOnCompleteListener(task -> {
-                            if(task.isSuccessful()){
-                                dialog.dismiss();
-                                controller.navigate(R.id.navigation_home);
-                            }
-                            else{
-                                dialog.dismiss();
-                                Toast.makeText(getContext(), "Fail to set database", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+        database.collection("reciplan")
+                .document(Objects.requireNonNull(MainActivity.auth.getCurrentUser()).getUid())
+                .set(user)
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        dialog.dismiss();
+                        controller.navigate(R.id.navigation_home);
+                    }
+                    else{
+                        dialog.dismiss();
+                        popMessage("Fail to set database");
+                    }
+                });
+    }
+
+    private void popMessage(String s) {
+        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 
     private void loginNow(View v) {
