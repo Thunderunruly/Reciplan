@@ -6,16 +6,20 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import comp5216.sydney.edu.au.group11.reciplan.entity.DataBean;
+import comp5216.sydney.edu.au.group11.reciplan.entity.DataEntity;
 import comp5216.sydney.edu.au.group11.reciplan.ui.daily.DailyItem;
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
@@ -84,7 +88,6 @@ public class ApiClient {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("result", response.toString());
                 Object o = null;
                 try {
                     if (response.body() == null) {
@@ -114,11 +117,8 @@ public class ApiClient {
     }
 
     public void dailyGet(ApiBuilder builder, final CallBack<DailyItem> onCallback) {
-
         ApiService service = getService();
-
         Call<ResponseBody> call = service.get(checkHeaders(builder.headers), builder.url, checkParams(builder.params));
-
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -150,7 +150,48 @@ public class ApiClient {
                     onCallback.onFail("Error");
                 }
             }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                onCallback.onFail(t.getMessage());
+                Log.d("NET---", t.getMessage());
+            }
+        });
+    }
 
+    public void normalGet(ApiBuilder builder, final CallBack<DataEntity> onCallback) {
+        ApiService service = getService();
+        Call<ResponseBody> call = service.get(checkHeaders(builder.headers), builder.url, checkParams(builder.params));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                DataEntity data = new DataEntity();
+                List<DataBean> bean = new ArrayList<>();
+                try {
+                    if(response.body() != null) {
+                        String string = response.body().string();
+                        JSONObject object = new JSONObject(string);
+                        JSONArray array = object.getJSONArray("results");
+                        for(int i = 0; i < array.length();i++) {
+                            JSONObject object1 = array.getJSONObject(i);
+                            int id = object1.getInt("id");
+                            String title = object1.getString("title");
+                            String image = object1.getString("image");
+                            String imageType = object1.getString("imageType");
+                            DataBean dataBean = new DataBean();
+                            dataBean.setId(id);
+                            dataBean.setTitle(title);
+                            dataBean.setImage(image);
+                            dataBean.setImageType(imageType);
+                            bean.add(dataBean);
+                        }
+                        data.setData(bean);
+                        onCallback.onResponse(data);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    onCallback.onFail("Error");
+                }
+            }
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 onCallback.onFail(t.getMessage());

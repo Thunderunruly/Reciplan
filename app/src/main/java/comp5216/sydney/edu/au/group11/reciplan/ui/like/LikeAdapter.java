@@ -85,11 +85,12 @@ public class LikeAdapter extends BaseAdapter {
         int id = items.get(position).getId();
         String name = items.get(position).getRecipeName();
         String url = items.get(position).getImgURL();
-        item.showDetail(id,name,url);
+        String cal = items.get(position).getCalorieVal() + " " + items.get(position).getUnit();
+        item.showDetail(id,name,url,cal);
     }
 
     public interface Item {
-        void showDetail(int id, String name, String url);
+        void showDetail(int id, String name, String url,String cal);
     }
 
     private void deleteItem(int position) {

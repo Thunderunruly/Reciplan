@@ -1,7 +1,6 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.search;
 
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
@@ -18,11 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
-import comp5216.sydney.edu.au.group11.reciplan.databinding.ActivityMainBinding;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentSearchBinding;
+import comp5216.sydney.edu.au.group11.reciplan.entity.DataBean;
 import comp5216.sydney.edu.au.group11.reciplan.entity.DataEntity;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiBuilder;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiClient;
@@ -56,18 +54,13 @@ public class SearchFragment extends Fragment {
     }
 
     private void normalSearch(View v) {
-        StringBuilder in = new StringBuilder(input.getText().toString());
-        String[] arr = in.toString().split(" ");
-        in = new StringBuilder();
-        for (String s : arr) {
-            in.append(s).append("+");
-        }
+        String in = input.getText().toString();
         ApiBuilder builder=new ApiBuilder()
-                .Url("/recipes/guessNutrition")
-                .Params("title", in.toString())
+                .Url("/recipes/complexSearch")
+                .Params("query", in)
                 .Params("number",10+"")
                 .Params("apiKey",getResources().getString(R.string.apikey));
-        ApiClient.getInstance().doGet(builder,new CallBack<DataEntity>(){
+        ApiClient.getInstance().normalGet(builder,new CallBack<DataEntity>(){
             @Override
             public void onResponse(DataEntity data) {
                 if (data.getData().size()>0){
@@ -79,7 +72,7 @@ public class SearchFragment extends Fragment {
             public void onFail(String msg) {
                 Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
             }
-        }, DataEntity.class, getContext());
+        });
     }
 
     private void doSearch(Bundle bundle) {
@@ -100,6 +93,6 @@ public class SearchFragment extends Fragment {
             public void onFail(String msg) {
                 Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
             }
-        }, DataEntity.class, getContext());
+        },DataEntity.class,getContext());
     }
 }

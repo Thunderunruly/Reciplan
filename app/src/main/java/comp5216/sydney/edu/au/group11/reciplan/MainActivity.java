@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                             emailAddressNav.setText(email);
                             emailAddressNav.setVisibility(View.VISIBLE);
                         }
-                        setIcon(keys.get("image") + "");
+//                        setIcon(keys.get("image") + "");
                         if(keys.get("status") == null) {
                             status = null;
                         }

@@ -54,7 +54,7 @@ public class LikeFragment extends Fragment {
                                         Double.parseDouble(document.get("calories") + ""),
                                         document.get("unit").toString()));
                             }
-                            likeAdapter = new LikeAdapter(items, getContext(),this, (id,name,url) -> {
+                            likeAdapter = new LikeAdapter(items, getContext(),this, (id,name,url,cal) -> {
                                 MainActivity mainActivity = (MainActivity) getActivity();
                                 if (mainActivity != null) {
                                     Bundle bundle = new Bundle();
@@ -63,6 +63,7 @@ public class LikeFragment extends Fragment {
                                     bundle.putInt("id", id);
                                     bundle.putString("name",name);
                                     bundle.putString("image",url);
+                                    bundle.putString("calories",cal);
                                     mainActivity.showDetail(bundle);
                                 }
                             });

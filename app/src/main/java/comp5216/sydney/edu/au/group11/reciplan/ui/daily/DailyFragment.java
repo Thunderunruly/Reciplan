@@ -19,12 +19,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.type.DateTime;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
@@ -110,7 +113,27 @@ public class DailyFragment extends Fragment {
 
     private void getDaily() {
         daily = (Map<String, Object>) keys.get("daily");
+        if(daily.containsKey("timestamp")) {
+            checkTime(daily.get("timestamp"));
+        }
+        else {
+            updateToDatabase();
+        }
         setValue();
+    }
+
+    private void checkTime(Object time) {
+        Date current = Timestamp.now().toDate();
+        Timestamp cloud = (Timestamp) time;
+        Date old = cloud.toDate();
+        if(dateDiff(old,current) >= 1) {
+            dailySearch();
+        }
+    }
+
+    private int dateDiff(Date old, Date current) {
+        int days = (int) (current.getTime() - old.getTime()) / (1000 * 3600 * 24);
+        return days;
     }
 
     private void setValue() {
@@ -140,7 +163,8 @@ public class DailyFragment extends Fragment {
             else {
                 bundle.putBoolean("likes",false);
             }
-            bundle.putInt("id", (Integer) daily.get("id"));
+            String sid = Objects.requireNonNull(daily.get("id")).toString();
+            bundle.putInt("id", Integer.parseInt(sid));
             bundle.putString("name", (String) daily.get("title"));
             bundle.putString("image", (String) daily.get("image"));
             bundle.putString("calories",daily.get("calories") + " " + daily.get("unit"));
@@ -257,6 +281,7 @@ public class DailyFragment extends Fragment {
     }
 
     private void updateToDatabase() {
+        addCurrentTime();
         if(MainActivity.auth.getCurrentUser() != null) {
             keys.put("daily",daily);
             database.collection("reciplan")
@@ -278,6 +303,11 @@ public class DailyFragment extends Fragment {
                         else {}
                     });
         }
+    }
+
+    private void addCurrentTime() {
+        Timestamp timestamp = Timestamp.now();
+        daily.put("timestamp",timestamp);
     }
 
     private void checkLike(String id) {

@@ -102,8 +102,13 @@ public class SearchDialogFragment extends DialogFragment {
     }
 
     private void goNext() {
-        if (step == 4)
+        if (step == 4) {
+            Bundle bundle = new Bundle();
+            bundle.putString("key",textView.getText().toString());
+            this.dismiss();
+            controller.navigate(R.id.navigation_search,bundle);
             return;
+        }
         step++;
         switch (step) {
             case 1:
@@ -117,12 +122,6 @@ public class SearchDialogFragment extends DialogFragment {
                 break;
             case 4:
                 toCondiment();
-                break;
-            case 5:
-                Bundle bundle = new Bundle();
-                bundle.putString("key",textView.getText().toString());
-                this.dismiss();
-                controller.navigate(R.id.navigation_search,bundle);
                 break;
         }
     }
