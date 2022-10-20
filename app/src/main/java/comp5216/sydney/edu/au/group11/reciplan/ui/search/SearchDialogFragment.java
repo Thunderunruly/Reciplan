@@ -46,6 +46,16 @@ public class SearchDialogFragment extends DialogFragment {
             , "goose liver", "pork", "chop", "streaky"
             , "mutton", "sausage", "fishball", "pilchard", "cod"
             , "pomfret", "beef", "veal", "chicken"};
+
+    private final String[] equipStrings = new String[]{"pan", "oven", "frying pan"
+            , "pie form","bowl","cooking Spoon","kettle","mixer"
+            ,"steamer","stockpot","wok","saucepan"};
+
+    private final String[] condimentStrings = new String[]{"Salt", "Oli", "Vinegar"
+            , "Sugar","Salad Dressing","scallions","peanut oil","Cheese"
+            ,"semolina","vegetable oil","water","ketchup","Soy Sauce","Nutella","Mustard"
+            ,"BBQ Sauce","Vegan Mayonnaise","Sour Cream","Honey","Wasabi"
+            ,"Fish Sauce","black pepper","white pepper"};
     private DialogRecycleViewAdapter adapter;
     NavHostController controller;
 
@@ -103,14 +113,16 @@ public class SearchDialogFragment extends DialogFragment {
                 toMeat();
                 break;
             case 3:
-                // TODO
+                toEquipment();
+                break;
+            case 4:
+                toCondiment();
+                break;
+            case 5:
                 Bundle bundle = new Bundle();
                 bundle.putString("key",textView.getText().toString());
                 this.dismiss();
                 controller.navigate(R.id.navigation_search,bundle);
-                break;
-            case 4:
-                // TODO
                 break;
         }
     }
@@ -127,10 +139,10 @@ public class SearchDialogFragment extends DialogFragment {
                 toMeat();
                 break;
             case 3:
-                // TODO
+                toEquipment();
                 break;
             case 4:
-                // TODO
+                toCondiment();
         }
     }
 
@@ -177,6 +189,25 @@ public class SearchDialogFragment extends DialogFragment {
         adapter.clear();
         adapter.addAll(Arrays.asList(meatStrings));
     }
+
+    public void toEquipment() {
+        setLineColor(Collections.singletonList(line1),R.color.line);
+        setLineColor(Collections.singletonList(line2),R.color.line);
+        setLineColor(Arrays.asList(line3),R.color.line_false);
+        setTextColor(Arrays.asList(step1,step2,step3), R.color.line);
+        setTextColor(Arrays.asList(step4), R.color.line_false);
+        adapter.clear();
+        adapter.addAll(Arrays.asList(equipStrings));
+    }
+    public void toCondiment() {
+        setLineColor(Collections.singletonList(line1),R.color.line);
+        setLineColor(Collections.singletonList(line2),R.color.line);
+        setLineColor(Collections.singletonList(line3),R.color.line);
+        setTextColor(Arrays.asList(step1,step2,step3,step4), R.color.line);
+        adapter.clear();
+        adapter.addAll(Arrays.asList(condimentStrings));
+    }
+
     private void setTextColor(List<CheckBox> checkBoxes, int p) {
         for (CheckBox view : checkBoxes) {
             view.setTextColor(requireContext().getColor(p));

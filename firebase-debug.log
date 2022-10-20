@@ -1,0 +1,22 @@
+[debug] [2022-10-20T13:10:39.475Z] ----------------------------------------------------------------------
+[debug] [2022-10-20T13:10:39.478Z] Command:       C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2022-10-20T13:10:39.478Z] CLI Version:   11.10.0
+[debug] [2022-10-20T13:10:39.479Z] Platform:      win32
+[debug] [2022-10-20T13:10:39.479Z] Node Version:  v18.9.0
+[debug] [2022-10-20T13:10:39.488Z] Time:          Thu Oct 20 2022 21:10:39 GMT+0800 (中国标准时间)
+[debug] [2022-10-20T13:10:39.488Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-10-20T13:10:39.746Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-10-20T13:10:39.747Z] > authorizing via signed-in user (hyao2302@uni.sydney.edu.au)
+[debug] [2022-10-20T13:10:39.748Z] [iam] checking project reciplan-4d3f0 for permissions ["firebase.projects.get"]
+[debug] [2022-10-20T13:10:39.750Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/reciplan-4d3f0:testIamPermissions [none]
+[debug] [2022-10-20T13:10:39.750Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/reciplan-4d3f0:testIamPermissions x-goog-quota-user=projects/reciplan-4d3f0
+[debug] [2022-10-20T13:10:39.751Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/reciplan-4d3f0:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-10-20T13:11:00.911Z] [iam] error while checking permissions, command may fail: FirebaseError: Failed to make request to https://cloudresourcemanager.googleapis.com/v1/projects/reciplan-4d3f0:testIamPermissions
+[debug] [2022-10-20T13:11:00.913Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/reciplan-4d3f0 [none]
+[debug] [2022-10-20T13:11:22.034Z] Failed to make request to https://firebase.googleapis.com/v1beta1/projects/reciplan-4d3f0
+[debug] [2022-10-20T13:11:22.305Z] FirebaseError: Failed to make request to https://firebase.googleapis.com/v1beta1/projects/reciplan-4d3f0
+    at RetryOperation._fn (C:\Users\yhs30\AppData\Roaming\nvm\v18.9.0\node_modules\firebase-tools\lib\apiv2.js:242:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[error] 
+[error] Error: Failed to get Firebase project reciplan-4d3f0. Please make sure the project exists and your account has permission to access it.

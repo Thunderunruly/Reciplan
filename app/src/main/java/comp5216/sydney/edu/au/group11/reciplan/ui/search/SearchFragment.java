@@ -56,7 +56,30 @@ public class SearchFragment extends Fragment {
     }
 
     private void normalSearch(View v) {
-        String in = input.getText().toString();
+        StringBuilder in = new StringBuilder(input.getText().toString());
+        String[] arr = in.toString().split(" ");
+        in = new StringBuilder();
+        for (String s : arr) {
+            in.append(s).append("+");
+        }
+        ApiBuilder builder=new ApiBuilder()
+                .Url("/recipes/guessNutrition")
+                .Params("title", in.toString())
+                .Params("number",10+"")
+                .Params("apiKey",getResources().getString(R.string.apikey));
+        ApiClient.getInstance().doGet(builder,new CallBack<DataEntity>(){
+            @Override
+            public void onResponse(DataEntity data) {
+                if (data.getData().size()>0){
+                    searchRecyclerViewAdapter.addAll(data.getData());
+                }
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
+            }
+        }, DataEntity.class, getContext());
     }
 
     private void doSearch(Bundle bundle) {

@@ -102,6 +102,9 @@ public class DailyFragment extends Fragment {
                             dailySearch();
                         }
                     }
+                    else {
+                        Toast.makeText(getContext(), "Fail to connect.", Toast.LENGTH_SHORT).show();
+                    }
                 });
     }
 
