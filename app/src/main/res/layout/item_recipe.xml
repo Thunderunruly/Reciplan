@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/item_show"
+    android:elevation="1dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/grid_item_border">
     <ImageView
