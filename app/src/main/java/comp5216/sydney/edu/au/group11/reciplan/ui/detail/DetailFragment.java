@@ -183,6 +183,9 @@ public class DetailFragment extends Fragment {
         else if(caseName.equals("search")) {
             getFromSearch(bundle);
         }
+        else if(caseName.equals("plan")){
+            getFromPlan(bundle);
+        }
     }
 
     private void getFromDaily(int id) {
@@ -221,6 +224,42 @@ public class DetailFragment extends Fragment {
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
+        }
+    }
+
+    private void getFromPlan(Bundle bundle) {
+        String string = bundle.getString("data");
+        JsonObject jsonObject = gson.fromJson(string,JsonObject.class);
+        Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
+        for(Map.Entry<String,JsonElement> entry: entrySet) {
+            Object obj = gson.fromJson(entry.getValue(),Object.class);
+            keys.put(entry.getKey(),obj);
+        }
+        System.out.println(keys.toString());
+        if(keys.containsKey("summary")) {
+            summarise.setText(Html.fromHtml((String) keys.get("summary")
+                    ,Html.FROM_HTML_MODE_LEGACY));
+        }
+        else {
+            doSummarySearch(id);
+        }
+        if(keys.containsKey("ingredients")) {
+            ingredients.setText(Html.fromHtml((String) keys.get("ingredients")
+                    ,Html.FROM_HTML_MODE_LEGACY));
+        }
+        else {
+            getIngredients(id);
+        }
+        if(keys.containsKey("method")) {
+            String string1 = gson.toJson(keys.get("method"));
+            Method methodTxt = gson.fromJson(string1,Method.class);
+            if (methodTxt != null) {
+                method.setText(Html.fromHtml(methodTxt.toString()
+                        ,Html.FROM_HTML_MODE_LEGACY));
+            }
+        }
+        else {
+            getMethod(id);
         }
     }
 

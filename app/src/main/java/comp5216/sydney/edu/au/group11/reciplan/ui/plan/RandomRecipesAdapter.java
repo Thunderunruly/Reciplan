@@ -1,6 +1,7 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.plan;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,23 +10,29 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.materials.Recipe;
 
 public class RandomRecipesAdapter extends RecyclerView.Adapter<RandomRecipeViewHolder> {
+    FragmentActivity activity;
     Context context;
+    Gson gson = new Gson();
     ArrayList<Recipe> list;
     String[] weekdays = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday", "Sunday"};
 
-    public RandomRecipesAdapter(Context context, ArrayList<Recipe> list) {
+    public RandomRecipesAdapter(FragmentActivity activity, Context context, ArrayList<Recipe> list) {
         this.context = context;
         this.list = list;
+        this.activity = activity;
     }
 
     @NonNull
@@ -45,7 +52,20 @@ public class RandomRecipesAdapter extends RecyclerView.Adapter<RandomRecipeViewH
         holder.textViewServings.setText("    +" +list.get(position).servings+"");
         holder.textViewTime.setText(list.get(position).readyInMinutes+"Mins");
         Picasso.get().load(list.get(position).image).into(holder.imageViewFood);
+        holder.randomListContainer.setOnClickListener(v -> clickToShow(position));
+    }
 
+    private void clickToShow(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putString("case","plan");
+        bundle.putInt("id",list.get(position).id);
+        bundle.putString("title",list.get(position).title);
+        bundle.putString("image",list.get(position).image);
+        bundle.putString("summary",list.get(position).summary);
+        bundle.putString("imageType",list.get(position).imageType);
+        bundle.putString("data",gson.toJson(list.get(position)));
+        MainActivity mainActivity = (MainActivity) activity;
+        mainActivity.showDetail(bundle);
     }
 
     @Override
@@ -68,7 +88,5 @@ class RandomRecipeViewHolder extends RecyclerView.ViewHolder{
         textViewTime = itemView.findViewById(R.id.textView_time);
         imageViewFood = itemView.findViewById(R.id.imageView_food);
         textViewWeekday = itemView.findViewById(R.id.weekday);
-
-
     }
 }

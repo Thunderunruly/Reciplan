@@ -15,4 +15,5 @@
     <color name="line">#12AED6</color>
     <color name="line_false">#515151</color>
     <color name="orange">#70250D</color>
+    <color name="yellow">#FFC107</color>
 </resources>

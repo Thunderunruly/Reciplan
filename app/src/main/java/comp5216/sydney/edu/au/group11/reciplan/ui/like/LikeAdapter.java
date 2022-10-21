@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -61,7 +62,7 @@ public class LikeAdapter extends BaseAdapter {
         ConstraintLayout layout = convertView.findViewById(R.id.item_show);
         ImageView imageView = convertView.findViewById(R.id.item_img);
         TextView name = convertView.findViewById(R.id.item_name);
-        TextView calorie = convertView.findViewById(R.id.item_calorie);
+        TextView subText = convertView.findViewById(R.id.item_calorie);
         ImageButton delete = convertView.findViewById(R.id.item_delete);
         Handler handler = new Handler(Looper.getMainLooper()){
             @Override
@@ -75,13 +76,23 @@ public class LikeAdapter extends BaseAdapter {
         if(items.get(position).getUnit().equals("likes")) {
             int l = (int) items.get(position).getCalorieVal();
             String like = "likes " + l;
-            calorie.setText(like);
-            calorie.setCompoundDrawables(null,null,null,null);
+            subText.setText(like);
+            subText.setCompoundDrawablesWithIntrinsicBounds(
+                    ContextCompat.getDrawable(context,R.drawable.likes_text_10),
+                    null, null, null);
+        }
+        else if(items.get(position).getUnit().equals("healthScore")) {
+            int l = (int) items.get(position).getCalorieVal();
+            String score = "Health Score: " + l;
+            subText.setText(score);
+            subText.setCompoundDrawablesWithIntrinsicBounds(null,null,
+                    ContextCompat.getDrawable(context,R.drawable.score_text_10),
+                null);
         }
         else {
             String calTxt = items.get(position).getCalorieVal() + " "
                     + items.get(position).getUnit();
-            calorie.setText(calTxt);
+            subText.setText(calTxt);
         }
         delete.setOnClickListener(v -> deleteItem(position));
         layout.setOnClickListener(v -> goDetailFragment(position));

@@ -50,8 +50,8 @@ public class LikeFragment extends Fragment {
                             for(QueryDocumentSnapshot document: task.getResult()){
                                 int num = Integer.parseInt(document.getId());
                                 System.out.println(num);
-                                String cal =  "";
-                                String unit = "";
+                                String cal;
+                                String unit;
                                 if(document.contains("calories")) {
                                     cal = document.get("calories").toString();
                                     unit = (String) document.get("unit");
@@ -59,6 +59,14 @@ public class LikeFragment extends Fragment {
                                 else if(document.contains("likes")) {
                                     cal = document.get("likes").toString();
                                     unit = "likes";
+                                }
+                                else if(document.contains("healthScore")) {
+                                    cal = document.get("healthScore").toString();
+                                    unit = "healthScore";
+                                }
+                                else {
+                                    cal = "0";
+                                    unit = "";
                                 }
                                 items.add(new LikeItem(num,
                                         Objects.requireNonNull(document.get("title")).toString(),

@@ -63,7 +63,7 @@ public class PlanFragment extends Fragment {
             recyclerView = binding.recyclerRandom;
             recyclerView .setHasFixedSize(true);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
-            randomRecipesAdapter = new RandomRecipesAdapter(getContext(), response.recipes);
+            randomRecipesAdapter = new RandomRecipesAdapter(getActivity(),getContext(), response.recipes);
 
             recyclerView.setAdapter(randomRecipesAdapter);
         }
