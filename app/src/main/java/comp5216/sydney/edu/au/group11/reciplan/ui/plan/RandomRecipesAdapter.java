@@ -18,7 +18,7 @@ import comp5216.sydney.edu.au.group11.reciplan.materials.Recipe;
 
 public class RandomRecipesAdapter extends RecyclerView.Adapter<RandomRecipeViewHolder> {
     Context context;
-    List<Recipe> list;
+    ArrayList<Recipe> list;
     String[] weekdays = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday", "Sunday"};
 
     public RandomRecipesAdapter(Context context, ArrayList<Recipe> list) {
