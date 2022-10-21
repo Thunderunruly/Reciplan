@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
-
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -33,7 +29,8 @@ public class LikeAdapter extends BaseAdapter {
     private final LikeFragment fragment;
     private final Item item;
 
-    public LikeAdapter(ArrayList<LikeItem> items, Context context,LikeFragment fragment, Item item) {
+    public LikeAdapter(ArrayList<LikeItem> items, Context context,
+                       LikeFragment fragment, Item item) {
         this.items = items;
         this.context = context;
         this.fragment = fragment;
@@ -58,7 +55,8 @@ public class LikeAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_recipe, parent, false);
+            convertView = LayoutInflater.from(context)
+                    .inflate(R.layout.item_recipe,parent, false);
         }
         ConstraintLayout layout = convertView.findViewById(R.id.item_show);
         ImageView imageView = convertView.findViewById(R.id.item_img);
@@ -73,9 +71,18 @@ public class LikeAdapter extends BaseAdapter {
         };
         ImageURL.requestImg(handler, items.get(position).getImgURL());
         String nameTxt = items.get(position).getRecipeName();
-        String calTxt = items.get(position).getCalorieVal() + " " + items.get(position).getUnit();
         name.setText(nameTxt);
-        calorie.setText(calTxt);
+        if(items.get(position).getUnit().equals("likes")) {
+            int l = (int) items.get(position).getCalorieVal();
+            String like = "likes " + l;
+            calorie.setText(like);
+            calorie.setCompoundDrawables(null,null,null,null);
+        }
+        else {
+            String calTxt = items.get(position).getCalorieVal() + " "
+                    + items.get(position).getUnit();
+            calorie.setText(calTxt);
+        }
         delete.setOnClickListener(v -> deleteItem(position));
         layout.setOnClickListener(v -> goDetailFragment(position));
         return convertView;
@@ -96,11 +103,11 @@ public class LikeAdapter extends BaseAdapter {
     private void deleteItem(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         AlertDialog alertDialog = builder.setTitle("Warning: ")
-                .setMessage("Do you want to delete the recipe '" + items.get(position).getRecipeName() + "'.")
+                .setMessage("Do you want to delete the recipe '"
+                        + items.get(position).getRecipeName() + "'.")
                 .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
-                .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    fragment.deleteItem(items.get(position).getId());
-                })
+                .setPositiveButton(R.string.ok, (dialog, which) ->
+                        fragment.deleteItem(items.get(position).getId()))
                 .create();
         alertDialog.show();
     }

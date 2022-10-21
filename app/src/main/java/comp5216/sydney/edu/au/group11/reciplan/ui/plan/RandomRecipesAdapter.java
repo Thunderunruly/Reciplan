@@ -13,11 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import comp5216.sydney.edu.au.group11.reciplan.R;
-import comp5216.sydney.edu.au.group11.reciplan.ui.plan.Models.Recipe;
+import comp5216.sydney.edu.au.group11.reciplan.materials.Recipe;
 
 public class RandomRecipesAdapter extends RecyclerView.Adapter<RandomRecipeViewHolder> {
     Context context;

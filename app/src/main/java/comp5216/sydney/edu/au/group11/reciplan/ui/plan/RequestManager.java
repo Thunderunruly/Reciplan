@@ -3,7 +3,7 @@ package comp5216.sydney.edu.au.group11.reciplan.ui.plan;
 import android.content.Context;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
-import comp5216.sydney.edu.au.group11.reciplan.ui.plan.Models.RandomRecipeApiResponse;
+import comp5216.sydney.edu.au.group11.reciplan.materials.RandomRecipeApiResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

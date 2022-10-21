@@ -67,10 +67,19 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="20dp"/>
         <TextView
+            android:id="@+id/mixedIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintTop_toBottomOf="@id/detailIngredients"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
             android:id="@+id/methodTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/detailIngredients"
+            app:layout_constraintTop_toBottomOf="@id/mixedIngredients"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="10dp"
             android:text="@string/method"

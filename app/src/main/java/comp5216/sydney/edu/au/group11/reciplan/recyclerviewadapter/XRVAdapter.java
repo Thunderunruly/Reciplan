@@ -14,16 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import java.util.List;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
-
-/**
- * @author yuyh.
- * @date 2016/7/21.
- */
 public abstract class XRVAdapter<T> extends RecyclerView.Adapter<XRVHolder> implements DataHelper<T> {
-
-    /****
-     * 头部相关
-     */
     public static final int TYPE_HEADER = -1, TYPE_FOOTER = -2;
     private View mHeaderView, mFooterView;
     private int headerViewId = -1, footerViewId = -2;
@@ -113,11 +104,6 @@ public abstract class XRVAdapter<T> extends RecyclerView.Adapter<XRVHolder> impl
         position = getPosition(position);
         return getLayoutIndex(position, mList.get(position));
     }
-
-    /*****
-     * 处理 GridLayoutManager
-     * @param recyclerView
-     */
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -132,11 +118,6 @@ public abstract class XRVAdapter<T> extends RecyclerView.Adapter<XRVHolder> impl
             });
         }
     }
-
-    /*****
-     * 处理   StaggeredGridLayoutManager
-     * @param holder
-     */
     @Override
     public void onViewAttachedToWindow(XRVHolder holder) {
         super.onViewAttachedToWindow(holder);
@@ -153,31 +134,12 @@ public abstract class XRVAdapter<T> extends RecyclerView.Adapter<XRVHolder> impl
         }
         return position;
     }
-
-    /**
-     * 指定item布局样式在layoutIds的索引。默认为第一个
-     *
-     * @param position
-     * @param item
-     * @return
-     */
     public int getLayoutIndex(int position, T item) {
         return 0;
     }
-
-    /**
-     * 指定网络图片加载器，不指定则默认用全局注册的
-     *
-     * @return
-     */
     public AdapterImageLoader.ImageLoader getImageLoader() {
         return null;
     }
-
-    /****
-     * 设置头部
-     * @param headerViewId
-     */
     public View setHeaderView(int headerViewId) {
         return setHeaderView(headerViewId, null);
     }
@@ -216,10 +178,6 @@ public abstract class XRVAdapter<T> extends RecyclerView.Adapter<XRVHolder> impl
         }
     }
 
-    /****
-     * 获取头部
-     * @return
-     */
     public View getHeaderView() {
         return mHeaderView;
     }
@@ -330,19 +288,9 @@ public abstract class XRVAdapter<T> extends RecyclerView.Adapter<XRVHolder> impl
     public void setOnItemLongClickListener(OnItemLongClickListener<T> itemLongClickListener) {
         this.itemLongClickListener = itemLongClickListener;
     }
-
-    /****
-     * RecyclerView Item 的点击事件
-     * @param <T>
-     */
     public interface OnItemClickListener<T> {
         void onItemClick(View view, int position, T item);
     }
-
-    /****
-     * RecyclerView Item 的长按事件
-     * @param <T>
-     */
     public interface OnItemLongClickListener<T> {
         void onItemLongClick(View view, int position, T item);
     }

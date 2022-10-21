@@ -3,18 +3,10 @@ package comp5216.sydney.edu.au.group11.reciplan.net;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.RequestBody;
-
 public class ApiBuilder {
     Map<String, String> params ;
     Map<String, String> headers ;
-    RequestBody body;
     String url;
-
-    public ApiBuilder Body(RequestBody  body){
-        this.body = body;
-        return this;
-    }
 
     public ApiBuilder Params(Map<String, String> params) {
         this.params.putAll(params);
@@ -26,32 +18,18 @@ public class ApiBuilder {
         return this;
     }
 
-    public ApiBuilder Headers(Map<String, String> headers) {
-        this.headers.putAll(headers);
-        return this;
-    }
-
-    public ApiBuilder Headers(String key, String value) {
-        this.headers.put(key, value);
-        return this;
-    }
-
     public ApiBuilder Url(String url) {
         this.url = url;
         return this;
     }
 
-    public ApiBuilder(String url) {
-        this.setParams(url);
-    }
-
     public ApiBuilder() {
-        this.setParams(null);
+        this.setParams();
     }
 
 
-    private void setParams(String url) {
-        this.url = url;
+    private void setParams() {
+        this.url = null;
         this.params = new HashMap<>();
         this.headers = new HashMap<>();
     }

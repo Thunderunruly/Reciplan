@@ -1,5 +1,6 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.status;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -18,6 +21,7 @@ import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 
 public class StatusAdapter extends BaseAdapter {
+    private final ProgressDialog dialog;
     private final FirebaseFirestore database;
     private final int[] images = {R.drawable.ic_status,R.drawable.ic_happy, R.drawable.ic_sad, R.drawable.ic_anxiety,
             R.drawable.ic_insomnia, R.drawable.ic_exhaustion, R.drawable.ic_resting, R.drawable.ic_fitness,
@@ -29,6 +33,8 @@ public class StatusAdapter extends BaseAdapter {
     public StatusAdapter(Context context) {
         this.context = context;
         database = FirebaseFirestore.getInstance();
+        dialog = new ProgressDialog(context);
+        dialog.show();
     }
 
     @Override
@@ -55,7 +61,7 @@ public class StatusAdapter extends BaseAdapter {
         TextView textView = convertView.findViewById(R.id.grid_tv);
         textView.setText(texts[position]);
         textView.setCompoundDrawablesWithIntrinsicBounds(null,
-                context.getDrawable(images[position]),
+                ResourcesCompat.getDrawable(context.getResources(),images[position],null),
                 null,
                 null);
         if(MainActivity.auth.getCurrentUser() != null) {
@@ -64,6 +70,7 @@ public class StatusAdapter extends BaseAdapter {
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
                             keys = task.getResult().getData();
+                            dialog.dismiss();
                         }
                         else{
                             Toast.makeText(context, "Fail to connect", Toast.LENGTH_SHORT).show();

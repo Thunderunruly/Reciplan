@@ -1,6 +1,5 @@
 package comp5216.sydney.edu.au.group11.reciplan;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -29,7 +28,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import comp5216.sydney.edu.au.group11.reciplan.databinding.ActivityMainBinding;
-import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 import comp5216.sydney.edu.au.group11.reciplan.ui.search.SearchDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         search = binding.appBarMain.titleNav.recipeSearch;
         statusTxt = binding.appBarMain.titleNav.status;
         nameTxt = binding.appBarMain.titleNav.name;
-        listener(drawerLayout, navController);
+        listener(drawerLayout);
         search.setOnClickListener(v -> doSelect());
         setDefault();
         thread.start();
@@ -135,11 +133,13 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void setDefault() {
-        nameTxt.setText("Please Log In");
-        nameTextNav.setText("Please Log In");
+        nameTxt.setText(R.string.user_name);
+        nameTextNav.setText(R.string.user_name);
         emailAddressNav.setVisibility(View.INVISIBLE);
-        iconNav.setBackground(getResources().getDrawable(R.mipmap.ic_launcher_round));
-        imageButton.setBackground(getResources().getDrawable(R.mipmap.ic_launcher_round));
+        iconNav.setBackground(ResourcesCompat
+                .getDrawable(getResources(),R.mipmap.ic_launcher_round,null));
+        imageButton.setBackground(ResourcesCompat
+                .getDrawable(getResources(),R.mipmap.ic_launcher_round,null));
     }
 
     private void getInformation() {
@@ -149,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         keys = task.getResult().getData();
-                        String name = null;
-                        String email  = null;
+                        String name;
+                        String email;
                         if (keys != null) {
                             name = "Hello, " + keys.get("username");
                             email = keys.get("email") + "";
@@ -159,8 +159,7 @@ public class MainActivity extends AppCompatActivity {
                             emailAddressNav.setText(email);
                             emailAddressNav.setVisibility(View.VISIBLE);
                         }
-//                        setIcon(keys.get("image") + "");
-                        if(keys.get("status") == null) {
+                        if((keys != null ? keys.get("status") : null) == null) {
                             status = null;
                         }
                         else {
@@ -170,21 +169,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else {
                         Toast.makeText(MainActivity.this,
-                                "Fail to access database, please check your network connection.",
+                                "Fail to connect.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void setIcon(String image) {
-        Handler handler1 = new Handler(Looper.getMainLooper()){
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                imageButton.setImageBitmap((Bitmap) msg.obj);
-                iconNav.setImageBitmap((Bitmap) msg.obj);
-            }
-        };
-        ImageURL.requestImg(handler1,image);
     }
 
     private void changeLabel() {
@@ -199,18 +187,10 @@ public class MainActivity extends AppCompatActivity {
         supportInvalidateOptionsMenu();
     }
 
-    private void listener(DrawerLayout drawerLayout, NavController navController) {
-        nameTxt.setOnClickListener(v -> {
-            drawerLayout.open();
-        });
-        statusTxt.setOnClickListener(v -> {
-            drawerLayout.open();
-            NavigationUI.setupWithNavController(binding.barView, navController);
-        });
-        imageButton.setOnClickListener(v -> {
-            drawerLayout.open();
-            NavigationUI.setupWithNavController(binding.barView, navController);
-        });
+    private void listener(DrawerLayout drawerLayout) {
+        nameTxt.setOnClickListener(v -> drawerLayout.open());
+        statusTxt.setOnClickListener(v -> drawerLayout.open());
+        imageButton.setOnClickListener(v -> drawerLayout.open());
     }
 
     public void setStatus() {
@@ -224,10 +204,6 @@ public class MainActivity extends AppCompatActivity {
             statusTxt.setTextColor(this.getColor(R.color.gray));
             statusTxt.setHovered(false);
         }
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public void showDetail(Bundle bundle) {

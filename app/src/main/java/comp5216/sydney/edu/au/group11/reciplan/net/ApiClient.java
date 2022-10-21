@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,31 +30,14 @@ import retrofit2.Retrofit;
 public class ApiClient {
     private static ApiClient instance;
 
-    // TODO
-
-    /***
-     *
-     * 构建 retrofit请求
-     * */
     private final static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ApiService.HOST)
             .build();
 
-
-    /**
-     * 获取service实例
-     *
-     * @return get或者post请求接口
-     */
     public ApiService getService() {
         return retrofit.create(ApiService.class);
     }
 
-    /**
-     * 创建请求单例
-     *
-     * @return
-     */
     public static ApiClient getInstance() {
 
         if (instance == null) {
@@ -67,17 +49,6 @@ public class ApiClient {
         }
         return instance;
     }
-
-    /**
-     * get请求 带token
-     *
-     * @param builder    request构建的参数 包含 url header params
-     * @param onCallback rquest 回调
-     * @param classOf    指定请求的model类型
-     *                   <p>
-     *                   <p>
-     *                   _ = userId，_t = 请求时间，token = MD5(token+_t)
-     */
 
     public <T> void doGet(ApiBuilder builder, final CallBack<T> onCallback, final Class classOf, final Context context) {
 
@@ -96,6 +67,7 @@ public class ApiClient {
                         Log.i("err", err);
                     } else {
                         String string = "{\"data\":"+response.body().string()+"}";
+                        System.out.println();
                         o = new Gson().fromJson(string, classOf);
                         onCallback.onResponse((T) o);
                     }
@@ -199,14 +171,6 @@ public class ApiClient {
             }
         });
     }
-
-    /**
-     * get请求 不带token
-     *
-     * @param builder    request构建的参数 包含 url header params
-     * @param onCallback rquest 回调
-     * @param classOf    指定请求的model类型
-     */
 
     public <T> void doGetSaveSession(ApiBuilder builder, final CallBack<T> onCallback, final Class classOf, final Context context) {
 

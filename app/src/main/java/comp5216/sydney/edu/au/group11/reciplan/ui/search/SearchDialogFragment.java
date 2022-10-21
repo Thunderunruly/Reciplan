@@ -1,11 +1,9 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.search;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +17,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,7 +69,7 @@ public class SearchDialogFragment extends DialogFragment {
         getDialog().getWindow().getAttributes().windowAnimations = R.style.AnimBottom;
 
         FragmentSearchDialogBinding binding = FragmentSearchDialogBinding.inflate(inflater, container, false);
-        controller = (NavHostController) Navigation.findNavController(getActivity(),R.id.nav_host_fragment_activity_main);
+        controller = (NavHostController) Navigation.findNavController(requireActivity(),R.id.nav_host_fragment_activity_main);
         View root = binding.getRoot();
         RecyclerView dialogRecyclerview = binding.recyclerview;
         StaggeredGridLayoutManager staggeredGridLayoutManager = new
@@ -192,9 +189,9 @@ public class SearchDialogFragment extends DialogFragment {
     public void toEquipment() {
         setLineColor(Collections.singletonList(line1),R.color.line);
         setLineColor(Collections.singletonList(line2),R.color.line);
-        setLineColor(Arrays.asList(line3),R.color.line_false);
+        setLineColor(Collections.singletonList(line3),R.color.line_false);
         setTextColor(Arrays.asList(step1,step2,step3), R.color.line);
-        setTextColor(Arrays.asList(step4), R.color.line_false);
+        setTextColor(Collections.singletonList(step4), R.color.line_false);
         adapter.clear();
         adapter.addAll(Arrays.asList(equipStrings));
     }

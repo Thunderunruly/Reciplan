@@ -48,12 +48,6 @@ public class XRVHolder extends RecyclerView.ViewHolder implements ViewHelper.Rec
     public int getLayoutId() {
         return mLayoutId;
     }
-
-    /**
-     * 获取item布局
-     *
-     * @return
-     */
     public View getItemView() {
         return mConvertView;
     }

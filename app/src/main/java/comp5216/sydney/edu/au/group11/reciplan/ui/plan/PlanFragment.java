@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import comp5216.sydney.edu.au.group11.reciplan.MainActivity;
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentPlanBinding;
-import comp5216.sydney.edu.au.group11.reciplan.ui.plan.Models.RandomRecipeApiResponse;
+import comp5216.sydney.edu.au.group11.reciplan.materials.RandomRecipeApiResponse;
 
 public class PlanFragment extends Fragment {
 
@@ -70,7 +70,7 @@ public class PlanFragment extends Fragment {
 
         @Override
         public void didError(String message) {
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();;
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         }
     };
 

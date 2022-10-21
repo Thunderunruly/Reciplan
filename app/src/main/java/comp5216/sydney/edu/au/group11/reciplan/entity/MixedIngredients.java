@@ -2,7 +2,7 @@ package comp5216.sydney.edu.au.group11.reciplan.entity;
 
 import java.util.List;
 
-public class MissedIngredients {
+public class MixedIngredients {
 
     private String id;
     private String amount;
@@ -14,7 +14,6 @@ public class MissedIngredients {
     private String original;
     private String originalName;
     private List<String> meta;
-    private String extendedName;
     private String image;
     public void setId(String id) {
         this.id = id;
@@ -86,18 +85,10 @@ public class MissedIngredients {
         return meta;
     }
 
-    public void setExtendedName(String extendedName) {
-        this.extendedName = extendedName;
-    }
-    public String getExtendedName() {
-        return extendedName;
-    }
-
     public void setImage(String image) {
         this.image = image;
     }
     public String getImage() {
         return image;
     }
-
 }

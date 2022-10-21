@@ -37,7 +37,7 @@ public class LikeFragment extends Fragment {
         View root = binding.getRoot();
         GridView gridView = binding.likeGrid;
         if (MainActivity.auth.getCurrentUser() == null) {
-            controller.navigate(R.id.person_log);
+            Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
             return null;
         }
         if(MainActivity.auth.getCurrentUser() != null) {
@@ -48,11 +48,23 @@ public class LikeFragment extends Fragment {
                         if(task.isSuccessful()){
                             items = new ArrayList<>();
                             for(QueryDocumentSnapshot document: task.getResult()){
-                                items.add(new LikeItem(Integer.parseInt(document.get("id") + ""),
+                                int num = Integer.parseInt(document.getId());
+                                System.out.println(num);
+                                String cal =  "";
+                                String unit = "";
+                                if(document.contains("calories")) {
+                                    cal = document.get("calories").toString();
+                                    unit = (String) document.get("unit");
+                                }
+                                else if(document.contains("likes")) {
+                                    cal = document.get("likes").toString();
+                                    unit = "likes";
+                                }
+                                items.add(new LikeItem(num,
                                         Objects.requireNonNull(document.get("title")).toString(),
                                         Objects.requireNonNull(document.get("image")).toString(),
-                                        Double.parseDouble(document.get("calories") + ""),
-                                        document.get("unit").toString()));
+                                        Double.parseDouble(cal),
+                                        unit));
                             }
                             likeAdapter = new LikeAdapter(items, getContext(),this, (id,name,url,cal) -> {
                                 MainActivity mainActivity = (MainActivity) getActivity();

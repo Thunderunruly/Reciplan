@@ -10,17 +10,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavHostController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import comp5216.sydney.edu.au.group11.reciplan.R;
 import comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentSearchBinding;
-import comp5216.sydney.edu.au.group11.reciplan.entity.DataBean;
 import comp5216.sydney.edu.au.group11.reciplan.entity.DataEntity;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiBuilder;
 import comp5216.sydney.edu.au.group11.reciplan.net.ApiClient;
@@ -28,22 +24,18 @@ import comp5216.sydney.edu.au.group11.reciplan.net.CallBack;
 
 public class SearchFragment extends Fragment {
 
-    private FragmentSearchBinding binding;
-    private NavHostController controller;
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter;
     EditText input;
     ImageButton search;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentSearchBinding.inflate(inflater,container,false);
-        controller = (NavHostController) Navigation.findNavController(requireActivity(),
-                R.id.nav_host_fragment_activity_main);
+        comp5216.sydney.edu.au.group11.reciplan.databinding.FragmentSearchBinding binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         Bundle bundle = this.getArguments();
         input = binding.inputSearch;
         search = binding.searchBtn;
         RecyclerView searchRecycler = binding.searchRecyclerview;
-        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(getContext(), new ArrayList<>(), R.layout.item_food);
+        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(getActivity(),getContext(), new ArrayList<>(), R.layout.item_food);
         searchRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         searchRecycler.setAdapter(searchRecyclerViewAdapter);
         if(bundle != null) {

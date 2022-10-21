@@ -1,6 +1,6 @@
 package comp5216.sydney.edu.au.group11.reciplan.ui.plan;
 
-import comp5216.sydney.edu.au.group11.reciplan.ui.plan.Models.RandomRecipeApiResponse;
+import comp5216.sydney.edu.au.group11.reciplan.materials.RandomRecipeApiResponse;
 
 public interface RandomRecipeResponseListener {
 

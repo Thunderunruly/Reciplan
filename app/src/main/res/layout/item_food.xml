@@ -4,6 +4,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:layout_margin="10dp"
+    android:id="@+id/item_panel"
     android:background="?attr/colorPrimaryVariant"
     android:padding="10dp"
     android:layout_height="130dp">

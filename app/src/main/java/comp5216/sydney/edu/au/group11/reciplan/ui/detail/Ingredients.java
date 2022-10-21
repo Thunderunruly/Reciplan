@@ -11,18 +11,22 @@ public class Ingredients {
         this.data = data;
     }
 
+    public IngredientList getData() {
+        return data;
+    }
+
     @NonNull
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
         List<Ingredient> ingredients = data.getIngredients();
         for(Ingredient ingredient:ingredients) {
-            str.append(ingredient.getName()).append(": ").append(ingredient.getAmount().toString()).append("<br><br>");
+            str.append(ingredient.getName()).append(": ").append(ingredient.getAmount().toString()).append("<br>");
         }
         return str.toString();
     }
 
-    private static class IngredientList {
+    public static class IngredientList {
         private final List<Ingredient> ingredients;
 
         private IngredientList(List<Ingredient> ingredients) {
@@ -34,7 +38,7 @@ public class Ingredients {
         }
 
     }
-    private static class Ingredient {
+    public static class Ingredient {
         private String name;
         private final Item amount;
 
@@ -56,7 +60,7 @@ public class Ingredients {
 
     }
 
-    private static class Amount {
+    public static class Amount {
         private final double value;
         private String unit;
 
@@ -78,7 +82,7 @@ public class Ingredients {
 
     }
 
-    private static class Item {
+    public static class Item {
         private final Amount us;
 
         private Item(Amount us) {
