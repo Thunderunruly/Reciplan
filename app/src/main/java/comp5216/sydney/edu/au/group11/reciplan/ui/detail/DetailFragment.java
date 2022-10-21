@@ -324,7 +324,8 @@ public class DetailFragment extends Fragment {
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot document: task.getResult()) {
-                                if(Integer.parseInt(document.get("id").toString()) == id) {
+                                int sid = (int)Double.parseDouble(document.get("id").toString());
+                                if(sid == id) {
                                     keys = document.getData();
                                     likeBtn.setSelected(true);
                                     likeBtn.setChecked(true);
