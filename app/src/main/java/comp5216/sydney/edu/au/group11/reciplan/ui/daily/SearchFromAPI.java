@@ -9,49 +9,41 @@ public class SearchFromAPI {
         map.put("number","1");
         switch (status) {
             case "Happy":
-                // 快乐
-                map.put("minCalories","0");
-                map.put("","");
+                map.put("minCalories","2000");
+                map.put("minSugar","10");
                 break;
             case "Sad":
-                // 伤心 碱性 钙
-                map.put("minCalories","0");
-                map.put("minFolicAcid","");
+                map.put("minCalories","2000");
+                map.put("minFolicAcid","5");
                 map.put("number","1");
                 break;
             case "Anxiety":
-                // 焦虑 钙 西 碱
                 map.put("minCalories","0");
-                map.put("minVitaminC","");
-                map.put("minVitaminB6","");
-                map.put("minCarbs","");
+                map.put("minVitaminC","5");
+                map.put("minVitaminB6","5");
+                map.put("minCarbs","5");
                 map.put("number","1");
                 break;
             case "Insomnia":
-                //
                 map.put("minCalories","0");
                 map.put("minProtein","50");
-                map.put("minVitaminA","");
-                map.put("minFolicAcid","");
-                map.put("minVitaminC","");
+                map.put("minVitaminA","5");
+                map.put("minFolicAcid","5");
+                map.put("minVitaminC","5");
                 map.put("number","1");
                 break;
             case "Exhaustion":
-                //
                 map.put("minCalories","250");
                 map.put("minProtein","50");
-                map.put("minVitaminC","");
+                map.put("minVitaminC","5");
                 map.put("number","1");
                 break;
             case "Resting":
-                // 休息
                 map.put("minCalories","0");
                 map.put("number","1");
                 break;
             case "Fitness":
-                // 健身 钠 钾
-                map.put("minCalories","0");
-                map.put("","");
+                map.put("maxCalories","1500");
                 map.put("minProtein","50");
                 map.put("number","1");
                 break;
@@ -62,20 +54,16 @@ public class SearchFromAPI {
                 map.put("number","1");
                 break;
             case "Sickness":
-                // 生病
-                map.put("minCalories","0");
-                map.put("","");
+                map.put("maxCalories","2000");
+                map.put("minVitaminC","10");
                 map.put("number","1");
                 break;
             case "Lose Weight":
-                // 减肥
                 map.put("maxCalories","250");
                 map.put("maxProtein","50");
                 map.put("number","1");
                 break;
             case "null":
-                map.put("minCalories","0");
-                break;
             default:
                 map.put("minCalories","0");
                 break;
