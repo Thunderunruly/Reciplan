@@ -3,7 +3,7 @@
     android:layout_width="230dp"
     android:layout_height="350dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="?attr/colorPrimaryVariant"
     android:id="@+id/random_list_container"
     app:cardElevation="8dp"
     android:layout_margin="8dp">
@@ -56,7 +56,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_servings"
+                    android:background="@drawable/ic_servings"
+                    android:backgroundTint="@color/orange"
                     android:layout_gravity="center_horizontal"/>
 
                 <TextView
@@ -79,7 +80,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_like"
+                    android:background="@drawable/ic_like"
                     android:layout_gravity="center_horizontal"/>
 
                 <TextView
@@ -102,7 +103,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_time"
+                    android:background="@drawable/ic_time"
+                    android:backgroundTint="@color/orange"
                     android:layout_gravity="center_horizontal"/>
 
                 <TextView
