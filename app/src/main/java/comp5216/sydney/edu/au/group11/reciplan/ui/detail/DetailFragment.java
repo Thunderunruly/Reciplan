@@ -61,7 +61,6 @@ public class DetailFragment extends Fragment {
     String url;
     String ingredientList;
     String imageType;
-    String likeNum;
     Gson gson = new Gson();
     Map<String,Object> keys = new HashMap<>();
     Map<String, Object> normalKeys = new HashMap<>();
@@ -196,7 +195,7 @@ public class DetailFragment extends Fragment {
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()) {
                             normalKeys = task.getResult().getData();
-                            keys = (Map<String, Object>) normalKeys.get("daily");
+                            keys = (Map<String, Object>) (normalKeys != null ? normalKeys.get("daily") : null);
                             if(keys != null) {
                                 if(keys.containsKey("ingredients")) {
                                     ingredients.setText(
@@ -303,19 +302,19 @@ public class DetailFragment extends Fragment {
             cal.setCompoundDrawables(null,null,null,null);
             cal.setVisibility(View.VISIBLE);
         }
-        String list = "";
+        StringBuilder list = new StringBuilder();
         if(keys.containsKey("usedIngredientCount")){
             int a = Integer.parseInt(keys.get("usedIngredientCount")+"");
             if(a > 0) {
                 if(keys.containsKey("usedIngredients")) {
-                    list += "<b>UsedIngredients</b>";
+                    list.append("<b>UsedIngredients</b>");
                     List<Object> objects = (List<Object>) keys.get("usedIngredients");
                     for(int i = 0; i < a; i++) {
-                        String json = gson.toJson(objects.get(i));
+                        String json = gson.toJson(objects != null ? objects.get(i) : null);
                         MixedIngredients mixedIngredients = gson.fromJson(json,MixedIngredients.class);
-                        list += "<br>" + mixedIngredients.getOriginal();
+                        list.append("<br>").append(mixedIngredients.getOriginal());
                     }
-                    list += "<br>";
+                    list.append("<br>");
                 }
             }
         }
@@ -323,14 +322,14 @@ public class DetailFragment extends Fragment {
             int a = Integer.parseInt(keys.get("missedIngredientCount")+"");
             if(a > 0) {
                 if(keys.containsKey("missedIngredients")) {
-                    list += "<b>MissedIngredients</b>";
+                    list.append("<b>MissedIngredients</b>");
                     List<Object> objects = (List<Object>) keys.get("missedIngredients");
                     for(int i = 0; i < a; i++) {
-                        String json = gson.toJson(objects.get(i));
+                        String json = gson.toJson(objects != null ? objects.get(i) : null);
                         MixedIngredients mixedIngredients = gson.fromJson(json,MixedIngredients.class);
-                        list += "<br>" + mixedIngredients.getOriginal();
+                        list.append("<br>").append(mixedIngredients.getOriginal());
                     }
-                    list += "<br>";
+                    list.append("<br>");
                 }
             }
         }
@@ -338,19 +337,19 @@ public class DetailFragment extends Fragment {
             int a = Integer.parseInt(keys.get("unusedIngredientCount")+"");
             if(a > 0) {
                 if(keys.containsKey("unusedIngredients")) {
-                    list += "<b>UnusedIngredients</b>";
+                    list.append("<b>UnusedIngredients</b>");
                     List<Object> objects = (List<Object>) keys.get("unusedIngredients");
                     for(int i = 0; i < a; i++) {
-                        String json = gson.toJson(objects.get(i));
+                        String json = gson.toJson(objects != null ? objects.get(i) : null);
                         MixedIngredients mixedIngredients = gson.fromJson(json,MixedIngredients.class);
-                        list += "<br>" + mixedIngredients.getOriginal();
+                        list.append("<br>").append(mixedIngredients.getOriginal());
                     }
-                    list += "<br>";
+                    list.append("<br>");
                 }
             }
         }
-        if(!list.isEmpty()) {
-            mixedIngredients.setText(Html.fromHtml(list,Html.FROM_HTML_MODE_LEGACY));
+        if(list.length() > 0) {
+            mixedIngredients.setText(Html.fromHtml(list.toString(),Html.FROM_HTML_MODE_LEGACY));
         }
     }
 
@@ -363,7 +362,7 @@ public class DetailFragment extends Fragment {
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot document: task.getResult()) {
-                                int sid = (int)Double.parseDouble(document.get("id").toString());
+                                int sid = (int)Double.parseDouble(Objects.requireNonNull(document.get("id")).toString());
                                 if(sid == id) {
                                     keys = document.getData();
                                     likeBtn.setSelected(true);

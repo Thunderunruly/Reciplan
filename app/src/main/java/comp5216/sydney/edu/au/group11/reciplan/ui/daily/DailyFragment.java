@@ -40,7 +40,7 @@ import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 public class DailyFragment extends Fragment {
     private FragmentDailyBinding binding;
     private FirebaseFirestore database;
-    CheckBox dailyPlanBtn;
+    CheckBox dailyRefreshBtn;
     Button detailBtn;
     CheckBox likeBtn;
     ImageView imageView;
@@ -59,7 +59,7 @@ public class DailyFragment extends Fragment {
         binding = FragmentDailyBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         imageView = binding.imageDisplay;
-        dailyPlanBtn = binding.dailyPlanBtn;
+        dailyRefreshBtn = binding.dailyRefreshBtn;
         likeBtn = binding.dailyLikeBtn;
         detailBtn = binding.detailBtn;
         calorie = binding.calorieValue;
@@ -71,7 +71,7 @@ public class DailyFragment extends Fragment {
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
                             keys = task.getResult().getData();
-                            if(keys.containsKey("daily")) {
+                            if(keys != null && keys.containsKey("daily")) {
                                 getDaily();
                             }
                             else {
@@ -86,7 +86,7 @@ public class DailyFragment extends Fragment {
         else {
             noRandom();
         }
-        dailyPlanBtn.setOnClickListener(this::dailyPlanBtnListener);
+        dailyRefreshBtn.setOnClickListener(this::RefreshNow);
         likeBtn.setOnClickListener(this::dailyLikeBtnListener);
         detailBtn.setOnClickListener(this::goDetailFragment);
         return root;
@@ -113,7 +113,7 @@ public class DailyFragment extends Fragment {
 
     private void getDaily() {
         daily = (Map<String, Object>) keys.get("daily");
-        if(daily.containsKey("timestamp")) {
+        if(daily != null && daily.containsKey("timestamp")) {
             checkTime(daily.get("timestamp"));
         }
         else {
@@ -132,8 +132,7 @@ public class DailyFragment extends Fragment {
     }
 
     private int dateDiff(Date old, Date current) {
-        int days = (int) (current.getTime() - old.getTime()) / (1000 * 3600 * 24);
-        return days;
+        return (int) (current.getTime() - old.getTime()) / (1000 * 3600 * 24);
     }
 
     private void setValue() {
@@ -143,7 +142,7 @@ public class DailyFragment extends Fragment {
                 imageView.setImageBitmap((Bitmap) msg.obj);
             }
         };
-        checkLike(daily.get("id").toString());
+        checkLike(Objects.requireNonNull(daily.get("id")).toString());
         ImageURL.requestImg(handler, (String) daily.get("image"));
         String calTxt = daily.get("calories") + " " + daily.get("unit");
         calorie.setText(calTxt);
@@ -157,12 +156,7 @@ public class DailyFragment extends Fragment {
             MainActivity mainActivity = (MainActivity) getActivity();
             Bundle bundle = new Bundle();
             bundle.putString("case","daily");
-            if(likeBtn.isSelected()) {
-                bundle.putBoolean("likes",true);
-            }
-            else {
-                bundle.putBoolean("likes",false);
-            }
+            bundle.putBoolean("likes", likeBtn.isSelected());
             String sid = Objects.requireNonNull(daily.get("id")).toString();
             bundle.putInt("id", Integer.parseInt(sid));
             bundle.putString("name", (String) daily.get("title"));
@@ -192,7 +186,8 @@ public class DailyFragment extends Fragment {
     }
 
     private void removeLike() {
-        database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+        database.collection("reciplan")
+                .document(Objects.requireNonNull(MainActivity.auth.getCurrentUser()).getUid())
                 .collection("likes")
                 .document(daily.get("id")+"")
                 .delete().addOnCompleteListener(task -> {
@@ -200,14 +195,16 @@ public class DailyFragment extends Fragment {
                         Toast.makeText(getContext(), "Like Removed.", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Toast.makeText(getContext(), "Please check you connection.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Please check you connection.",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void addToLike() {
         if(MainActivity.auth.getCurrentUser() != null) {
-            database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+            database.collection("reciplan")
+                    .document(MainActivity.auth.getCurrentUser().getUid())
                     .collection("likes")
                     .document(daily.get("id") + "")
                     .set(daily)
@@ -216,20 +213,15 @@ public class DailyFragment extends Fragment {
                             Toast.makeText(getContext(), "Recipe saved", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            Toast.makeText(getContext(), "Fail to add, Please check you connection.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Fail to add, Please check you connection.",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
         }
     }
 
-    private void dailyPlanBtnListener(View v) {
-        // TODO
-        if(dailyPlanBtn.isChecked()) {
-            dailyPlanBtn.setTextColor(requireActivity().getColor(R.color.white));
-        }
-        else {
-            dailyPlanBtn.setTextColor(requireActivity().getColor(R.color.default_color));
-        }
+    private void RefreshNow(View v) {
+        dailySearch();
     }
 
     private void dailySearch() {
@@ -288,10 +280,9 @@ public class DailyFragment extends Fragment {
                     .document(MainActivity.auth.getCurrentUser().getUid())
                     .set(keys)
                     .addOnCompleteListener(task -> {
-                        if(task.isSuccessful()){
-                        }
-                        else{
-                            Toast.makeText(getContext(), "Fail to connect to database", Toast.LENGTH_SHORT).show();
+                        if(!task.isSuccessful()){
+                            Toast.makeText(getContext(), "Fail to connect to database",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -299,8 +290,10 @@ public class DailyFragment extends Fragment {
             database.collection("reciplan").document("daily")
                     .set(daily)
                     .addOnCompleteListener(task -> {
-                        if(task.isSuccessful()) {}
-                        else {}
+                        if(!task.isSuccessful()) {
+                            Toast.makeText(getContext(), "Fail to connect.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     });
         }
     }
@@ -312,7 +305,8 @@ public class DailyFragment extends Fragment {
 
     private void checkLike(String id) {
         if(MainActivity.auth.getCurrentUser() != null) {
-            database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+            database.collection("reciplan")
+                    .document(MainActivity.auth.getCurrentUser().getUid())
                     .collection("likes")
                     .get()
                     .addOnCompleteListener(task -> {

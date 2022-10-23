@@ -5,7 +5,7 @@
     <string name="default_Calorie">##### Cal</string>
     <string name="Heading">Recipe Name</string>
     <string name="summary">The introduction of the Recipe</string>
-    <string name="add_to_plan">Add TO Plan</string>
+    <string name="refresh">Refresh</string>
     <string name="details">Details</string>
     <string name="like_description">click to like or dislike</string>
     <string name="title_home">HOME</string>
