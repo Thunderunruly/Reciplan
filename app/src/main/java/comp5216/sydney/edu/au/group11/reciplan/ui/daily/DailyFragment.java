@@ -66,7 +66,8 @@ public class DailyFragment extends Fragment {
         name = binding.dailyHeading;
         summary = binding.dailySummary;
         if(MainActivity.auth.getCurrentUser() != null){
-            database.collection("reciplan").document(MainActivity.auth.getCurrentUser().getUid())
+            database.collection("reciplan")
+                    .document(MainActivity.auth.getCurrentUser().getUid())
                     .get()
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
@@ -98,7 +99,8 @@ public class DailyFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         daily = task.getResult().getData();
-                        if(daily != null) {
+                        if(daily != null && daily.containsKey("timestamp")) {
+                            checkTime(daily.get("timestamp"));
                             setValue();
                         }
                         else {
