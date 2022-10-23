@@ -161,7 +161,7 @@ public class DailyFragment extends Fragment {
             bundle.putBoolean("likes", likeBtn.isSelected());
             String sid = Objects.requireNonNull(daily.get("id")).toString();
             bundle.putInt("id", Integer.parseInt(sid));
-            bundle.putString("name", (String) daily.get("title"));
+            bundle.putString("title", (String) daily.get("title"));
             bundle.putString("image", (String) daily.get("image"));
             bundle.putString("calories",daily.get("calories") + " " + daily.get("unit"));
             bundle.putString("summary", (String) daily.get("summary"));

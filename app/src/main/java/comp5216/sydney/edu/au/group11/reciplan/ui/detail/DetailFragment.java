@@ -131,36 +131,43 @@ public class DetailFragment extends Fragment {
         if (bundle != null) {
             Set<String> keys = bundle.keySet();
             for(String key:keys) {
-                if(key.equals("case")){
-                    caseName = bundle.getString(key);
+                switch (key) {
+                    case "case":
+                        caseName = bundle.getString(key);
+                        break;
+                    case "likes":
+                        likes = bundle.getBoolean(key);
+                        break;
+                    case "id":
+                        System.out.println("id");
+                        id = bundle.getInt(key);
+                        break;
+                    case "title":
+                        name.setText(bundle.getString(key));
+                        break;
+                    case "image":
+                        url = bundle.getString(key);
+                        break;
+                    case "imageType":
+                        imageType = bundle.getString(key);
+                        break;
+                    case "summary":
+                        summary = bundle.getString(key);
+                        if (!summary.equals("Null")) {
+                            summarise.setText(Html.fromHtml(summary, Html.FROM_HTML_MODE_LEGACY));
+                        }
+                        break;
+                    case "calories":
+                        calories = bundle.getString("calories");
+                        cal.setText(calories);
+                        break;
+                    default:
+                        cal.setVisibility(View.INVISIBLE);
+                        break;
                 }
-                if(key.equals("likes")){
-                    likes = bundle.getBoolean(key);
-                }
-                if(key.equals("id")) {
-                    id = bundle.getInt(key);
-                }
-                if(key.equals("title")) {
-                    name.setText(bundle.getString(key));
-                }
-                if(key.equals("image")) {
-                    url = bundle.getString(key);
-                }
-                if(key.equals("imageType")){
-                    imageType = bundle.getString(key);
-                }
-                if(key.equals("summary")) {
-                    summary = bundle.getString(key);
-                    if(!summary.equals("Null")) {
-                        summarise.setText(Html.fromHtml(summary, Html.FROM_HTML_MODE_LEGACY));
-                    }
-                }
-                if(key.equals("calories")) {
-                    cal.setText(bundle.getString(key));
-                }
-                else {
-                    cal.setVisibility(View.INVISIBLE);
-                }
+            }
+            if(!calories.contains("cal")) {
+                cal.setCompoundDrawables(null,null,null,null);
             }
         }
         Handler handler = new Handler(Looper.getMainLooper()){

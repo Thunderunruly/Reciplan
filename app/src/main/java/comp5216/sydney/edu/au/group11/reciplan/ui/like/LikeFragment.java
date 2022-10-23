@@ -81,7 +81,7 @@ public class LikeFragment extends Fragment {
                                     bundle.putString("case","likes");
                                     bundle.putBoolean("likes",true);
                                     bundle.putInt("id", id);
-                                    bundle.putString("name",name);
+                                    bundle.putString("title",name);
                                     bundle.putString("image",url);
                                     bundle.putString("calories",cal);
                                     mainActivity.showDetail(bundle);
