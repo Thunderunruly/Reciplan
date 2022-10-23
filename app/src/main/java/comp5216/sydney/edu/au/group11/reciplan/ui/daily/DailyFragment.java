@@ -40,7 +40,7 @@ import comp5216.sydney.edu.au.group11.reciplan.thread.ImageURL;
 public class DailyFragment extends Fragment {
     private FragmentDailyBinding binding;
     private FirebaseFirestore database;
-    CheckBox dailyRefreshBtn;
+    Button dailyRefreshBtn;
     Button detailBtn;
     CheckBox likeBtn;
     ImageView imageView;

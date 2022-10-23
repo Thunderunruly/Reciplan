@@ -80,7 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <CheckBox
+    <Button
         android:id="@+id/dailyRefreshBtn"
         android:minWidth="120dp"
         android:layout_width="wrap_content"
