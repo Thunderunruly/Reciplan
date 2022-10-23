@@ -109,7 +109,7 @@
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1835" />
         <entry key="..\:/AndroidProject/Reciplan/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_like.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19630192502532928" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.28791264279876677" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/detail_recipe.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/fragment_daily.xml" value="0.19630192502532928" />
@@ -126,6 +126,7 @@
         <entry key="app/src/main/res/layout/item_recipe.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/item_text.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/list_random_recipe.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1955" />
       </map>
     </option>
   </component>
