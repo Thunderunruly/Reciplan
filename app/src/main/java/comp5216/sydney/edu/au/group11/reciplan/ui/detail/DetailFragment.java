@@ -102,6 +102,7 @@ public class DetailFragment extends Fragment {
     }
 
     private void addToLike() {
+        id = (int)Double.parseDouble(Objects.requireNonNull(keys.get("id")).toString());
         if(MainActivity.auth.getCurrentUser() != null) {
             database.collection("reciplan")
                     .document(MainActivity.auth.getCurrentUser().getUid())

@@ -59,8 +59,8 @@
     </string-array>
     <!--47b09f6a071f4865a43ac6a3f9329b4a-->
     <!--90818e250c8345f78b4342c4cc5c7748-->
-    <string name="apikey">47b09f6a071f4865a43ac6a3f9329b4a</string>
-    <string name="api_key">47b09f6a071f4865a43ac6a3f9329b4a</string>
+    <string name="apikey">d44d300051ee4370af4074ae828c9f56</string>
+    <string name="api_key">d44d300051ee4370af4074ae828c9f56</string>
     <string name="selected_ingredients">Selected Ingredients:</string>
     <string name="step_4_text">Step 4\nCondiment</string>
     <string name="step_3_text">Step 3\nEquipment</string>
